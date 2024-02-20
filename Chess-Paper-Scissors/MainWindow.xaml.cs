@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OpenTK.Windowing.Desktop;
 
 namespace Chess_Paper_Scissors
 {
@@ -19,6 +20,11 @@ namespace Chess_Paper_Scissors
         public MainWindow()
         {
             InitializeComponent();
+            this.Close();
+            using (Game game = new Game(GameWindowSettings.Default, Game.NWSettings()))
+            {
+                game.Run();
+            }
         }
         
     }
