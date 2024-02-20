@@ -1,14 +1,11 @@
-﻿    using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using OpenTK.Mathematics;
+using System.Drawing;
 
-namespace Graphics
+namespace GameObjects
 {
-    public class Board
+    public static class Board
     {
-        public static float t = 0.07f;
         private static float[] _points = new float[]
         {
             -0.9f,0.9f,0.07f,   0.9f,0.8f,0.8f,1,
@@ -75,6 +72,16 @@ namespace Graphics
         public static uint[] GetIndexes()
         {
             return _boardIndexes;
+        }
+        public static Point GetCellPosition(float x, float y)
+        {
+            int xRes = (int)((x + 0.45f) * 10);
+            int yRes = (int)((y + 0.35f) * 10);
+            return new Point(xRes, yRes);
+        }
+        public static Point GetCellPosition(Vector2 vector2)
+        {
+            return GetCellPosition(vector2.X, vector2.Y);
         }
     }
 

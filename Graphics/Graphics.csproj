@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GameObjects\GameObjects.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="data\Shader\Shader_base.vert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

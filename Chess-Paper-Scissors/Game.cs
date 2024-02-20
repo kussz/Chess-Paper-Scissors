@@ -13,6 +13,7 @@ using OpenTK.Mathematics;
 using System.Drawing;
 using OpenTK.Windowing.Common.Input;
 using Graphics;
+using GameObjects;
 using System.Windows.Media.Imaging;
 
 namespace Chess_Paper_Scissors
@@ -87,7 +88,7 @@ namespace Chess_Paper_Scissors
                 delayTime = 0;
 
             }
-            SetMousePosition();
+            Mouse.SetPosition(MouseState,this.Size.X,this.Size.Y);
             var key = KeyboardState;
             if (key.IsKeyDown(Keys.Escape))
             {
@@ -98,8 +99,8 @@ namespace Chess_Paper_Scissors
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            Draw(vaoBoard.Index, boardProgram);
-            Draw(vaoBorder.Index, borderProgram);
+            Drawer.Draw(vaoBoard.Index, boardProgram,this.Size.X, this.Size.Y);
+            Drawer.Draw(vaoBorder.Index, borderProgram, this.Size.X, this.Size.Y);
             SwapBuffers();
             base.OnRenderFrame(e);
         }
@@ -112,44 +113,11 @@ namespace Chess_Paper_Scissors
             base.OnUnload();
         }
 
-        void SetMousePosition()
-        {
-            int x = (int)((MouseState.X - MouseState.PreviousX) * SV.Sensivity);
-            int y = (int)((MouseState.Y - MouseState.PreviousY) * SV.Sensivity);
-            mouse.X += x;
-            mouse.Y += y;
-            mouse.X = Math.Max(Math.Min((int)(this.Size.X * SV.Xmax), mouse.X), (int)(this.Size.X * SV.Xmin));
-            mouse.Y = Math.Max(Math.Min((int)(this.Size.Y * SV.Ymax), mouse.Y), (int)(this.Size.Y * SV.Ymin));
-        }
-        Vector2 GetMousePosition()
-        {
-            return new Vector2(mouse.X, mouse.Y);
-        }
-        Vector2 GetMouseNormalized()
-        {
-            float x = (GetMousePosition().X - this.Size.X / 2) / this.Size.X;
-            float y = (GetMousePosition().Y - this.Size.Y / 2) / this.Size.Y;
-            return new Vector2(x, y);
-        }
-        Point GetCellPosition()
-        {
-            int x = (int)((GetMouseNormalized().X + 0.45f) * 10);
-            int y = (int)((GetMouseNormalized().Y + 0.35f) * 10);
-            return new Point(x, y);
-        }
+        
+        
 
 
-        public void Draw(int vaoInd, ShaderProgram shaderProg)
-        {
-            shaderProg.ActivateProgram();
-            //shaderProg.SetUniform2("angle", new Vector2(angle, 0));
-            shaderProg.SetUniformDouble("u_time", delayTime);
-            shaderProg.SetUniform2("u_resolution", new Vector2(this.Size.X, this.Size.Y));
-            shaderProg.SetUniform2("u_mouse", GetMouseNormalized());
-            shaderProg.SetUniform2("u_CellPos", new Vector2(GetCellPosition().X, GetCellPosition().Y));
-            GL.BindVertexArray(vaoInd);
-            GL.DrawElements(PrimitiveType.Triangles, Board.GetBorderIndexes().Length, DrawElementsType.UnsignedInt, 0);
-            shaderProg.DeactivateProgram();
-        }
+
+        
     }
 }
