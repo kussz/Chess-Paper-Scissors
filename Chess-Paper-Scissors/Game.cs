@@ -15,6 +15,8 @@ using OpenTK.Windowing.Common.Input;
 using Graphics;
 using GameObjects;
 using System.Windows.Media.Imaging;
+using OpenTK.Compute.OpenCL;
+using System.Windows;
 
 namespace Chess_Paper_Scissors
 {
@@ -27,7 +29,8 @@ namespace Chess_Paper_Scissors
         VAO vaoBorder;
         int fps = 0;
         float delayTime = 0;
-        Point mouse = new Point();
+        private Matrix4 mvpMatrix;
+        private int mvpMatrixLocation;
         #endregion
         public Game(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
@@ -45,13 +48,14 @@ namespace Chess_Paper_Scissors
             Size = new Vector2i(1000, 1000),
             Location = new Vector2i(0, 0),
             WindowBorder = WindowBorder.Resizable,
-            WindowState = WindowState.Normal,
+            WindowState = 0,
             Title = "Chess-Paper-Scissors",
             Flags = ContextFlags.Default,
             Profile = ContextProfile.Compatability,
             APIVersion = new Version(4, 6),
             NumberOfSamples = 0,
         };
+
         public static NativeWindowSettings NWSettings()
         { return nativeWindowSettings; }
 
@@ -67,6 +71,7 @@ namespace Chess_Paper_Scissors
             vaoBorder = new VAO(Board.GetVertices(), Board.GetBorderIndexes(), borderProgram);
             vaoBoard = new VAO(Board.GetVertices(), Board.GetIndexes(), boardProgram);
             Console.WriteLine("Loaded");
+            mvpMatrixLocation = borderProgram.UnifLocation("mvpMatrix");
         }
         protected override void OnResize(ResizeEventArgs e)
         {
@@ -78,7 +83,7 @@ namespace Chess_Paper_Scissors
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-
+            mvpMatrix = View.CountMVPMatrix(this.Size.X,this.Size.Y);
             fps += 1;
             delayTime += (float)e.Time;
             if (delayTime >= 1)
@@ -99,8 +104,10 @@ namespace Chess_Paper_Scissors
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            Drawer.Draw(vaoBoard.Index, boardProgram,this.Size.X, this.Size.Y);
-            Drawer.Draw(vaoBorder.Index, borderProgram, this.Size.X, this.Size.Y);
+            GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
+            boardProgram.SetUniform2("u_CellPos", new Vector2(Board.GetCellPosition(Mouse.GetPosition()).X, Board.GetCellPosition(Mouse.GetPosition()).Y));
+            Drawer.Draw(vaoBoard.Index, boardProgram);
+            Drawer.Draw(vaoBorder.Index, borderProgram);
             SwapBuffers();
             base.OnRenderFrame(e);
         }
