@@ -48,7 +48,7 @@ namespace Chess_Paper_Scissors
             Size = new Vector2i(1000, 1000),
             Location = new Vector2i(0, 0),
             WindowBorder = WindowBorder.Resizable,
-            WindowState = 0,
+            WindowState = OpenTK.Windowing.Common.WindowState.Normal,
             Title = "Chess-Paper-Scissors",
             Flags = ContextFlags.Default,
             Profile = ContextProfile.Compatability,
@@ -105,7 +105,8 @@ namespace Chess_Paper_Scissors
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
-            boardProgram.SetUniform2("u_CellPos", new Vector2(Board.GetCellPosition(Mouse.GetPosition()).X, Board.GetCellPosition(Mouse.GetPosition()).Y));
+            Drawer.TranspUniforms(boardProgram, Size.X,Size.Y);
+            Drawer.TranspUniforms(borderProgram, Size.X, Size.Y);
             Drawer.Draw(vaoBoard.Index, boardProgram);
             Drawer.Draw(vaoBorder.Index, borderProgram);
             SwapBuffers();

@@ -21,7 +21,7 @@ namespace Graphics
             if (code != (int)All.True)
             {
                 var infoLog = GL.GetProgramInfoLog(_program);
-                Console.WriteLine($"Ошибка компиляции программы {_program}. ({infoLog})");
+                throw new Exception($"Ошибка компиляции программы {_program}. ({infoLog})");
             }
             DeleteShader(_vertexShader);
             DeleteShader(_fragmentShader);
@@ -37,7 +37,7 @@ namespace Graphics
             if (code != (int)All.True)
             {
                 var infoLog = GL.GetShaderInfoLog(shaderID);
-                Console.WriteLine($"Ошибка компиляции шейдера {shaderID}. ({infoLog})");
+                throw new Exception($"Ошибка компиляции шейдера {shaderID}. ({infoLog})");
             }
             return shaderID;
         }

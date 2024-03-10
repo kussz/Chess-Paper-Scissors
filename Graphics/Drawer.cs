@@ -16,5 +16,11 @@ namespace Graphics
             GL.DrawElements(PrimitiveType.Triangles, Board.GetBorderIndexes().Length, DrawElementsType.UnsignedInt, 0);
             shaderProg.DeactivateProgram();
         }
+        public static void TranspUniforms(ShaderProgram shaderProg, int xSize, int ySize)
+        {
+            shaderProg.SetUniform2("u_CellPos", new Vector2(Board.GetCellPosition(Mouse.GetPosition()).X, Board.GetCellPosition(Mouse.GetPosition()).Y));
+            shaderProg.SetUniform2("u_mouse", new Vector2(Mouse.GetPosition().X, Mouse.GetPosition().Y));
+            shaderProg.SetUniform2("u_resolution", new Vector2(xSize,ySize));
+        }
     }
 }
