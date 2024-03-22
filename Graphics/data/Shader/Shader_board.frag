@@ -14,6 +14,14 @@ in float r;
 in float r1;
 in vec2 cellPos;
 
+bool checkSquare(float i, float j)
+{
+    if(i/5-0.9>position.x-0.1&&i/5-0.9<position.x+0.1&&j/5-0.9>-position.y-0.1&&j/5-0.9<-position.y+0.1)
+        return (true);
+    return (false);
+}
+
+
 void main()
 {
     int normcordx=int(round((position.x+0.9)*5));
@@ -31,12 +39,14 @@ void main()
     {
         gl_FragColor=vec4(0.1,0.1,0.1,1);
     }
-    if(normCellPos.x/5-0.9>position.x-0.1&&normCellPos.x/5-0.9<position.x+0.1&&normCellPos.y/5-0.9>-position.y-0.1&&normCellPos.y/5-0.9<-position.y+0.1)
-        gl_FragColor=vec4(1,0,0,0.2);
+    if(checkSquare(normCellPos.x,normCellPos.y))
+        gl_FragColor=vec4(0,1,0,0.1);
     if(hip<0.03)
     {
         gl_FragColor=vec4(1,1,1,1);
     }
+
+
     gl_FragColor=vec4(gl_FragColor.xyz*r*2,1);
 }
 

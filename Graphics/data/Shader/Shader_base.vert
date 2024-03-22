@@ -1,4 +1,7 @@
 ﻿#version 330
+#ifdef GL_ES
+precision mediump float;
+#endif
 
 uniform mat4 mvpMatrix;
 in vec4 aPosition;
@@ -18,11 +21,11 @@ void main()
     cellPos=u_CellPos;
     color = aColor;
     resolution = u_resolution;
-    position=aPosition;//mvpMatrix*
+    position=aPosition;
     mouse=u_mouse;
     float stx = mouse.y/6;
     float sty = mouse.x/6;
     r1=sqrt((mouse.x-position.x)*(mouse.x-position.x)+(-mouse.y-position.y)*(-mouse.y-position.y));
-    r=(position.z+0.5);
-    gl_Position = position;
+    r=1-((mvpMatrix*aPosition).z/4);
+    gl_Position = mvpMatrix*aPosition;
 }

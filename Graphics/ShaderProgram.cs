@@ -9,6 +9,7 @@ namespace Graphics
         private readonly int _vertexShader = 0;
         private readonly int _fragmentShader = 0;
         private readonly int _program = 0;
+        public VAO VAO { get; set; }
         public ShaderProgram(string vertexfile, string fragmentfile)
         {
             _vertexShader = CreateShader(ShaderType.VertexShader, vertexfile);
@@ -82,6 +83,11 @@ namespace Graphics
         {
             int location = GL.GetUniformLocation(_program, name);
             GL.Uniform1(location, (float)value);
+        }
+        public void SetUniformMas(string name, int[] values)
+        {
+            int location = GL.GetUniformLocation(_program, name);
+            GL.Uniform1(location, values.Length, values);
         }
     }
 }

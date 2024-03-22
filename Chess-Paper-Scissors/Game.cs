@@ -23,14 +23,12 @@ namespace Chess_Paper_Scissors
     class Game : GameWindow
     {
         #region variables
-        ShaderProgram borderProgram;
-        ShaderProgram boardProgram;
-        VAO vaoBoard;
-        VAO vaoBorder;
         int fps = 0;
         float delayTime = 0;
         private Matrix4 mvpMatrix;
-        private int mvpMatrixLocation;
+        private System.Drawing.Point[] avalPts;
+        private List<ShaderProgram> shaderProgs;
+        private ShaderProgram tileProg;
         #endregion
         public Game(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
@@ -40,7 +38,7 @@ namespace Chess_Paper_Scissors
             Console.WriteLine(GL.GetString(StringName.Extensions));
             Console.WriteLine(GL.GetString(StringName.Renderer));
             Console.WriteLine(GL.GetString(StringName.ShadingLanguageVersion));
-            VSync = VSyncMode.On;
+            VSync = VSyncMode.Off;
             CursorState = CursorState.Grabbed;
         }
         private static NativeWindowSettings nativeWindowSettings = new NativeWindowSettings()
@@ -65,17 +63,34 @@ namespace Chess_Paper_Scissors
             GL.ClearColor(0.1f, 0.1f, 0.1f, 1);
             GL.LineWidth(1);
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
-            GL.PolygonMode(MaterialFace.Back, PolygonMode.Point);
-            borderProgram = new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_base1.frag");
-            boardProgram = new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_board.frag");
-            vaoBorder = new VAO(Board.GetVertices(), Board.GetBorderIndexes(), borderProgram);
-            vaoBoard = new VAO(Board.GetVertices(), Board.GetIndexes(), boardProgram);
+            GL.Enable(EnableCap.CullFace);
+            GL.CullFace(CullFaceMode.Back);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha,BlendingFactor.OneMinusSrcAlpha);
+            avalPts = [];
+            shaderProgs =
+            [
+                new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_base1.frag"),
+                new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_board.frag")
+            ];
+            tileProg = new ShaderProgram(@"data\Shader\pathSquare.vert", @"data\Shader\Shader_base1.frag");
+            tileProg.VAO = new VAO(TileDrawer.Points, TileDrawer.Indexes, tileProg);
+            shaderProgs[0].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetBorderIndexes(), shaderProgs[0]);
+            shaderProgs[1].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetIndexes(), shaderProgs[1]);
             Console.WriteLine("Loaded");
-            mvpMatrixLocation = borderProgram.UnifLocation("mvpMatrix");
+            
         }
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+            System.Drawing.Point point = Board.GetCellPosition(Mouse.GetNormalized(Size.X, Size.Y));
+            Rock rock = new Rock(point);
+            avalPts = rock.GetAvailableMoves();
+        }
+        
         protected override void OnResize(ResizeEventArgs e)
         {
-            int aspect = Math.Min(this.Size.X, this.Size.Y);
+            int aspect = Math.Max(this.Size.X, this.Size.Y);
             GL.Viewport(0, 0, aspect,aspect);
             OnRenderFrame(new FrameEventArgs());
             base.OnResize(e);
@@ -104,11 +119,25 @@ namespace Chess_Paper_Scissors
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
-            Drawer.TranspUniforms(boardProgram, Size.X,Size.Y);
-            Drawer.TranspUniforms(borderProgram, Size.X, Size.Y);
-            Drawer.Draw(vaoBoard.Index, boardProgram);
-            Drawer.Draw(vaoBorder.Index, borderProgram);
+            
+            //Drawer.TranspUniforms(boardProgram, Size.X,Size.Y);
+            //Drawer.TranspUniforms(borderProgram, Size.X, Size.Y);
+            foreach(var prog in shaderProgs)
+            {
+                prog.ActivateProgram();
+                Drawer.Draw(prog,Size.X,Size.Y,mvpMatrix);
+                prog.DeactivateProgram();
+            }
+            tileProg.ActivateProgram();
+            for(int i=0;i<avalPts.Length;i++)
+            {
+                TileDrawer.SetPts(avalPts[i]);
+                tileProg.VAO.Update(TileDrawer.Points,TileDrawer.Indexes, tileProg);
+                Drawer.Draw(tileProg, mvpMatrix);
+                tileProg.VAO.DisposeBuffs();
+                
+            }
+            tileProg.DeactivateProgram();
             SwapBuffers();
             base.OnRenderFrame(e);
         }
@@ -116,8 +145,10 @@ namespace Chess_Paper_Scissors
         {
             //DeleteDisplayList(0);
             VAO.Delete();
-            borderProgram.DeleteProgram();
-            boardProgram.DeleteProgram();
+            foreach (var prog in shaderProgs)
+            {
+                prog.DeleteProgram();
+            }
             base.OnUnload();
         }
 

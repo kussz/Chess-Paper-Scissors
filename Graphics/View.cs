@@ -25,13 +25,13 @@ namespace Graphics
         static View()
         {
             _modelMatrix = Matrix4.Identity;
-            _startEye = new Vector4(0, 0, 0, 1f);
+            _startEye = new Vector4(0, 0f, 0, 1f);
             _viewTarget = new Vector4(0, 0, 0, 1f);
-            _cameraPositionDistanceFromOrigin = 5f;
+            _cameraPositionDistanceFromOrigin = 2f;
             _viewYUp = new Vector4(0, 1f, 0, 1f);
             _fovY = (float)Math.PI / 3;
             _aspectRatio = 1;
-            _nearDistance = 0.1f;
+            _nearDistance = 0.001f;
             _farDistance = 100f;
             _projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(_fovY, _aspectRatio, _nearDistance, _farDistance);
         }
@@ -40,12 +40,10 @@ namespace Graphics
             Vector4 eye = _startEye;
             eye.Z = _cameraPositionDistanceFromOrigin;
             Matrix4 viewMatrix =
-                Matrix4.CreateRotationX((float)(Mouse.GetPosition().Y / ySize * 5)) *
-                Matrix4.CreateRotationY((float)(Mouse.GetPosition().X / xSize * 5)) *
-                Matrix4.LookAt(eye.X, eye.Y, eye.Z,
-                _viewTarget.X, _viewTarget.Y, _viewTarget.Z,
-                _viewYUp.X, _viewYUp.Y, _viewYUp.Z);
-            return( _modelMatrix * viewMatrix * _projectionMatrix);
+                Matrix4.CreateRotationX((float)((Mouse.GetPosition().Y - ySize / 2) / ySize /2 - 0.1f)) *
+                Matrix4.CreateRotationY((float)((Mouse.GetPosition().X - xSize / 2) / xSize /2)) *
+                Matrix4.LookAt(eye.Xyz, _viewTarget.Xyz, _viewYUp.Xyz);
+            return (_modelMatrix*viewMatrix *_projectionMatrix );
         }
     }
 }

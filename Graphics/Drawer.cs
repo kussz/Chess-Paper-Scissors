@@ -1,4 +1,5 @@
 ﻿
+using System.ComponentModel;
 using System.Drawing;
 using GameObjects;
 using OpenTK.Graphics.OpenGL;
@@ -8,19 +9,27 @@ namespace Graphics
 {
     public class Drawer
     {
-        public static void Draw(int vaoInd, ShaderProgram shaderProg)
+        public static void Draw(ShaderProgram shaderProg, int xSize, int ySize,Matrix4 mvpMatrix)
         {
-            shaderProg.ActivateProgram();
+            int mvpMatrixLocation = shaderProg.UnifLocation("mvpMatrix");
             //shaderProg.SetUniform2("angle", new Vector2(angle, 0));
-            GL.BindVertexArray(vaoInd);
-            GL.DrawElements(PrimitiveType.Triangles, Board.GetBorderIndexes().Length, DrawElementsType.UnsignedInt, 0);
-            shaderProg.DeactivateProgram();
+            GL.BindVertexArray(shaderProg.VAO.Index);
+            Point point = Board.GetCellPosition(Mouse.GetNormalized(xSize, ySize));
+            shaderProg.SetUniform2("u_CellPos", new Vector2(point.X, point.Y));
+            shaderProg.SetUniform2("u_mouse", Mouse.GetNormalized(xSize, ySize));
+            shaderProg.SetUniform2("u_resolution", new Vector2(xSize, ySize));
+            GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
+            shaderProg.SetUniform2("u_resolution", new Vector2(xSize, ySize));
+            shaderProg.SetUniform2("u_mouse", Mouse.GetNormalized(xSize, ySize));
+            GL.DrawElements(PrimitiveType.Triangles, BoardDrawer.GetBorderIndexes().Length, DrawElementsType.UnsignedInt, 0);
+            
         }
-        public static void TranspUniforms(ShaderProgram shaderProg, int xSize, int ySize)
+        public static void Draw(ShaderProgram shaderProg, Matrix4 mvpMatrix)
         {
-            shaderProg.SetUniform2("u_CellPos", new Vector2(Board.GetCellPosition(Mouse.GetPosition()).X, Board.GetCellPosition(Mouse.GetPosition()).Y));
-            shaderProg.SetUniform2("u_mouse", new Vector2(Mouse.GetPosition().X, Mouse.GetPosition().Y));
-            shaderProg.SetUniform2("u_resolution", new Vector2(xSize,ySize));
+            int mvpMatrixLocation = shaderProg.UnifLocation("mvpMatrix");
+            GL.BindVertexArray(shaderProg.VAO.Index);
+            GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
+            GL.DrawElements(PrimitiveType.Triangles, TileDrawer.Indexes.Length, DrawElementsType.UnsignedInt, 0);
         }
     }
 }
