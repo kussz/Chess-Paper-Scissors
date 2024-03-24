@@ -42,7 +42,22 @@ namespace Graphics
             GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
             GL.VertexAttribPointer(ColorArray, 4, VertexAttribPointerType.Float, false, 7 * sizeof(float), 3 * sizeof(float));
             GL.BindVertexArray(0);
+            GL.DisableVertexAttribArray(VertexArray);
+            GL.DisableVertexAttribArray(ColorArray);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+        }
+        public void Update(float[] points, ShaderProgram shaderProg)
+        {
+            GL.BindVertexArray(_vao);
+            _vboVC = VBO.Create(points);
+            int VertexArray = shaderProg.AttribLocation("aPosition");
+            int ColorArray = shaderProg.AttribLocation("aColor");
+            GL.EnableVertexAttribArray(VertexArray);
+            GL.EnableVertexAttribArray(ColorArray);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, _vboVC);
+            GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
+            GL.VertexAttribPointer(ColorArray, 4, VertexAttribPointerType.Float, false, 7 * sizeof(float), 3 * sizeof(float));
+            GL.BindVertexArray(0);
             GL.DisableVertexAttribArray(VertexArray);
             GL.DisableVertexAttribArray(ColorArray);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);

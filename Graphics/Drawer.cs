@@ -31,5 +31,12 @@ namespace Graphics
             GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
             GL.DrawElements(PrimitiveType.Triangles, length, DrawElementsType.UnsignedInt, 0);
         }
+        public static void DrawNoIndex(ShaderProgram shaderProg, Matrix4 mvpMatrix,int length)
+        {
+            int mvpMatrixLocation = shaderProg.UnifLocation("mvpMatrix");
+            GL.BindVertexArray(shaderProg.VAO.Index);
+            GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, length);
+        }
     }
 }

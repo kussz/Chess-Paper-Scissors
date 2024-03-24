@@ -37,6 +37,10 @@ namespace GameObjects
                             pieceList.Add(new Scissor(i, j, false));
                             State[i, j] = 'o'; 
                             break;
+                        case 'k':
+                            pieceList.Add(new King(i, j, false));
+                            State[i, j] = 'o';
+                            break;
                         case 'R':
                             pieceList.Add(new Rock(i, j, true));
                             State[i, j] = 'O';
@@ -47,6 +51,10 @@ namespace GameObjects
                             break;
                         case 'S':
                             pieceList.Add(new Scissor(i, j, true));
+                            State[i, j] = 'O';
+                            break;
+                        case 'K':
+                            pieceList.Add(new King(i, j, true));
                             State[i, j] = 'O';
                             break;
                         default:

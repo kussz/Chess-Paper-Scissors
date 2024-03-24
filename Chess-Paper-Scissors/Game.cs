@@ -30,6 +30,7 @@ namespace Chess_Paper_Scissors
         private ShaderProgram tileProg;
         private Piece selectedPiece;
         private bool turn = true;
+        private float[] model = Model.Make("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\Graphics\\data\\Model\\figure.obj");
         #endregion
         public Game(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
@@ -80,7 +81,7 @@ namespace Chess_Paper_Scissors
                 new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_base1.frag"),
                 new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_board.frag")
             ];
-            tileProg = new ShaderProgram(@"data\Shader\pathSquare.vert", @"data\Shader\Shader_base1.frag");
+            tileProg = new ShaderProgram(@"data\Shader\Objects.vert", @"data\Shader\Objects.frag");
             tileProg.VAO = new VAO(TileDrawer.Points, TileDrawer.Indexes, tileProg);
             shaderProgs[0].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetBorderIndexes(), shaderProgs[0]);
             shaderProgs[1].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetIndexes(), shaderProgs[1]);
@@ -191,6 +192,9 @@ namespace Chess_Paper_Scissors
                 tileProg.VAO.DisposeBuffs();
                 
             }
+            tileProg.VAO.Update(model, Model.GetIndexes(), tileProg);
+            Drawer.Draw(tileProg, mvpMatrix, model.Length);
+            tileProg.VAO.DisposeBuffs();
             tileProg.DeactivateProgram();
             GL.DepthMask(false);
             

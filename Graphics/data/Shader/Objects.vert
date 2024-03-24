@@ -10,7 +10,7 @@ out vec4 color;
 out float r;
 void main()
 {
-	r = 1;
 	color = aColor;
 	gl_Position=mvpMatrix*aPosition;
+	r = 2.75-gl_Position.z;
 }
