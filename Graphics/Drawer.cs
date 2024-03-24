@@ -24,12 +24,12 @@ namespace Graphics
             GL.DrawElements(PrimitiveType.Triangles, BoardDrawer.GetBorderIndexes().Length, DrawElementsType.UnsignedInt, 0);
             
         }
-        public static void Draw(ShaderProgram shaderProg, Matrix4 mvpMatrix)
+        public static void Draw(ShaderProgram shaderProg, Matrix4 mvpMatrix,int length)
         {
             int mvpMatrixLocation = shaderProg.UnifLocation("mvpMatrix");
             GL.BindVertexArray(shaderProg.VAO.Index);
             GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
-            GL.DrawElements(PrimitiveType.Triangles, TileDrawer.Indexes.Length, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Triangles, length, DrawElementsType.UnsignedInt, 0);
         }
     }
 }

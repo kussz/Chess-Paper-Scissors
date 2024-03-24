@@ -31,8 +31,8 @@ namespace Graphics
             _viewYUp = new Vector4(0, 1f, 0, 1f);
             _fovY = (float)Math.PI / 3;
             _aspectRatio = 1;
-            _nearDistance = 0.001f;
-            _farDistance = 100f;
+            _nearDistance = 0.1f;
+            _farDistance = 10f;
             _projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(_fovY, _aspectRatio, _nearDistance, _farDistance);
         }
         public static Matrix4 CountMVPMatrix(int xSize,int ySize)

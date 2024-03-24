@@ -7,12 +7,54 @@ namespace GameObjects
     public static class Board
     {
         public static char[,] State = new char[8, 8];
+        static string arrangement = 
+            "psrpkrsp"+
+            "rpssrspr"+
+            "        "+
+            "        "+
+            "        "+
+            "        "+
+            "RPSSRSPR"+
+            "PSRPKRSP";
+        public static List<Piece> pieceList;
         static Board()
         {
-            for (int i = 0; i < 8; i++)
-                for (int j = 0; j < 8; j++)
-                    State[i, j] = ' ';
-            State[7, 6] = 'R';
+            pieceList = new List<Piece>();
+            for (int j = 0; j < 8; j++)
+                for (int i = 0; i < 8; i++)
+                {
+                    switch (arrangement[j*8+i])
+                    {
+                        case 'r':
+                            pieceList.Add(new Rock(i, j, false));
+                            State[i, j] = 'o';
+                            break;
+                        case 'p':
+                            pieceList.Add(new Paper(i,j,false));
+                            State[i, j] = 'o'; 
+                            break;
+                        case 's':
+                            pieceList.Add(new Scissor(i, j, false));
+                            State[i, j] = 'o'; 
+                            break;
+                        case 'R':
+                            pieceList.Add(new Rock(i, j, true));
+                            State[i, j] = 'O';
+                            break;
+                        case 'P':
+                            pieceList.Add(new Paper(i, j, true));
+                            State[i, j] = 'O';
+                            break;
+                        case 'S':
+                            pieceList.Add(new Scissor(i, j, true));
+                            State[i, j] = 'O';
+                            break;
+                        default:
+                            State[i, j] = ' ';
+                            break;
+
+                    }
+                }
         }
         public static Point GetCellPosition(float x, float y)
         {

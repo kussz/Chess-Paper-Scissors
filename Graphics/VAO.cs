@@ -37,8 +37,8 @@ namespace Graphics
             int ColorArray = shaderProg.AttribLocation("aColor");
             GL.EnableVertexAttribArray(VertexArray);
             GL.EnableVertexAttribArray(ColorArray);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _eboVC);
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vboVC);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _eboVC);
             GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
             GL.VertexAttribPointer(ColorArray, 4, VertexAttribPointerType.Float, false, 7 * sizeof(float), 3 * sizeof(float));
             GL.BindVertexArray(0);
