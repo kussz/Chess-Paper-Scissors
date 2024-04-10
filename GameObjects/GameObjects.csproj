@@ -7,7 +7,48 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AssimpNet" Version="4.1.0" />
     <PackageReference Include="OpenTK" Version="4.8.2" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="data\Model\King.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Model\Rock.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Model\Scissor.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Cursor.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Cursor.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Objects.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Objects.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\piece.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\piece.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Shader_base.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Shader_base1.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Shader_board.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

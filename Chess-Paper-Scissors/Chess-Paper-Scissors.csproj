@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameObjects\GameObjects.csproj" />
-    <ProjectReference Include="..\Graphics\Graphics.csproj" />
   </ItemGroup>
 
 </Project>

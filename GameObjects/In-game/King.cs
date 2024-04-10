@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Graphics;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -27,14 +28,7 @@ namespace GameObjects
         }
         protected override void InitPoints()
         {
-            Points = [
-                -_size, _size, 0, GetColor().X/2,GetColor().Y/2,GetColor().Z/2,1,
-                _size, _size, 0, GetColor().X/2,GetColor().Y/2,GetColor().Z/2,1,
-                _size, -_size, 0, GetColor().X/2,GetColor().Y/2,GetColor().Z/2,1,
-                -_size, -_size, 0,GetColor().X/2,GetColor().Y/2,GetColor().Z/2,1,
-                0,0,_height*1.5f,GetColor().X,GetColor().Y,GetColor().Z,1
-                ];
-            Indexes = [0, 4, 1, 1, 4, 2, 2, 4, 3, 3, 4, 0];
+            Model.KingModel.Init(this);
         }
         public override int IsHigher(Piece piece)
         {

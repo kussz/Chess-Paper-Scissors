@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Graphics;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -16,8 +17,7 @@ namespace GameObjects
         { }
         protected override void InitPoints()
         {
-            
-
+            Model.RockModel.Init(this);
         }
         public override int IsHigher(Piece piece)
         {

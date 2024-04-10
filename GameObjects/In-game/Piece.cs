@@ -15,7 +15,7 @@ namespace GameObjects
             Color = color;
             InitPoints();
         }
-        protected Vector4 GetColor()
+        public Vector4 GetColor()
         {
             if (Color)
                 return new Vector4(1, 0.5f, 0.5f, 1);
@@ -25,8 +25,10 @@ namespace GameObjects
         { }
         public bool Color { get; private set; }
         public Point CellPosition { get; set; }
-        public float[] Points { get; protected set; }
-        public uint[] Indexes { get; protected set; }
+        public float[] Points { get; set; }
+        public uint[] Indexes { get; set; }
+        public int TextureID {  get; set; }
+        public int TextureBufferID { get; set; }
         protected bool IsNotAllyAndInside(int i, int j)
         {
             Piece piece = Board.pieceList.Find(match => match.CellPosition.X == CellPosition.X + i && match.CellPosition.Y == CellPosition.Y + j);

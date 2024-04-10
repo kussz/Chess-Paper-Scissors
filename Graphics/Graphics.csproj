@@ -19,6 +19,9 @@
     <None Update="data\Model\figure.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="data\Model\King.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="data\Model\newscene.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

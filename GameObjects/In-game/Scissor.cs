@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Graphics;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -13,23 +14,7 @@ namespace GameObjects
         public Scissor(Point point, bool color) : base(point, color) { }
         protected override void InitPoints()
         {
-            Points =
-          [
-           //bottom
-           -0.03f, 0.03f,0.01f,GetColor().X/2,GetColor().Y/2,GetColor().Z/2,1,
-            0.03f,0.03f,0.01f,GetColor().X/2,GetColor().Y/2,GetColor().Z/2,1,
-            0.03f,-0.03f,0.01f,GetColor().X/2,GetColor().Y/2,GetColor().Z/2,1,
-            -0.03f,-0.03f,0.01f,GetColor().X/2,GetColor().Y/2,GetColor().Z/2,1,
-            //top
-            -0.03f, 0.03f,0.06f,GetColor().X,GetColor().Y,GetColor().Z,1,
-            0.03f,0.03f,0.06f,GetColor().X,GetColor().Y,GetColor().Z,1,
-            0.03f,-0.03f,0.06f,GetColor().X,GetColor().Y,GetColor().Z,1,
-            -0.03f,-0.03f,0.06f,GetColor().X,GetColor().Y,GetColor().Z,1];
-            Indexes = [2,5,6,2,1,5,
-                        0,4,5,0,5,1,
-                        2,6,7,3,2,7,
-                        0,3,7,0,7,4,
-                        7,5,4,7,6,5];
+            Model.ScissorModel.Init(this);
         }
         public override Point[] GetAvailableMoves()
         {

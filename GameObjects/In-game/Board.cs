@@ -7,15 +7,15 @@ namespace GameObjects
     public static class Board
     {
         public static char[,] State = new char[8, 8];
-        static string arrangement = 
-            "psrpkrsp"+
-            "rpssrspr"+
-            "        "+
-            "        "+
-            "        "+
-            "        "+
-            "RPSSRSPR"+
-            "PSRPKRSP";
+        static string arrangement =
+            "psrskrsp" +
+            "rpsprspr" +
+            "        " +
+            "        " +
+            "        " +
+            "        " +
+            "RPSPRSPR" +
+            "PSRSKRSP";
         public static List<Piece> pieceList;
         static Board()
         {
@@ -70,16 +70,18 @@ namespace GameObjects
             int yRes = (int)((y + 0.35f) * 10);
             return new Point(xRes, yRes);
         }
-        public static Point GetCellPosition(Vector2 vector2)
-        {
-            return GetCellPosition(vector2.X, vector2.Y);
-        }
+        
 
         public static Vector2 GetCellTopLeftPosition(Point point) 
         {
             float xRes = point.X / 5.0f-0.8f;
             float yRes = -point.Y / 5.0f +0.6f;
             return new Vector2(xRes, yRes);
+        }
+
+        public static Point GetCellPosition(Vector2 vector2)
+        {
+            return GetCellPosition(vector2.X, vector2.Y);
         }
     }
 

@@ -16,6 +16,7 @@ using Graphics;
 using GameObjects;
 using System.Windows.Media.Imaging;
 using OpenTK.Compute.OpenCL;
+using System.Windows;
 
 namespace Chess_Paper_Scissors
 {
@@ -27,10 +28,11 @@ namespace Chess_Paper_Scissors
         private Matrix4 mvpMatrix;
         private System.Drawing.Point[] avalPts;
         private List<ShaderProgram> shaderProgs;
-        private ShaderProgram tileProg;
+        private ShaderProgram objectProg;
+        private ShaderProgram pieceProg;
+        private ShaderProgram cursorProg;
         private Piece selectedPiece;
         private bool turn = true;
-        private float[] model = Model.Make("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\Graphics\\data\\Model\\figure.obj");
         #endregion
         public Game(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
@@ -48,7 +50,7 @@ namespace Chess_Paper_Scissors
             Size = new Vector2i(1000, 1000),
             Location = new Vector2i(0, 0),
             WindowBorder = WindowBorder.Resizable,
-            WindowState = WindowState.Normal,
+            WindowState = OpenTK.Windowing.Common.WindowState.Normal,
             Title = "Chess-Paper-Scissors",
             Flags = ContextFlags.Default,
             Profile = ContextProfile.Compatability,
@@ -67,10 +69,7 @@ namespace Chess_Paper_Scissors
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
             GL.Enable(EnableCap.CullFace);
             GL.Enable(EnableCap.Blend);
-
-            
-            GL.Enable(EnableCap.DepthTest);
-            //GL.DepthFunc(DepthFunction.Lequal);
+            GL.Enable(EnableCap.Texture2D);
             
 
             GL.CullFace(CullFaceMode.Back);
@@ -81,17 +80,21 @@ namespace Chess_Paper_Scissors
                 new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_base1.frag"),
                 new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_board.frag")
             ];
-            tileProg = new ShaderProgram(@"data\Shader\Objects.vert", @"data\Shader\Objects.frag");
-            tileProg.VAO = new VAO(TileDrawer.Points, TileDrawer.Indexes, tileProg);
+            objectProg = new ShaderProgram(@"data\Shader\Objects.vert", @"data\Shader\Objects.frag");
+            objectProg.VAO = new VAO(TileDrawer.Points, TileDrawer.Indexes, objectProg);
             shaderProgs[0].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetBorderIndexes(), shaderProgs[0]);
             shaderProgs[1].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetIndexes(), shaderProgs[1]);
+            pieceProg = new ShaderProgram("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\data\\Shader\\piece.vert", "D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\data\\Shader\\piece.frag");
+            pieceProg.VAO = new VAO();
+            cursorProg = new ShaderProgram("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\data\\Shader\\Cursor.vert", "D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\data\\Shader\\Cursor.frag");
+            cursorProg.VAO = new VAO(BoardDrawer.GetVertices(),BoardDrawer.GetCursorIndexes(), cursorProg);
             Console.WriteLine("Loaded");
             
         }
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
-            Point point = Board.GetCellPosition(Mouse.GetNormalized(Size.X, Size.Y));
+            System.Drawing.Point point = Board.GetCellPosition(Mouse.GetNormalized(Size.X, Size.Y));
             if(selectedPiece != null)
             {
                 if (Array.Exists(avalPts,element => element.X ==point.X&&element.Y==point.Y))
@@ -103,6 +106,11 @@ namespace Chess_Paper_Scissors
                         if (selectedPiece.IsHigher(found) == 1)
                         {
                             Board.pieceList.Remove(found);
+                            if (found is King)
+                            {
+                                MessageBox.Show("Победил " + (found.Color ? "синий" : "красный") + " игрок!");
+                                Close();
+                            }
                             char pieceO = Board.State[selectedPiece.CellPosition.X, selectedPiece.CellPosition.Y];
                             Board.State[selectedPiece.CellPosition.X, selectedPiece.CellPosition.Y] = ' ';
                             selectedPiece.SetPosition(point);
@@ -112,7 +120,7 @@ namespace Chess_Paper_Scissors
                         {
                             Board.State[selectedPiece.CellPosition.X, selectedPiece.CellPosition.Y] = ' ';
                             Board.pieceList.Remove(selectedPiece);
-                            point = new Point(-1, -1);
+                            point = new System.Drawing.Point(-1, -1);
                         }
                     }
                     else
@@ -168,36 +176,37 @@ namespace Chess_Paper_Scissors
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            GL.DepthMask(true);
+            GL.Enable(EnableCap.DepthTest);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             foreach (var prog in shaderProgs)
             {
                 prog.ActivateProgram();
-                Drawer.Draw(prog,Size.X,Size.Y,mvpMatrix);
+                prog.Draw(Size.X,Size.Y,mvpMatrix);
                 prog.DeactivateProgram();
             }
-            tileProg.ActivateProgram();
+            pieceProg.ActivateProgram();
             foreach (Piece piece in Board.pieceList)
             {
-                tileProg.VAO.Update(piece.GetVertexArray(), piece.Indexes, tileProg);
-                Drawer.Draw(tileProg, mvpMatrix, piece.Indexes.Length);
-                tileProg.VAO.DisposeBuffs();
+                pieceProg.VAO.Update(piece.GetVertexArray(), piece.Indexes, pieceProg);
+                pieceProg.Draw(mvpMatrix, piece);
+                pieceProg.VAO.DisposeBuffs();
 
             }
+            pieceProg.DeactivateProgram();
+            objectProg.ActivateProgram();
             for(int i=0;i<avalPts.Length;i++)
             {
                 TileDrawer.SetPts(avalPts[i]);
-                tileProg.VAO.Update(TileDrawer.Points,TileDrawer.Indexes, tileProg);
-                Drawer.Draw(tileProg, mvpMatrix, TileDrawer.Indexes.Length);
-                tileProg.VAO.DisposeBuffs();
+                objectProg.VAO.Update(TileDrawer.Points,TileDrawer.Indexes, objectProg);
+                objectProg.Draw(mvpMatrix, TileDrawer.Indexes.Length);
+                objectProg.VAO.DisposeBuffs();
                 
             }
-            tileProg.VAO.Update(model, Model.GetIndexes(), tileProg);
-            Drawer.Draw(tileProg, mvpMatrix, model.Length);
-            tileProg.VAO.DisposeBuffs();
-            tileProg.DeactivateProgram();
-            GL.DepthMask(false);
-            
+            objectProg.DeactivateProgram();
+            GL.Disable(EnableCap.DepthTest);
+            cursorProg.ActivateProgram();
+            cursorProg.Draw(Size.X, Size.Y, mvpMatrix);
+            cursorProg.DeactivateProgram();
 
 
             SwapBuffers();
