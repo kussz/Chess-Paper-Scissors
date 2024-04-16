@@ -8,7 +8,7 @@ namespace GameObjects
     {
         public static char[,] State = new char[8, 8];
         static string arrangement =
-            "psrskrsp" +
+        "psrskrsp" +
             "rpsprspr" +
             "        " +
             "        " +
@@ -17,25 +17,25 @@ namespace GameObjects
             "RPSPRSPR" +
             "PSRSKRSP";
         public static List<Piece> pieceList;
-        static Board()
+        public static void Init()
         {
             pieceList = new List<Piece>();
             for (int j = 0; j < 8; j++)
                 for (int i = 0; i < 8; i++)
                 {
-                    switch (arrangement[j*8+i])
+                    switch (arrangement[j * 8 + i])
                     {
                         case 'r':
                             pieceList.Add(new Rock(i, j, false));
                             State[i, j] = 'o';
                             break;
                         case 'p':
-                            pieceList.Add(new Paper(i,j,false));
-                            State[i, j] = 'o'; 
+                            pieceList.Add(new Paper(i, j, false));
+                            State[i, j] = 'o';
                             break;
                         case 's':
                             pieceList.Add(new Scissor(i, j, false));
-                            State[i, j] = 'o'; 
+                            State[i, j] = 'o';
                             break;
                         case 'k':
                             pieceList.Add(new King(i, j, false));
@@ -63,6 +63,10 @@ namespace GameObjects
 
                     }
                 }
+        }
+        static Board()
+        {
+            Init();
         }
         public static Point GetCellPosition(float x, float y)
         {

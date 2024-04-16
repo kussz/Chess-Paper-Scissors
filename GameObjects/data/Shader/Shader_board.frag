@@ -39,7 +39,7 @@ void main()
         gl_FragColor=vec4(0.1,0.1,0.1,1);
     }
     if(checkSquare(normCellPos.x,normCellPos.y))
-        gl_FragColor=vec4(0,1,0,0.1);
+        gl_FragColor=vec4(0.5,1,0.5,0.1);
 
 
     gl_FragColor=vec4(gl_FragColor.xyz*r*2,1);

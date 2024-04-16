@@ -1,0 +1,94 @@
+﻿<Page x:Class="Chess_Paper_Scissors.InfoPages.PageFigures"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Chess_Paper_Scissors.InfoPages"
+      xmlns:gif="http://wpfanimatedgif.codeplex.com"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Page1">
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontFamily" Value="Impact"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="White" Opacity="0.7"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="Header1">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Black"/>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.Background>
+            <VisualBrush>
+                <VisualBrush.Visual>
+                    <Image gif:ImageBehavior.AnimatedSource="D:\work\Course 2\Term 2\Курсовая\Программа\Chess-Paper-Scissors\assets\giphy1.gif"
+           gif:ImageBehavior.AutoStart="True"
+           gif:ImageBehavior.RepeatBehavior="1"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+        </Grid.Background>
+        <TextBlock Foreground="White" HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap" Text="Фигуры" FontSize="40" VerticalAlignment="Top"/>
+        <Grid Margin="20,88,20,83">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="146*"></RowDefinition>
+                <RowDefinition Height="40*"></RowDefinition>
+                <RowDefinition Height="93*"></RowDefinition>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <GridSplitter Background="White" ResizeDirection="Columns" Grid.Column="1" Grid.Row="2" Height="Auto" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"/>
+            <GridSplitter Background="White" ResizeDirection="Columns" Grid.Column="3" Grid.Row="2" Height="Auto" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"/>
+            <GridSplitter Background="White" ResizeDirection="Columns" Grid.Column="5" Grid.Row="2" Height="Auto" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"/>
+            <Image Grid.Row="0" Grid.Column="0" Source="/InfoPages/Rock.png"></Image>
+            <Image Grid.Row="0" Grid.Column="2" Source="/InfoPages/Scissors.png"></Image>
+            <Image Grid.Row="0" Grid.Column="4" Source="/InfoPages/Paper.png"></Image>
+            <Image Grid.Row="0" Grid.Column="6" Source="/InfoPages/King.png"></Image>
+            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource Header1}">Камень</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource Header1}">Ножницы</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="4" Style="{StaticResource Header1}">Бумага</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="6" Style="{StaticResource Header1}">Король</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="0">Ходит вокруг себя. Бьет ножницы и короля. Не может побить камень противника. Уничтожается при попытке побить бумагу.</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="2">Ходит по диагонали. Бьет бумагу и короля. Не может побить ножницы противника. Уничтожается при попытке побить камень.</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="4">Ходит по прямой во все 4 стороны. Бьет камень и короля. Не может побить бумагу противника. Уничтожается при попытке побить ножницы.</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="6">Ходит вокруг себя. Бьет любую фигуру, кроме короля противника. Если король побит, игра завершается поражением.</TextBlock>
+        </Grid>
+        <Button Content="Вернуться" Click="Button_Click" Margin="306,351,306,22"/>
+    </Grid>
+</Page>

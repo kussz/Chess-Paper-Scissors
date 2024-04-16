@@ -17,6 +17,8 @@ using GameObjects;
 using System.Windows.Media.Imaging;
 using OpenTK.Compute.OpenCL;
 using System.Windows;
+using System.IO;
+using System.Reflection.PortableExecutable;
 
 namespace Chess_Paper_Scissors
 {
@@ -32,9 +34,10 @@ namespace Chess_Paper_Scissors
         private ShaderProgram pieceProg;
         private ShaderProgram cursorProg;
         private Piece selectedPiece;
+        private MainWindow _window;
         private bool turn = true;
         #endregion
-        public Game(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
+        public Game(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, MainWindow window) : base(gameWindowSettings, nativeWindowSettings)
         {
             Console.WriteLine("Start");
             Console.WriteLine(GL.GetString(StringName.Version));
@@ -44,6 +47,8 @@ namespace Chess_Paper_Scissors
             Console.WriteLine(GL.GetString(StringName.ShadingLanguageVersion));
             VSync = VSyncMode.Off;
             CursorState = CursorState.Grabbed;
+            _window = window;
+            Board.Init();
         }
         private static NativeWindowSettings nativeWindowSettings = new NativeWindowSettings()
         {
@@ -84,9 +89,9 @@ namespace Chess_Paper_Scissors
             objectProg.VAO = new VAO(TileDrawer.Points, TileDrawer.Indexes, objectProg);
             shaderProgs[0].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetBorderIndexes(), shaderProgs[0]);
             shaderProgs[1].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetIndexes(), shaderProgs[1]);
-            pieceProg = new ShaderProgram("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\data\\Shader\\piece.vert", "D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\data\\Shader\\piece.frag");
+            pieceProg = new ShaderProgram("data\\Shader\\piece.vert", "data\\Shader\\piece.frag");
             pieceProg.VAO = new VAO();
-            cursorProg = new ShaderProgram("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\data\\Shader\\Cursor.vert", "D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\data\\Shader\\Cursor.frag");
+            cursorProg = new ShaderProgram("data\\Shader\\Cursor.vert", "data\\Shader\\Cursor.frag");
             cursorProg.VAO = new VAO(BoardDrawer.GetVertices(),BoardDrawer.GetCursorIndexes(), cursorProg);
             Console.WriteLine("Loaded");
             
@@ -110,6 +115,7 @@ namespace Chess_Paper_Scissors
                             {
                                 MessageBox.Show("Победил " + (found.Color ? "синий" : "красный") + " игрок!");
                                 Close();
+                                _window.Show();
                             }
                             char pieceO = Board.State[selectedPiece.CellPosition.X, selectedPiece.CellPosition.Y];
                             Board.State[selectedPiece.CellPosition.X, selectedPiece.CellPosition.Y] = ' ';
@@ -147,7 +153,7 @@ namespace Chess_Paper_Scissors
         
         protected override void OnResize(ResizeEventArgs e)
         {
-            int aspect = Math.Max(this.Size.X, this.Size.Y);
+            int aspect = Math.Min(this.Size.X, this.Size.Y);
             GL.Viewport(0, 0, aspect,aspect);
             OnRenderFrame(new FrameEventArgs());
             base.OnResize(e);
@@ -188,7 +194,7 @@ namespace Chess_Paper_Scissors
             foreach (Piece piece in Board.pieceList)
             {
                 pieceProg.VAO.Update(piece.GetVertexArray(), piece.Indexes, pieceProg);
-                pieceProg.Draw(mvpMatrix, piece);
+                piece.Draw(mvpMatrix, pieceProg);
                 pieceProg.VAO.DisposeBuffs();
 
             }
@@ -207,8 +213,6 @@ namespace Chess_Paper_Scissors
             cursorProg.ActivateProgram();
             cursorProg.Draw(Size.X, Size.Y, mvpMatrix);
             cursorProg.DeactivateProgram();
-
-
             SwapBuffers();
             base.OnRenderFrame(e);
         }
@@ -221,6 +225,7 @@ namespace Chess_Paper_Scissors
                 prog.DeleteProgram();
             }
             base.OnUnload();
+            Dispose();
         }
 
         

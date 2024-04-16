@@ -29,7 +29,7 @@ namespace Graphics
             GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
             GL.DrawElements(PrimitiveType.Triangles, length, DrawElementsType.UnsignedInt, 0);
         }
-        public static void Draw(this ShaderProgram shaderProg, Matrix4 mvpMatrix, Piece piece)
+        public static void Draw(this Piece piece, Matrix4 mvpMatrix, ShaderProgram shaderProg)
         {
             int mvpMatrixLocation = shaderProg.UnifLocation("mvpMatrix");
             int colorLocation = shaderProg.UnifLocation("pcColor");
@@ -39,10 +39,11 @@ namespace Graphics
             
 
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, piece.TextureBufferID);
-            int texLoc = shaderProg.AttribLocation("inTextureCoordinate");
+            int texLoc = shaderProg.AttribLocation("aTexture");
             GL.EnableVertexAttribArray(texLoc);
-            GL.VertexAttribPointer(texLoc, 2, VertexAttribPointerType.Float, false, 0, piece.TextureBufferID);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, piece.TextureCoordsBufferID);
+            GL.VertexAttribPointer(texLoc, 2, VertexAttribPointerType.Float, true, 0, 0);
+            GL.DisableVertexAttribArray(texLoc);
 
             GL.BindTexture(TextureTarget.Texture2D, piece.TextureID);
             GL.BindVertexArray(shaderProg.VAO.Index);

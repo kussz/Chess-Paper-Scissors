@@ -3,11 +3,54 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:Chess_Paper_Scissors"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-        ResizeMode="NoResize">
+        Title="CPS" Height="450" Width="800"
+        ResizeMode="NoResize" Icon="/logo.ico">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontFamily" Value="Impact"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="White" Opacity="0.7"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid HorizontalAlignment="Right" Width="800">
-        <Button Margin="102,385,102,19"></Button>
+        <Grid.Background>
+            <VisualBrush>
+                <VisualBrush.Visual>
+                    <Image gif:ImageBehavior.AnimatedSource="D:\work\Course 2\Term 2\Курсовая\Программа\Chess-Paper-Scissors\assets\giphy1.gif"
+                   gif:ImageBehavior.AutoStart="True"
+                   gif:ImageBehavior.RepeatBehavior="1"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+        </Grid.Background>
+        
+        <Image HorizontalAlignment="Center" Height="219" Margin="0,10,0,0" VerticalAlignment="Top" Width="380" Source="/cpstransparent.png"/>
+        <Button x:Name="startButton" Margin="294,229,294,155" Content="Начать игру" Click="StartButton_Click"/>
+        <Button x:Name="infoButton" Margin="294,299,294,85" Content="Об игре" Click="InfoButton_Click"/>
+        <Button x:Name="settingsButton" Margin="294,264,294,120" Content="Настройки"/>
+        <Button x:Name="exitButton" Margin="294,374,294,10" Content="Выход" BorderBrush="Red"/>
+        <Frame x:Name="PageFrame" NavigationUIVisibility="Hidden"></Frame>
     </Grid>
 </Window>

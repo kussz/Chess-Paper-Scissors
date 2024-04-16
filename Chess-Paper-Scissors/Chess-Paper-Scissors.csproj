@@ -10,11 +10,50 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="cps.png" />
+    <None Remove="cpstransparent.png" />
+    <None Remove="InfoPages\King.png" />
+    <None Remove="InfoPages\Paper.png" />
+    <None Remove="InfoPages\Rock.png" />
+    <None Remove="InfoPages\Scissors.png" />
+    <None Remove="logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.8.2" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GameObjects\GameObjects.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="cps.png" />
+    <Resource Include="cpstransparent.png" />
+    <Resource Include="InfoPages\King.png" />
+    <Resource Include="InfoPages\Paper.png" />
+    <Resource Include="InfoPages\Rock.png" />
+    <Resource Include="InfoPages\Scissors.png" />
+    <Resource Include="logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="InfoPages\PageFigures.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="assets\giphy.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\giphy1.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@ namespace GameObjects
 {
     public class Mouse
     {
-        static bool locked=true;
+        private static bool _locked=false;
         static Point mouse;
         public static void SetPosition(MouseState o,int xSize, int ySize)
         {
@@ -19,7 +19,7 @@ namespace GameObjects
             int y = (int)((o.Y - o.PreviousY) * WS.Sensivity);
             mouse.X += x;
             mouse.Y += y;
-            if(locked)
+            if(_locked)
             {
             mouse.X = Math.Max(Math.Min((int)(xSize * WS.Xmax), mouse.X), (int)(xSize * WS.Xmin));
             mouse.Y = Math.Max(Math.Min((int)(ySize * WS.Ymax), mouse.Y), (int)(ySize * WS.Ymin));

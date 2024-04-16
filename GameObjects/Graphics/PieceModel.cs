@@ -25,7 +25,7 @@ namespace Graphics
             piece.Points = Points;
             piece.Indexes = Indexes;
             piece.TextureID = TextureID;
-            piece.TextureBufferID = TextureBufferID;
+            piece.TextureCoordsBufferID = TextureBufferID;
         }
 
     }

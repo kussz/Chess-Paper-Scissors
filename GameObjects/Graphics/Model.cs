@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+
 using System.Numerics;
 using Assimp;
 using Assimp.Unmanaged;
@@ -12,7 +13,7 @@ namespace Graphics
     {
         private static uint[] _indexes;
         private static int _textureID;
-        private static int _texBufferID;
+        private static int _texCoordsBufferID;
         public static PieceModel KingModel { get; private set; }
         public static PieceModel RockModel { get; private set; }
         public static PieceModel PaperModel { get; private set; }
@@ -50,19 +51,25 @@ namespace Graphics
                     }
 
 
+
+
                 _textureID = GL.GenTexture();
                 GL.BindTexture(TextureTarget.Texture2D, _textureID);
 
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb32f, bitmap.Width, bitmap.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgb, PixelType.Float, textureData);
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb32f, bitmap.Width, bitmap.Height, 0, PixelFormat.Rgb, PixelType.Float, textureData);
                 GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, new int[] { (int)TextureMagFilter.Linear });
                 GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, new int[] { (int)TextureMinFilter.Linear });
 
+               // GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
 
-                OpenTK.Mathematics.Vector2[] _texCoords = mesh.TextureCoordinateChannels[0].ConvertAll(x => new OpenTK.Mathematics.Vector2(x.X, x.Y)).ToArray();
-                _texBufferID = GL.GenBuffer();
-                GL.BindBuffer(BufferTarget.ArrayBuffer, _texBufferID);
+
+
+                OpenTK.Mathematics.Vector2[] _texCoords = mesh.TextureCoordinateChannels[0].ConvertAll(vector => new OpenTK.Mathematics.Vector2(vector.X, vector.Y)).ToArray();
+                _texCoordsBufferID = GL.GenBuffer();
+                GL.BindBuffer(BufferTarget.ArrayBuffer, _texCoordsBufferID);
                 GL.BufferData(BufferTarget.ArrayBuffer, OpenTK.Mathematics.Vector2.SizeInBytes * _texCoords.Length, _texCoords, BufferUsageHint.DynamicDraw);
-                GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
+                
+                
                 _indexes = scene.Meshes[0].GetUnsignedIndices();
                 return points;
             }
@@ -84,7 +91,7 @@ namespace Graphics
         }
         public static int GetTexBufferID()
         {
-            return _texBufferID;
+            return _texCoordsBufferID;
         }
         static Model()
         {

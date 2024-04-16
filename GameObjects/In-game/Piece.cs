@@ -28,7 +28,7 @@ namespace GameObjects
         public float[] Points { get; set; }
         public uint[] Indexes { get; set; }
         public int TextureID {  get; set; }
-        public int TextureBufferID { get; set; }
+        public int TextureCoordsBufferID { get; set; }
         protected bool IsNotAllyAndInside(int i, int j)
         {
             Piece piece = Board.pieceList.Find(match => match.CellPosition.X == CellPosition.X + i && match.CellPosition.Y == CellPosition.Y + j);
