@@ -53,5 +53,10 @@ namespace Chess_Paper_Scissors
             PageFrame.Content = page;
             page.WentFigures += GoToFigurePage;
         }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

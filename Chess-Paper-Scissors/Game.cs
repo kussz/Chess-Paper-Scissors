@@ -178,6 +178,7 @@ namespace Chess_Paper_Scissors
             {
                 Console.WriteLine("Closed (Esc)");
                 Close();
+                _window.Close();
             }
         }
         protected override void OnRenderFrame(FrameEventArgs e)

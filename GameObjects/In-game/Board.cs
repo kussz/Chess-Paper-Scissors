@@ -1,14 +1,16 @@
 ﻿
 using OpenTK.Mathematics;
 using System.Drawing;
+using GameObjects.Factory;
 
 namespace GameObjects
 {
     public static class Board
     {
+        private static List<PieceFactory> _factories;
         public static char[,] State = new char[8, 8];
         static string arrangement =
-        "psrskrsp" +
+            "psrskrsp" +
             "rpsprspr" +
             "        " +
             "        " +
@@ -17,57 +19,70 @@ namespace GameObjects
             "RPSPRSPR" +
             "PSRSKRSP";
         public static List<Piece> pieceList;
+        static Board()
+        {
+            _factories = new List<PieceFactory>() { new KingFactory(), new RockFactory(), new PaperFactory(), new ScissorFactory() };
+            Init();
+        }
         public static void Init()
         {
             pieceList = new List<Piece>();
+
+            int[,] pieceMap = GetArrangementMap();
+
+            for (int j = 0; j < 8; j++)
+                for (int i = 0; i < 8; i++)
+                {
+                    if (pieceMap[i,j]!=-1)
+                        pieceList.Add(_factories[pieceMap[i, j] % _factories.Count].Create(i, j,Convert.ToBoolean(pieceMap[i,j]/_factories.Count)));
+                }
+        }
+        private static int[,] GetArrangementMap()
+        {
+            int[,] mapped = new int[8, 8];
             for (int j = 0; j < 8; j++)
                 for (int i = 0; i < 8; i++)
                 {
                     switch (arrangement[j * 8 + i])
                     {
                         case 'r':
-                            pieceList.Add(new Rock(i, j, false));
-                            State[i, j] = 'o';
+                            mapped[i, j] = 1;
                             break;
                         case 'p':
-                            pieceList.Add(new Paper(i, j, false));
-                            State[i, j] = 'o';
+                            mapped[i, j] = 2;
                             break;
                         case 's':
-                            pieceList.Add(new Scissor(i, j, false));
-                            State[i, j] = 'o';
+                            mapped[i, j] = 3;
                             break;
                         case 'k':
-                            pieceList.Add(new King(i, j, false));
-                            State[i, j] = 'o';
+                            mapped[i, j] = 0;
                             break;
                         case 'R':
-                            pieceList.Add(new Rock(i, j, true));
-                            State[i, j] = 'O';
+                            mapped[i, j] = 5;
                             break;
                         case 'P':
-                            pieceList.Add(new Paper(i, j, true));
-                            State[i, j] = 'O';
+                            mapped[i, j] = 6;
                             break;
                         case 'S':
-                            pieceList.Add(new Scissor(i, j, true));
-                            State[i, j] = 'O';
+                            mapped[i, j] = 7;
                             break;
                         case 'K':
-                            pieceList.Add(new King(i, j, true));
-                            State[i, j] = 'O';
+                            mapped[i, j] = 4;
                             break;
                         default:
+                            mapped[i, j] = -1;
                             State[i, j] = ' ';
                             break;
 
                     }
+                    if (mapped[i, j] >= 4)
+                        State[i, j] = 'O';
+                    else if (mapped[i,j]!=-1)
+                        State[i, j] = 'o';
                 }
+            return mapped;
         }
-        static Board()
-        {
-            Init();
-        }
+        
         public static Point GetCellPosition(float x, float y)
         {
             int xRes = (int)((x + 0.45f) * 10);

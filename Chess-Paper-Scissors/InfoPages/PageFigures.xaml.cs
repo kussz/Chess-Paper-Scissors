@@ -28,6 +28,8 @@ namespace Chess_Paper_Scissors.InfoPages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Content = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             WentFigures.Invoke(null, EventArgs.Empty);
         }
     }

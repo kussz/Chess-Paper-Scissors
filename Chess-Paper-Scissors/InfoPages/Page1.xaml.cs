@@ -29,12 +29,16 @@ namespace Chess_Paper_Scissors.InfoPages
         private void FiguresButton_Click(object sender, RoutedEventArgs e)
         {
             Content = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             WentFigures.Invoke(null, EventArgs.Empty);
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             Content = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }
