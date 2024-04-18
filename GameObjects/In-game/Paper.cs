@@ -10,12 +10,13 @@ namespace GameObjects
 {
     public class Paper : Piece
     {
-        public Paper(int x, int y, bool color) : base(x, y, color) { }
-        public Paper(Point point, bool color) : base(point, color) { }
-        protected override void InitPoints()
-        {
+        public Paper(int x, int y, bool color) : base(x, y, color)
+        { 
+            Type = PieceType.Paper;
             Model.PaperModel.Init(this);
+            VAO = Model.PaperModel.VAO;
         }
+        public Paper(Point point, bool color) : this(point.X, point.Y, color) { }
         public override Point[] GetAvailableMoves()
         {
             List<Point> resultList = new List<Point>();
@@ -51,9 +52,9 @@ namespace GameObjects
         }
         public override int IsHigher(Piece piece)
         {
-            if (piece is Scissor)
+            if (piece.Type == PieceType.Scissor)
                 return -1;
-            if (piece is Paper)
+            if (piece.Type == PieceType.Paper)
                 return 0;
             return 1;
         }

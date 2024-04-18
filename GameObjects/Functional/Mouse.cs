@@ -11,7 +11,7 @@ namespace GameObjects
 {
     public class Mouse
     {
-        private static bool _locked=false;
+        private static bool _locked=true;
         static Point mouse;
         public static void SetPosition(MouseState o,int xSize, int ySize)
         {

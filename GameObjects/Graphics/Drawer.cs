@@ -35,18 +35,8 @@ namespace Graphics
             int colorLocation = shaderProg.UnifLocation("pcColor");
             GL.Uniform1(colorLocation,Convert.ToSingle(piece.Color));
             GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
-
             
-
-
-            int texLoc = shaderProg.AttribLocation("aTexture");
-            GL.EnableVertexAttribArray(texLoc);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, piece.TextureCoordsBufferID);
-            GL.VertexAttribPointer(texLoc, 2, VertexAttribPointerType.Float, true, 0, 0);
-            GL.DisableVertexAttribArray(texLoc);
-
-            GL.BindTexture(TextureTarget.Texture2D, piece.TextureID);
-            GL.BindVertexArray(shaderProg.VAO.Index);
+            GL.BindVertexArray(piece.VAO.Index);
             GL.DrawElements(PrimitiveType.Triangles, piece.Indexes.Length, DrawElementsType.UnsignedInt, 0);
         }
 

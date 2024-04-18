@@ -12,10 +12,6 @@ namespace Graphics
 {
     public static class PieceDrawer
     {
-        public static void Draw(this Piece piece)
-        {
-
-        }
         public static float[] GetVertexArray(this Piece piece)
         {
             float[] result = new float[piece.Points.Length];

@@ -13,5 +13,11 @@ namespace Graphics
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             return vbo;
         }
+        internal static void Update(float[] data, int vbo)
+        {
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            GL.BufferData(BufferTarget.ArrayBuffer, data.Length * sizeof(float), data, BufferUsageHint.StaticDraw);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+        }
     }
 }

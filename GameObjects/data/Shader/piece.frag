@@ -13,7 +13,7 @@ in vec2 textureCoordinate;
 void main()
 {
 	float intensity = 0.6;
-	gl_FragColor = vec4(1,1,1,1);//texture2D(textureObject, textureCoordinate);
+	gl_FragColor = texture2D(textureObject, textureCoordinate);
 	gl_FragColor = vec4(gl_FragColor.xyz*r,gl_FragColor.w);
 if(pcCol<0.5)
 	gl_FragColor = gl_FragColor * vec4(intensity,intensity,1,1);

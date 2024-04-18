@@ -1,4 +1,5 @@
-﻿using Graphics;
+﻿using GameObjects.Decorators;
+using Graphics;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,31 +13,30 @@ namespace GameObjects
     public class Rock : Piece
     {
         public Rock(int x, int y, bool color) : base(x, y, color)
-        {  }
-        public Rock(Point point, bool color) : base(point,color)
-        { }
-        protected override void InitPoints()
-        {
+        { 
+            Type = PieceType.Rock;
             Model.RockModel.Init(this);
+            VAO = Model.RockModel.VAO;
         }
+        public Rock(Point point, bool color) : this(point.X,point.Y,color)
+        { }
         public override int IsHigher(Piece piece)
         {
-            if (piece is Paper)
+            if (piece.Type == PieceType.Paper)
                 return -1;
-            if (piece is Rock)
+            if (piece.Type == PieceType.Rock)
                 return 0;
             return 1;
         }
         public override Point[] GetAvailableMoves()
         {
             List<Point> resultList = new List<Point>();
+            int dir = Color ? -1 : 1;
             for(int i = -1;i<=1;i++)
-                for(int j = -1;j<=1;j++)
-                    if (IsNotAllyAndInside(i,j))
-                    {
-                        if(i!=0 || j!=0)
-                            resultList.Add(new Point(CellPosition.X + i, CellPosition.Y + j));
-                    }
+                if (IsNotAllyAndInside(i,dir))
+                {
+                    resultList.Add(new Point(CellPosition.X + i, CellPosition.Y + dir));
+                }
             return resultList.ToArray();
         }
     }

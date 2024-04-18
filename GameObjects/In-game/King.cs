@@ -11,8 +11,12 @@ namespace GameObjects
     public class King : Piece
     {
         public King(int x, int y, bool color) : base(x, y, color)
-        { }
-        public King(Point point, bool color) : base(point, color)
+        { 
+            Type = PieceType.King;
+            Model.KingModel.Init(this);
+            VAO = Model.KingModel.VAO;
+        }
+        public King(Point point, bool color) : this(point.X,point.Y, color)
         { }
         public override Point[] GetAvailableMoves()
         {
@@ -26,13 +30,9 @@ namespace GameObjects
                     }
             return resultList.ToArray();
         }
-        protected override void InitPoints()
-        {
-            Model.KingModel.Init(this);
-        }
         public override int IsHigher(Piece piece)
         {
-            if (piece is King)
+            if (piece.Type == PieceType.King)
                 return 0;
             return 1;
         }

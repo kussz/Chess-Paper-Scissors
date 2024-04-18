@@ -2,6 +2,8 @@
 using OpenTK.Mathematics;
 using System.Drawing;
 using GameObjects.Factory;
+using GameObjects.Decorators;
+
 
 namespace GameObjects
 {
@@ -18,7 +20,7 @@ namespace GameObjects
             "        " +
             "RPSPRSPR" +
             "PSRSKRSP";
-        public static List<Piece> pieceList;
+        public static List<Piece> PieceList;
         static Board()
         {
             _factories = new List<PieceFactory>() { new KingFactory(), new RockFactory(), new PaperFactory(), new ScissorFactory() };
@@ -26,7 +28,7 @@ namespace GameObjects
         }
         public static void Init()
         {
-            pieceList = new List<Piece>();
+            PieceList = new List<Piece>();
 
             int[,] pieceMap = GetArrangementMap();
 
@@ -34,7 +36,9 @@ namespace GameObjects
                 for (int i = 0; i < 8; i++)
                 {
                     if (pieceMap[i,j]!=-1)
-                        pieceList.Add(_factories[pieceMap[i, j] % _factories.Count].Create(i, j,Convert.ToBoolean(pieceMap[i,j]/_factories.Count)));
+                        PieceList.Add(_factories[pieceMap[i, j] % _factories.Count].Create(i, j,Convert.ToBoolean(pieceMap[i,j]/_factories.Count)));
+                    if (pieceMap[i, j] == 1)
+                        PieceList[PieceList.Count - 1] = new RockDecorator(PieceList[PieceList.Count - 1] as Rock);
                 }
         }
         private static int[,] GetArrangementMap()

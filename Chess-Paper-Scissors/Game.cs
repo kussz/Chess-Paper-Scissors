@@ -94,7 +94,10 @@ namespace Chess_Paper_Scissors
             cursorProg = new ShaderProgram("data\\Shader\\Cursor.vert", "data\\Shader\\Cursor.frag");
             cursorProg.VAO = new VAO(BoardDrawer.GetVertices(),BoardDrawer.GetCursorIndexes(), cursorProg);
             Console.WriteLine("Loaded");
-            
+            foreach(Piece piece in Board.PieceList)
+            {
+                piece.VAO.Update(piece.GetVertexArray(),piece.Indexes, pieceProg);
+            }
         }
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
@@ -102,15 +105,17 @@ namespace Chess_Paper_Scissors
             System.Drawing.Point point = Board.GetCellPosition(Mouse.GetNormalized(Size.X, Size.Y));
             if(selectedPiece != null)
             {
+                
                 if (Array.Exists(avalPts,element => element.X ==point.X&&element.Y==point.Y))
                 {
                     turn = !turn;
-                    Piece found = Board.pieceList.Find(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y);
+                    
+                    Piece found = Board.PieceList.Find(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y);
                     if (found != null)
                     {
                         if (selectedPiece.IsHigher(found) == 1)
                         {
-                            Board.pieceList.Remove(found);
+                            Board.PieceList.Remove(found);
                             if (found is King)
                             {
                                 MessageBox.Show("Победил " + (found.Color ? "синий" : "красный") + " игрок!");
@@ -125,7 +130,7 @@ namespace Chess_Paper_Scissors
                         else if (selectedPiece.IsHigher(found) == -1)
                         {
                             Board.State[selectedPiece.CellPosition.X, selectedPiece.CellPosition.Y] = ' ';
-                            Board.pieceList.Remove(selectedPiece);
+                            Board.PieceList.Remove(selectedPiece);
                             point = new System.Drawing.Point(-1, -1);
                         }
                     }
@@ -140,15 +145,17 @@ namespace Chess_Paper_Scissors
                         GL.ClearColor(0.15f, 0.05f, 0.05f, 1);
                     else
                         GL.ClearColor(0.05f, 0.05f, 0.15f, 1);
+                    
                 }
             }
-            selectedPiece = Board.pieceList.Find(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y);
+            selectedPiece = Board.PieceList.Find(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y);
             if (selectedPiece != null && selectedPiece.Color == turn)
             {
                 avalPts = selectedPiece.GetAvailableMoves();
             }
             else
                 avalPts = [];
+            
         }
         
         protected override void OnResize(ResizeEventArgs e)
@@ -192,12 +199,10 @@ namespace Chess_Paper_Scissors
                 prog.DeactivateProgram();
             }
             pieceProg.ActivateProgram();
-            foreach (Piece piece in Board.pieceList)
+            foreach (Piece piece in Board.PieceList)
             {
-                pieceProg.VAO.Update(piece.GetVertexArray(), piece.Indexes, pieceProg);
+                piece.VAO.Update(piece.GetVertexArray());
                 piece.Draw(mvpMatrix, pieceProg);
-                pieceProg.VAO.DisposeBuffs();
-
             }
             pieceProg.DeactivateProgram();
             objectProg.ActivateProgram();
@@ -212,6 +217,7 @@ namespace Chess_Paper_Scissors
             objectProg.DeactivateProgram();
             GL.Disable(EnableCap.DepthTest);
             cursorProg.ActivateProgram();
+            //cursorProg.VAO.Bind(cursorProg);
             cursorProg.Draw(Size.X, Size.Y, mvpMatrix);
             cursorProg.DeactivateProgram();
             SwapBuffers();

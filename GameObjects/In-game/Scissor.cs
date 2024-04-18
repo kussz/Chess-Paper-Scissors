@@ -10,12 +10,13 @@ namespace GameObjects
 {
     public class Scissor : Piece
     {
-        public Scissor(int x, int y, bool color) : base(x, y, color) { }
-        public Scissor(Point point, bool color) : base(point, color) { }
-        protected override void InitPoints()
-        {
+        public Scissor(int x, int y, bool color) : base(x, y, color) 
+        { 
+            Type = PieceType.Scissor;
             Model.ScissorModel.Init(this);
+            VAO = Model.ScissorModel.VAO;
         }
+        public Scissor(Point point, bool color) : this(point.X,point.Y, color) { }
         public override Point[] GetAvailableMoves()
         {
             List<Point> resultList = new List<Point>();
@@ -44,9 +45,9 @@ namespace GameObjects
         }
         public override int IsHigher(Piece piece)
         {
-            if (piece is Rock)
+            if (piece.Type == PieceType.Rock)
                 return -1;
-            if (piece is Scissor)
+            if (piece.Type == PieceType.Scissor)
                 return 0;
             return 1;
         }
