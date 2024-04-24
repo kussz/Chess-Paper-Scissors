@@ -5,9 +5,8 @@ using OpenTK.Mathematics;
 
 namespace GameObjects
 {
-    public abstract class Piece
+    public abstract class Piece : IDrawable
     {
-        public virtual VAO VAO {  get; set; }
         protected float _size = 0.06f;
         protected float _height = 0.09f;
         protected Piece() { }
@@ -22,6 +21,7 @@ namespace GameObjects
                 return new Vector4(1, 0.5f, 0.5f, 1);
             return new Vector4(0.5f,0.5f, 1, 1);
         }
+        public Crown? Crown { get; set; } = null;
         public virtual PieceType Type { get; protected set; }
         public virtual bool Color { get; private set; }
         public virtual Point CellPosition { get; set; }

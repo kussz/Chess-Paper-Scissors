@@ -20,15 +20,10 @@ namespace Graphics
         {
             Points = Model.Make(filePath);
             Indexes = Model.GetIndexes();
-            Texture = Model.TextureData;
-            TextureCoords = Model.TexCoords;
+            Texture = Model.GetTexture();
+            TextureCoords = Model.GetTextureCoords();
             TextureResolution = Model.TextureResolution;
             VAO = new(this);
-        }
-        public void Init(Piece piece)
-        {
-            piece.Points = Points;
-            piece.Indexes = Indexes;
         }
         public VAO VAO { get; private set; }
 

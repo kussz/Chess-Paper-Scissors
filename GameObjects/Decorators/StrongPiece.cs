@@ -9,25 +9,14 @@ using System.Threading.Tasks;
 
 namespace GameObjects.Decorators
 {
-    public abstract class PieceDecorator : Piece
+    public abstract class StrongPiece : Piece
     {
         protected Piece _piece;
-        public PieceDecorator(Piece piece)
+        public StrongPiece(Piece piece)
         {
             _piece = piece;
-            var extPts = Model.CrownModel.Points;
-            var extIndexes = Model.CrownModel.Indexes;
-            uint max = Indexes.Max();
-            for (int i = 0; i < extIndexes.Length; i++)
-            {
-                extIndexes[i] = extIndexes[i] + max;
-            }
-            Points = Points.Concat(extPts).ToArray();
-            Indexes = Indexes.Concat(extIndexes).ToArray();
-
-            VAO.Update(Points,Indexes);
+            Crown = new Crown(_piece);
         }
-        public override VAO VAO {  get { return _piece.VAO; } set { _piece.VAO = value; } }
         public override float[] Points { get { return _piece.Points; } set { _piece.Points = value;  } }
         public override bool Color { get { return _piece.Color; } }
         public override Point CellPosition { get { return _piece.CellPosition; } set { _piece.CellPosition = value; } }

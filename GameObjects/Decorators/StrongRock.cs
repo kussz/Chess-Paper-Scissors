@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameObjects.Decorators;
 
-public class RockDecorator(Rock piece) : PieceDecorator(piece)
+public class StrongRock(Rock piece) : StrongPiece(piece)
 {
     
     public override Point[] GetAvailableMoves()

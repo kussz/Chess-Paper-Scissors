@@ -5,8 +5,8 @@ precision mediump float;
 
 uniform mat4 mvpMatrix;
 uniform float pcColor;
-layout (location = 14) in vec4 aPosition;
-layout (location = 15) in vec2 aTexture;
+layout (location = 10) in vec4 aPosition;
+layout (location = 11) in vec2 aTexture;
 out float r;
 out float pcCol;
 out vec2 textureCoordinate;

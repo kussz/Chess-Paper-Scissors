@@ -38,7 +38,7 @@ namespace GameObjects
                     if (pieceMap[i,j]!=-1)
                         PieceList.Add(_factories[pieceMap[i, j] % _factories.Count].Create(i, j,Convert.ToBoolean(pieceMap[i,j]/_factories.Count)));
                     if (pieceMap[i, j] == 1)
-                        PieceList[PieceList.Count - 1] = new RockDecorator(PieceList[PieceList.Count - 1] as Rock);
+                        PieceList[PieceList.Count - 1] = new StrongRock(PieceList[PieceList.Count - 1] as Rock);
                 }
         }
         private static int[,] GetArrangementMap()

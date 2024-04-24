@@ -29,15 +29,22 @@ namespace Graphics
             GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
             GL.DrawElements(PrimitiveType.Triangles, length, DrawElementsType.UnsignedInt, 0);
         }
-        public static void Draw(this Piece piece, Matrix4 mvpMatrix, ShaderProgram shaderProg)
+        public static void Draw(this IDrawable drawable, Matrix4 mvpMatrix, ShaderProgram shaderProg)
         {
             int mvpMatrixLocation = shaderProg.UnifLocation("mvpMatrix");
-            int colorLocation = shaderProg.UnifLocation("pcColor");
-            GL.Uniform1(colorLocation,Convert.ToSingle(piece.Color));
+            if(drawable is Piece piece)
+            {
+                int colorLocation = shaderProg.UnifLocation("pcColor");
+                GL.Uniform1(colorLocation,Convert.ToSingle(piece.Color));
+                
+            }
+            VAO VAO = VAO.Get(drawable);
+            VAO.Update(drawable.GetVertexArray(drawable.Points));
             GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
-            
-            GL.BindVertexArray(piece.VAO.Index);
-            GL.DrawElements(PrimitiveType.Triangles, piece.Indexes.Length, DrawElementsType.UnsignedInt, 0);
+            GL.BindTexture(TextureTarget.Texture2D, VAO.TextureIndex);
+            GL.BindVertexArray(VAO.Index);
+            GL.DrawElements(PrimitiveType.Triangles, VAO.VertexLength, DrawElementsType.UnsignedInt, 0);
+            VAO.Update(drawable.Points);
         }
 
 

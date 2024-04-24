@@ -19,11 +19,12 @@ namespace Graphics
         public int Index { get; private set; }
         private int _vboVC;
         private int _eboVC;
-        private int _vboTex;
+        public int TextureIndex {  get; private set; }
         private int _vboTexCoords;
-        public VAO(float[] points, uint[] indexes, ShaderProgram shaderProg)
+        public int VertexLength {  get; private set; }
+        public VAO(float[] points, uint[] indexes)
         {
-            Index = Create(points, indexes, shaderProg);
+            Index = Create(points, indexes);
         }
         public VAO()
         {
@@ -33,18 +34,18 @@ namespace Graphics
         public VAO(float[] points, uint[] indexes, Vector3[] textureData, Vector2[] textureCoords, Point size)
         {
             Index = GL.GenVertexArray();
-            Update(points, indexes, textureData, textureCoords, size);
+            Create(points, indexes, textureData, textureCoords, size);
+            Init(points);
         }
-        public int Create(float[] points, uint[] indexes, ShaderProgram shaderProg)
+        public int Create(float[] points, uint[] indexes)
         {
             Index = GL.GenVertexArray();
-            Update(points,indexes,shaderProg);
-            return Index;
-        }
-        public void Bind(ShaderProgram shaderProg)
-        {
-            int VertexArray = shaderProg.AttribLocation("aPosition");
-            int ColorArray = shaderProg.AttribLocation("aColor");
+            VertexLength = points.Length;
+            GL.BindVertexArray(Index);
+            _vboVC = VBO.Create(points);
+            _eboVC = EBO.Create(indexes);
+            int VertexArray = 10;
+            int ColorArray = 11;
             GL.EnableVertexAttribArray(VertexArray);
             GL.EnableVertexAttribArray(ColorArray);
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vboVC);
@@ -55,77 +56,54 @@ namespace Graphics
             GL.DisableVertexAttribArray(VertexArray);
             GL.DisableVertexAttribArray(ColorArray);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            return Index;
         }
         public void Update(float[] points)
         {
+            VertexLength = points.Length;
             VBO.Update(points,_vboVC);
         }
-        public void Update(float[] points, uint[] indexes)
+
+        public void Init(float[] points)
         {
-            VBO.Update(points, _vboVC);
-            EBO.Update(indexes, _eboVC);
-        }
-        public void Update(float[] points, uint[] indexes,ShaderProgram shaderProg)
-        {
+            VertexLength = points.Length;
             GL.BindVertexArray(Index);
             _vboVC = VBO.Create(points);
-            _eboVC = EBO.Create(indexes);
-            int VertexArray = shaderProg.AttribLocation("aPosition");
-            int ColorArray = shaderProg.AttribLocation("aColor");
+            int VertexArray = 10;
             GL.EnableVertexAttribArray(VertexArray);
-            GL.EnableVertexAttribArray(ColorArray);
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vboVC);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _eboVC);
+            //GL.BindBuffer(BufferTarget.ElementArrayBuffer, _eboVC);
             GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
-            GL.VertexAttribPointer(ColorArray, 4, VertexAttribPointerType.Float, false, 7 * sizeof(float), 3 * sizeof(float));
             GL.BindVertexArray(0);
             GL.DisableVertexAttribArray(VertexArray);
-            GL.DisableVertexAttribArray(ColorArray);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
-        public void Update(float[] points, uint[] indexes, Vector3[] textureData, Vector2[] textureCoords, Point size)
+        public void Create(float[] points, uint[] indexes, Vector3[] textureData, Vector2[] textureCoords, Point size)
         {
+            VertexLength = points.Length;
             GL.BindVertexArray(Index);
             _vboVC = VBO.Create(points);
             _eboVC = EBO.Create(indexes);
-            int VertexArray = 14;
-            int TextureArray = 15;
-            GL.EnableVertexAttribArray(VertexArray);
-            GL.EnableVertexAttribArray(TextureArray);
-
-
-            _vboTex = TBO.CreateImage(textureData, size);
-
+            int VertexArray = 10;
+            int TextureArray = 11;
+            TextureIndex = TBO.CreateImage(textureData, size);
             _vboTexCoords = TBO.CreateCoords(textureCoords);
 
+            GL.EnableVertexAttribArray(VertexArray);
+            GL.EnableVertexAttribArray(TextureArray);
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vboVC);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, _eboVC);
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vboTexCoords);
-            GL.BindTexture(TextureTarget.Texture2D, _vboTex);
+            GL.BindBuffer(BufferTarget.TextureBuffer, TextureIndex);
             GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
             GL.VertexAttribPointer(TextureArray, 2, VertexAttribPointerType.Float, true, 0, 0);
-            GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
+            //GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
             GL.BindVertexArray(0);
             GL.DisableVertexAttribArray(VertexArray);
             GL.DisableVertexAttribArray(TextureArray);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
-        public void Update(float[] points, ShaderProgram shaderProg)
-        {
-            GL.BindVertexArray(Index);
-            _vboVC = VBO.Create(points);
-            int VertexArray = shaderProg.AttribLocation("aPosition");
-            int ColorArray = shaderProg.AttribLocation("aColor");
-            GL.EnableVertexAttribArray(VertexArray);
-            GL.EnableVertexAttribArray(ColorArray);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vboVC);
-            GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
-            GL.VertexAttribPointer(ColorArray, 4, VertexAttribPointerType.Float, false, 7 * sizeof(float), 3 * sizeof(float));
-            GL.BindVertexArray(0);
-            GL.DisableVertexAttribArray(VertexArray);
-            GL.DisableVertexAttribArray(ColorArray);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-        }
+
         public void DisposeBuffs()
         {
             GL.DeleteBuffer(_vboVC);
@@ -136,6 +114,25 @@ namespace Graphics
         {
             
             GL.BindVertexArray(0);
+        }
+        public static VAO Get(IDrawable drawable)
+        {
+            switch (drawable.GetType().Name)
+            {
+                case "StrongRock":
+                case "Rock":
+                    return Model.RockModel.VAO;
+                case "Paper":
+                    return Model.PaperModel.VAO;
+                case "Scissor":
+                    return Model.ScissorModel.VAO;
+                case "King":
+                    return Model.KingModel.VAO;
+                case "Crown":
+                    return Model.CrownModel.VAO;
+                default:
+                    return new VAO();
+            }
         }
         
     }

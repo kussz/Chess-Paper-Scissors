@@ -19,6 +19,7 @@ using OpenTK.Compute.OpenCL;
 using System.Windows;
 using System.IO;
 using System.Reflection.PortableExecutable;
+using GameObjects.Decorators;
 
 namespace Chess_Paper_Scissors
 {
@@ -30,7 +31,7 @@ namespace Chess_Paper_Scissors
         private Matrix4 mvpMatrix;
         private System.Drawing.Point[] avalPts;
         private List<ShaderProgram> shaderProgs;
-        private ShaderProgram objectProg;
+        private ShaderProgram tileProg;
         private ShaderProgram pieceProg;
         private ShaderProgram cursorProg;
         private Piece selectedPiece;
@@ -48,11 +49,12 @@ namespace Chess_Paper_Scissors
             VSync = VSyncMode.Off;
             CursorState = CursorState.Grabbed;
             _window = window;
+            Mouse.Init(Size);
             Board.Init();
         }
         private static NativeWindowSettings nativeWindowSettings = new NativeWindowSettings()
         {
-            Size = new Vector2i(1000, 1000),
+            Size = new Vector2i(1200, 1200),
             Location = new Vector2i(0, 0),
             WindowBorder = WindowBorder.Resizable,
             WindowState = OpenTK.Windowing.Common.WindowState.Normal,
@@ -75,8 +77,6 @@ namespace Chess_Paper_Scissors
             GL.Enable(EnableCap.CullFace);
             GL.Enable(EnableCap.Blend);
             GL.Enable(EnableCap.Texture2D);
-            
-
             GL.CullFace(CullFaceMode.Back);
             GL.BlendFunc(BlendingFactor.SrcAlpha,BlendingFactor.OneMinusSrcAlpha);
             avalPts = [];
@@ -85,19 +85,15 @@ namespace Chess_Paper_Scissors
                 new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_base1.frag"),
                 new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_board.frag")
             ];
-            objectProg = new ShaderProgram(@"data\Shader\Objects.vert", @"data\Shader\Objects.frag");
-            objectProg.VAO = new VAO(TileDrawer.Points, TileDrawer.Indexes, objectProg);
-            shaderProgs[0].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetBorderIndexes(), shaderProgs[0]);
-            shaderProgs[1].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetIndexes(), shaderProgs[1]);
+            tileProg = new ShaderProgram(@"data\Shader\Objects.vert", @"data\Shader\Objects.frag");
+            tileProg.VAO = new VAO(TileDrawer.Points, TileDrawer.Indexes);
+            shaderProgs[0].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetBorderIndexes());
+            shaderProgs[1].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetIndexes());
             pieceProg = new ShaderProgram("data\\Shader\\piece.vert", "data\\Shader\\piece.frag");
             pieceProg.VAO = new VAO();
             cursorProg = new ShaderProgram("data\\Shader\\Cursor.vert", "data\\Shader\\Cursor.frag");
-            cursorProg.VAO = new VAO(BoardDrawer.GetVertices(),BoardDrawer.GetCursorIndexes(), cursorProg);
+            cursorProg.VAO = new VAO(BoardDrawer.GetVertices(),BoardDrawer.GetCursorIndexes());
             Console.WriteLine("Loaded");
-            foreach(Piece piece in Board.PieceList)
-            {
-                piece.VAO.Update(piece.GetVertexArray(),piece.Indexes, pieceProg);
-            }
         }
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
@@ -201,20 +197,23 @@ namespace Chess_Paper_Scissors
             pieceProg.ActivateProgram();
             foreach (Piece piece in Board.PieceList)
             {
-                piece.VAO.Update(piece.GetVertexArray());
                 piece.Draw(mvpMatrix, pieceProg);
+                if(piece.Crown !=null)
+                {
+                    piece.Crown.VAO.Update(piece.GetCrownArray());
+                    piece.Crown.Draw(mvpMatrix, pieceProg);
+                }
             }
+
             pieceProg.DeactivateProgram();
-            objectProg.ActivateProgram();
+            tileProg.ActivateProgram();
             for(int i=0;i<avalPts.Length;i++)
             {
                 TileDrawer.SetPts(avalPts[i]);
-                objectProg.VAO.Update(TileDrawer.Points,TileDrawer.Indexes, objectProg);
-                objectProg.Draw(mvpMatrix, TileDrawer.Indexes.Length);
-                objectProg.VAO.DisposeBuffs();
-                
+                tileProg.VAO.Update(TileDrawer.Points);
+                tileProg.Draw(mvpMatrix, TileDrawer.Indexes.Length);
             }
-            objectProg.DeactivateProgram();
+            tileProg.DeactivateProgram();
             GL.Disable(EnableCap.DepthTest);
             cursorProg.ActivateProgram();
             //cursorProg.VAO.Bind(cursorProg);

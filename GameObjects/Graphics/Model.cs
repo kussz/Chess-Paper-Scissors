@@ -12,15 +12,13 @@ namespace Graphics
     public static class Model
     {
         private static uint[] _indexes;
-        private static int _textureID;
-        private static int _texCoordsBufferID;
         public static PieceModel KingModel { get; private set; }
         public static PieceModel RockModel { get; private set; }
         public static PieceModel PaperModel { get; private set; }
         public static PieceModel ScissorModel { get; private set; }
         public static PieceModel CrownModel { get; private set; }
-        public static OpenTK.Mathematics.Vector2[] TexCoords {  get; private set; }
-        public static OpenTK.Mathematics.Vector3[] TextureData {  get; private set; }
+        private static OpenTK.Mathematics.Vector2[] _texCoords;
+        private static OpenTK.Mathematics.Vector3[] _textureData;
         public static Point TextureResolution { get; private set; }
 
         public static float[] Make(string modelPath)
@@ -46,12 +44,12 @@ namespace Graphics
                 }
                 scene.Materials[mesh.MaterialIndex].GetMaterialTexture(TextureType.Diffuse, 0, out TextureSlot textureSlot);
                 Bitmap bitmap = (Bitmap)Image.FromFile(textureSlot.FilePath);
-                TextureData = new OpenTK.Mathematics.Vector3[bitmap.Width*bitmap.Height];
+                _textureData = new OpenTK.Mathematics.Vector3[bitmap.Width*bitmap.Height];
                 for (int y = 0, i=0; y < bitmap.Height; y++)
                     for (int x = 0; x < bitmap.Width; x++,i++)
                     {
                         Color p = bitmap.GetPixel(x, y);
-                        TextureData[i] = new OpenTK.Mathematics.Vector3(p.R / 255f, p.G / 255f, p.B / 255f);
+                        _textureData[i] = new OpenTK.Mathematics.Vector3(p.R / 255f, p.G / 255f, p.B / 255f);
                     }
                 TextureResolution = new(bitmap.Width, bitmap.Height);
 
@@ -62,7 +60,7 @@ namespace Graphics
 
 
 
-                TexCoords = mesh.TextureCoordinateChannels[0].ConvertAll(vector => new OpenTK.Mathematics.Vector2(vector.X, vector.Y)).ToArray();
+                _texCoords = mesh.TextureCoordinateChannels[0].ConvertAll(vector => new OpenTK.Mathematics.Vector2(vector.X, vector.Y)).ToArray();
                 
                 
                 _indexes = scene.Meshes[0].GetUnsignedIndices();
@@ -78,6 +76,14 @@ namespace Graphics
         public static uint[] GetIndexes()
         {
             return _indexes;
+        }
+        public static OpenTK.Mathematics.Vector3[] GetTexture()
+        {
+            return _textureData;
+        }
+        public static OpenTK.Mathematics.Vector2[] GetTextureCoords()
+        {
+            return _texCoords;
         }
         static Model()
         {

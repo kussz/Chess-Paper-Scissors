@@ -15,8 +15,8 @@ namespace GameObjects
         public Rock(int x, int y, bool color) : base(x, y, color)
         { 
             Type = PieceType.Rock;
-            Model.RockModel.Init(this);
-            VAO = Model.RockModel.VAO;
+            Points = Model.RockModel.Points;
+            Indexes = Model.RockModel.Indexes;
         }
         public Rock(Point point, bool color) : this(point.X,point.Y,color)
         { }

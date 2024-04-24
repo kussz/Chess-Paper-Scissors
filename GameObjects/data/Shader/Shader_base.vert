@@ -4,8 +4,8 @@ precision mediump float;
 #endif
 
 uniform mat4 mvpMatrix;
-in vec4 aPosition;
-in vec4 aColor;
+layout (location = 10) in vec4 aPosition;
+layout (location = 11) in vec4 aColor;
 uniform vec2 u_mouse;
 uniform vec2 u_resolution;
 uniform vec2 u_CellPos;

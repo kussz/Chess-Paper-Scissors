@@ -13,6 +13,10 @@ namespace GameObjects
     {
         private static bool _locked=true;
         static Point mouse;
+        public static void Init(Vector2i resolustion)
+        {
+            mouse.X=resolustion.X/2; mouse.Y=resolustion.Y/2;
+        }
         public static void SetPosition(MouseState o,int xSize, int ySize)
         {
             int x = (int)((o.X - o.PreviousX) * WS.Sensivity);
