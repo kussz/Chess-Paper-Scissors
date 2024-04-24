@@ -39,5 +39,18 @@ namespace GameObjects
                 }
             return resultList.ToArray();
         }
+        public bool CheckAscension()
+        {
+            if (Color && CellPosition.Y == 0)
+            {
+                return true;
+            }
+            else if (!Color && CellPosition.Y == 7)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
     }
 }

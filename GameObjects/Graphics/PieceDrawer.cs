@@ -30,7 +30,7 @@ namespace Graphics
             }
             return result;
         }
-        public static float[] GetVertexArray(this IDrawable piece, float[] points)
+        public static float[] GetVertexArray(this Piece piece, float[] points)
         {
             float[] result = new float[points.Length];
             Vector2 position = GetPosition(piece.CellPosition);

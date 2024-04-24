@@ -35,7 +35,6 @@ namespace Graphics
         {
             Index = GL.GenVertexArray();
             Create(points, indexes, textureData, textureCoords, size);
-            Init(points);
         }
         public int Create(float[] points, uint[] indexes)
         {
@@ -63,21 +62,6 @@ namespace Graphics
             VertexLength = points.Length;
             VBO.Update(points,_vboVC);
         }
-
-        public void Init(float[] points)
-        {
-            VertexLength = points.Length;
-            GL.BindVertexArray(Index);
-            _vboVC = VBO.Create(points);
-            int VertexArray = 10;
-            GL.EnableVertexAttribArray(VertexArray);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vboVC);
-            //GL.BindBuffer(BufferTarget.ElementArrayBuffer, _eboVC);
-            GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
-            GL.BindVertexArray(0);
-            GL.DisableVertexAttribArray(VertexArray);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-        }
         public void Create(float[] points, uint[] indexes, Vector3[] textureData, Vector2[] textureCoords, Point size)
         {
             VertexLength = points.Length;
@@ -93,9 +77,9 @@ namespace Graphics
             GL.EnableVertexAttribArray(TextureArray);
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vboVC);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, _eboVC);
+            GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vboTexCoords);
             GL.BindBuffer(BufferTarget.TextureBuffer, TextureIndex);
-            GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
             GL.VertexAttribPointer(TextureArray, 2, VertexAttribPointerType.Float, true, 0, 0);
             //GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
             GL.BindVertexArray(0);
@@ -103,6 +87,21 @@ namespace Graphics
             GL.DisableVertexAttribArray(TextureArray);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
+        public void Init(float[] points)
+        {
+            VertexLength = points.Length;
+            GL.BindVertexArray(Index);
+            _vboVC = VBO.Create(points);
+            int VertexArray = 10;
+            GL.EnableVertexAttribArray(VertexArray);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, _vboVC);
+            //GL.BindBuffer(BufferTarget.ElementArrayBuffer, _eboVC);
+            GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
+            GL.BindVertexArray(0);
+            GL.DisableVertexAttribArray(VertexArray);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+        }
+        
 
         public void DisposeBuffs()
         {

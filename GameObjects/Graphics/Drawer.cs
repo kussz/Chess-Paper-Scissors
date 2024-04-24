@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using GameObjects;
+using GameObjects.Decorators;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
@@ -29,22 +30,29 @@ namespace Graphics
             GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
             GL.DrawElements(PrimitiveType.Triangles, length, DrawElementsType.UnsignedInt, 0);
         }
-        public static void Draw(this IDrawable drawable, Matrix4 mvpMatrix, ShaderProgram shaderProg)
+        public static void Draw(this Piece drawable, Matrix4 mvpMatrix, ShaderProgram shaderProg)
         {
             int mvpMatrixLocation = shaderProg.UnifLocation("mvpMatrix");
-            if(drawable is Piece piece)
+            VAO VAO;
+            GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
+            if (drawable is Piece piece)
             {
                 int colorLocation = shaderProg.UnifLocation("pcColor");
                 GL.Uniform1(colorLocation,Convert.ToSingle(piece.Color));
-                
+                if(piece is StrongPiece stPiece && stPiece.Crown!=null)
+                {
+                    VAO = VAO.Get(stPiece.Crown);
+                    VAO.Update(stPiece.GetCrownArray());
+                    GL.BindTexture(TextureTarget.Texture2D, VAO.TextureIndex);
+                    GL.BindVertexArray(VAO.Index);
+                    GL.DrawElements(PrimitiveType.Triangles, VAO.VertexLength, DrawElementsType.UnsignedInt, 0);
+                }
             }
-            VAO VAO = VAO.Get(drawable);
+            VAO = VAO.Get(drawable);
             VAO.Update(drawable.GetVertexArray(drawable.Points));
-            GL.UniformMatrix4(mvpMatrixLocation, false, ref mvpMatrix);
             GL.BindTexture(TextureTarget.Texture2D, VAO.TextureIndex);
             GL.BindVertexArray(VAO.Index);
             GL.DrawElements(PrimitiveType.Triangles, VAO.VertexLength, DrawElementsType.UnsignedInt, 0);
-            VAO.Update(drawable.Points);
         }
 
 

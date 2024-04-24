@@ -20,6 +20,7 @@ using System.Windows;
 using System.IO;
 using System.Reflection.PortableExecutable;
 using GameObjects.Decorators;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Chess_Paper_Scissors
 {
@@ -34,7 +35,7 @@ namespace Chess_Paper_Scissors
         private ShaderProgram tileProg;
         private ShaderProgram pieceProg;
         private ShaderProgram cursorProg;
-        private Piece selectedPiece;
+        private Piece? selectedPiece;
         private MainWindow _window;
         private bool turn = true;
         #endregion
@@ -99,61 +100,100 @@ namespace Chess_Paper_Scissors
         {
             base.OnMouseDown(e);
             System.Drawing.Point point = Board.GetCellPosition(Mouse.GetNormalized(Size.X, Size.Y));
-            if(selectedPiece != null)
+            Piece? foundPiece = FindPiece(point);
+            if (foundPiece != null && foundPiece.Color==turn)
             {
-                
+                selectedPiece = foundPiece;
+                avalPts = GetAvailablePoints(selectedPiece);
+            }
+            else if(selectedPiece != null)
+            {
                 if (Array.Exists(avalPts,element => element.X ==point.X&&element.Y==point.Y))
                 {
                     turn = !turn;
-                    
-                    Piece found = Board.PieceList.Find(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y);
-                    if (found != null)
+                    if (foundPiece == null)
                     {
-                        if (selectedPiece.IsHigher(found) == 1)
+                        MovePiece(selectedPiece, point);
+                        if (selectedPiece is Rock rock && rock.CheckAscension())
                         {
-                            Board.PieceList.Remove(found);
-                            if (found is King)
-                            {
-                                MessageBox.Show("Победил " + (found.Color ? "синий" : "красный") + " игрок!");
-                                Close();
-                                _window.Show();
-                            }
-                            char pieceO = Board.State[selectedPiece.CellPosition.X, selectedPiece.CellPosition.Y];
-                            Board.State[selectedPiece.CellPosition.X, selectedPiece.CellPosition.Y] = ' ';
-                            selectedPiece.SetPosition(point);
-                            Board.State[found.CellPosition.X, found.CellPosition.Y] = pieceO;
-                        }
-                        else if (selectedPiece.IsHigher(found) == -1)
-                        {
-                            Board.State[selectedPiece.CellPosition.X, selectedPiece.CellPosition.Y] = ' ';
-                            Board.PieceList.Remove(selectedPiece);
-                            point = new System.Drawing.Point(-1, -1);
+                            Board.PieceList[Board.PieceList.FindIndex(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y)] = new StrongRock(rock);
                         }
                     }
                     else
                     {
-                        char pieceO = Board.State[selectedPiece.CellPosition.X, selectedPiece.CellPosition.Y];
-                        Board.State[selectedPiece.CellPosition.X, selectedPiece.CellPosition.Y] = ' ';
-                        selectedPiece.SetPosition(point);
-                        Board.State[selectedPiece.CellPosition.X, selectedPiece.CellPosition.Y] = pieceO;
+                        Impact(selectedPiece, foundPiece);
                     }
-                    if (turn)
-                        GL.ClearColor(0.15f, 0.05f, 0.05f, 1);
-                    else
-                        GL.ClearColor(0.05f, 0.05f, 0.15f, 1);
-                    
+                    avalPts = [];
+                    SetBackgroundColor(turn);
                 }
             }
-            selectedPiece = Board.PieceList.Find(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y);
-            if (selectedPiece != null && selectedPiece.Color == turn)
-            {
-                avalPts = selectedPiece.GetAvailableMoves();
-            }
-            else
-                avalPts = [];
+            
             
         }
-        
+        private System.Drawing.Point[] GetAvailablePoints(Piece? piece)
+        {
+            System.Drawing.Point[] points;
+            if (piece != null && piece.Color == turn)
+            {
+                points = piece.GetAvailableMoves();
+            }
+            else
+                points = [];
+            return points;
+        }
+        private Piece? FindPiece(System.Drawing.Point point)
+        {
+            return Board.PieceList.Find(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y);
+        }
+        private void Impact(Piece firstPiece, Piece secondPiece)
+        {
+            if (firstPiece.IsHigher(secondPiece) == 1)
+            {
+                if (secondPiece is King)
+                {
+                    MessageBoxResult result = MessageBox.Show("Победил " + (secondPiece.Color ? "синий" : "красный") + " игрок!\nЖелаете сыграть ещё?", "Игра окончена!", MessageBoxButton.YesNo);
+                    if(result == MessageBoxResult.Yes)
+                    {
+                        Restart();
+                    }
+                    else
+                    {
+                        Close();
+                        _window.Show();
+                    }
+                }
+                char pieceO = Board.State[firstPiece.CellPosition.X, firstPiece.CellPosition.Y];
+                Board.State[firstPiece.CellPosition.X, firstPiece.CellPosition.Y] = ' ';
+                firstPiece.SetPosition(secondPiece.CellPosition);
+                Board.State[secondPiece.CellPosition.X, secondPiece.CellPosition.Y] = pieceO;
+                Board.PieceList.Remove(secondPiece);
+            }
+            else if (firstPiece.IsHigher(secondPiece) == -1)
+            {
+                Board.State[firstPiece.CellPosition.X, firstPiece.CellPosition.Y] = ' ';
+                Board.PieceList.Remove(firstPiece);
+            }
+        }
+        private void Restart()
+        {
+            turn = true;
+            Mouse.Init(Size);
+            Board.Init();
+        }
+        private void MovePiece(Piece piece, System.Drawing.Point point)
+        {
+            char pieceO = Board.State[piece.CellPosition.X, piece.CellPosition.Y];
+            Board.State[piece.CellPosition.X, piece.CellPosition.Y] = ' ';
+            piece.SetPosition(point);
+            Board.State[piece.CellPosition.X, piece.CellPosition.Y] = pieceO;
+        }
+        private void SetBackgroundColor(bool turn)
+        {
+            if (turn)
+                GL.ClearColor(0.15f, 0.05f, 0.05f, 1);
+            else
+                GL.ClearColor(0.05f, 0.05f, 0.15f, 1);
+        }
         protected override void OnResize(ResizeEventArgs e)
         {
             int aspect = Math.Min(this.Size.X, this.Size.Y);
@@ -198,11 +238,6 @@ namespace Chess_Paper_Scissors
             foreach (Piece piece in Board.PieceList)
             {
                 piece.Draw(mvpMatrix, pieceProg);
-                if(piece.Crown !=null)
-                {
-                    piece.Crown.VAO.Update(piece.GetCrownArray());
-                    piece.Crown.Draw(mvpMatrix, pieceProg);
-                }
             }
 
             pieceProg.DeactivateProgram();

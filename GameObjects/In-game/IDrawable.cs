@@ -10,7 +10,6 @@ namespace GameObjects
 {
     public interface IDrawable
     {
-        public Point CellPosition { get; set; }
         public float[] Points { get; set; }
     }
 }
