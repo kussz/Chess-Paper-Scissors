@@ -1,9 +1,11 @@
 ﻿#version 330
+#extension GL_ARB_explicit_uniform_location : require
+#extension GL_ARB_explicit_attrib_location : require
 #ifdef GL_ES
 precision mediump float;
 #endif
 
-uniform mat4 mvpMatrix;
+layout (location = 0) uniform mat4 mvpMatrix;
 uniform float pcColor;
 layout (location = 10) in vec4 aPosition;
 layout (location = 11) in vec2 aTexture;
@@ -17,5 +19,5 @@ void main()
 	pcCol = pcColor;
 	textureCoordinate = aTexture;
 	gl_Position=mvpMatrix*aPosition;
-	r = 2.75-gl_Position.z;
+	r = 1-((mvpMatrix*aPosition).z/4);
 }

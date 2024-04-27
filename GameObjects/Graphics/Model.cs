@@ -23,9 +23,9 @@ namespace Graphics
             {
 
                 Mesh mesh = scene.Meshes[0];
-                float [] points = new float[mesh.Vertices.Count * 7];
+                float [] points = new float[mesh.Vertices.Count * 3];
                 int j = 0;
-                for (int i = 0; i < points.Length; i += 7)
+                for (int i = 0; i < points.Length; i += 3)
                 {
                     points[i] = mesh.Vertices[j].X/15;
                     points[i + 1] = mesh.Vertices[j].Z/15;

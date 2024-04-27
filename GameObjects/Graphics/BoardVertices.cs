@@ -1,8 +1,12 @@
 ﻿
+using Graphics;
+using System.Drawing;
+using OpenTK.Mathematics;
 namespace GameObjects
 {
-    public class BoardVertices
+    public static class BoardVertices
     {
+        
         private static float[] _points = new float[]
         {
             -0.9f,0.9f,0.07f,   0.9f,0.8f,0.8f,1,

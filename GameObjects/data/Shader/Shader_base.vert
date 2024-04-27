@@ -1,16 +1,16 @@
 ﻿#version 330
+#extension GL_ARB_explicit_uniform_location : require
+#extension GL_ARB_explicit_attrib_location : require
 #ifdef GL_ES
 precision mediump float;
 #endif
 
-uniform mat4 mvpMatrix;
+layout (location = 0) uniform mat4 mvpMatrix;
 layout (location = 10) in vec4 aPosition;
 layout (location = 11) in vec4 aColor;
-uniform vec2 u_mouse;
-uniform vec2 u_resolution;
-uniform vec2 u_CellPos;
+layout (location = 1) uniform vec2 u_mouse;
+layout (location = 2) uniform vec2 u_CellPos;
 out vec2 mouse;
-out vec2 resolution;
 out vec4 position;
 out vec4 color;
 out float r;
@@ -20,7 +20,6 @@ void main()
 {
     cellPos=u_CellPos;
     color = aColor;
-    resolution = u_resolution;
     position=aPosition;
     mouse=u_mouse;
     float stx = mouse.y/6;

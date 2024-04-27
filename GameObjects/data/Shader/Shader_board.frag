@@ -6,7 +6,6 @@ precision mediump float;
 
 uniform float u_time;
 in vec2 mouse;
-in vec2 resolution;
 in vec4 position;
 in vec4 color;
 out vec4 outColor;

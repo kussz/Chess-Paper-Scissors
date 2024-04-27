@@ -67,7 +67,7 @@ namespace Graphics
             GL.EnableVertexAttribArray(TextureArray);
             GL.BindBuffer(BufferTarget.ArrayBuffer, _VBO.Index);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, _EBO.Index);
-            GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
+            GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             GL.BindBuffer(BufferTarget.ArrayBuffer, _TBO.CoordsIndex);
             GL.BindBuffer(BufferTarget.TextureBuffer, _TBO.TextureIndex);
             GL.VertexAttribPointer(TextureArray, 2, VertexAttribPointerType.Float, true, 0, 0);
@@ -77,34 +77,13 @@ namespace Graphics
             GL.DisableVertexAttribArray(TextureArray);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
-        public void Init(float[] points)
-        {
-            VertexLength = points.Length;
-            GL.BindVertexArray(Index);
-            _VBO = new VBO(points);
-            int VertexArray = 10;
-            GL.EnableVertexAttribArray(VertexArray);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _VBO.Index);
-            //GL.BindBuffer(BufferTarget.ElementArrayBuffer, _eboVC);
-            GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
-            GL.BindVertexArray(0);
-            GL.DisableVertexAttribArray(VertexArray);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-        }
-        
-
-        public void DisposeBuffs()
-        {
-            GL.DeleteBuffer(_VBO.Index);
-            GL.DeleteBuffer(_EBO.Index);
-            GL.DeleteBuffer(Index);
-        }
+       
         public static void Delete()
         {
             
             GL.BindVertexArray(0);
         }
-        public static VAO Get(IDrawable drawable)
+        public static VAO? Get(IDrawable drawable)
         {
             switch (drawable.GetType().Name)
             {
@@ -120,7 +99,7 @@ namespace Graphics
                 case "Crown":
                     return Model.Crown.VAO;
                 default:
-                    return new VAO();
+                    return null;
             }
         }
         

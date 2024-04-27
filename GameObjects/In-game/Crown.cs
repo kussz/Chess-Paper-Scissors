@@ -16,7 +16,7 @@ namespace GameObjects
         { 
             VAO = new VAO(Model.Crown);
             Points = piece.GetVertexArray(Model.Crown.Points);
-            VAO.Init(Points);
+            VAO.Update(Points);
         }
         
 

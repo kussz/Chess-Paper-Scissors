@@ -91,7 +91,6 @@ namespace Chess_Paper_Scissors
             shaderProgs[0].VAO = new VAO(BoardVertices.GetVertices(), BoardVertices.GetBorderIndexes());
             shaderProgs[1].VAO = new VAO(BoardVertices.GetVertices(), BoardVertices.GetIndexes());
             pieceProg = new ShaderProgram("data\\Shader\\piece.vert", "data\\Shader\\piece.frag");
-            pieceProg.VAO = new VAO();
             cursorProg = new ShaderProgram("data\\Shader\\Cursor.vert", "data\\Shader\\Cursor.frag");
             cursorProg.VAO = new VAO(BoardVertices.GetVertices(),BoardVertices.GetCursorIndexes());
             Console.WriteLine("Loaded");
