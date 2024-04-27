@@ -88,12 +88,12 @@ namespace Chess_Paper_Scissors
             ];
             tileProg = new ShaderProgram(@"data\Shader\Objects.vert", @"data\Shader\Objects.frag");
             tileProg.VAO = new VAO(TileDrawer.Points, TileDrawer.Indexes);
-            shaderProgs[0].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetBorderIndexes());
-            shaderProgs[1].VAO = new VAO(BoardDrawer.GetVertices(), BoardDrawer.GetIndexes());
+            shaderProgs[0].VAO = new VAO(BoardVertices.GetVertices(), BoardVertices.GetBorderIndexes());
+            shaderProgs[1].VAO = new VAO(BoardVertices.GetVertices(), BoardVertices.GetIndexes());
             pieceProg = new ShaderProgram("data\\Shader\\piece.vert", "data\\Shader\\piece.frag");
             pieceProg.VAO = new VAO();
             cursorProg = new ShaderProgram("data\\Shader\\Cursor.vert", "data\\Shader\\Cursor.frag");
-            cursorProg.VAO = new VAO(BoardDrawer.GetVertices(),BoardDrawer.GetCursorIndexes());
+            cursorProg.VAO = new VAO(BoardVertices.GetVertices(),BoardVertices.GetCursorIndexes());
             Console.WriteLine("Loaded");
         }
         protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -114,14 +114,14 @@ namespace Chess_Paper_Scissors
                     if (foundPiece == null)
                     {
                         MovePiece(selectedPiece, point);
-                        if (selectedPiece is Rock rock && rock.CheckAscension())
-                        {
-                            Board.PieceList[Board.PieceList.FindIndex(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y)] = new StrongRock(rock);
-                        }
                     }
                     else
                     {
                         Impact(selectedPiece, foundPiece);
+                    }
+                    if (selectedPiece is Rock rock && rock.CheckAscension())
+                    {
+                        Board.PieceList[Board.PieceList.FindIndex(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y)] = new StrongRock(rock);
                     }
                     avalPts = [];
                     SetBackgroundColor(turn);
@@ -151,16 +151,7 @@ namespace Chess_Paper_Scissors
             {
                 if (secondPiece is King)
                 {
-                    MessageBoxResult result = MessageBox.Show("Победил " + (secondPiece.Color ? "синий" : "красный") + " игрок!\nЖелаете сыграть ещё?", "Игра окончена!", MessageBoxButton.YesNo);
-                    if(result == MessageBoxResult.Yes)
-                    {
-                        Restart();
-                    }
-                    else
-                    {
-                        Close();
-                        _window.Show();
-                    }
+                    End($"Победил {(secondPiece.Color ? "синий" : "красный")} игрок!");
                 }
                 char pieceO = Board.State[firstPiece.CellPosition.X, firstPiece.CellPosition.Y];
                 Board.State[firstPiece.CellPosition.X, firstPiece.CellPosition.Y] = ' ';
@@ -179,6 +170,19 @@ namespace Chess_Paper_Scissors
             turn = true;
             Mouse.Init(Size);
             Board.Init();
+        }
+        private void End(string winnerString)
+        {
+            MessageBoxResult result = MessageBox.Show(winnerString+"\nЖелаете сыграть ещё?", "Игра окончена!", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                Restart();
+            }
+            else
+            {
+                Close();
+                _window.Show();
+            }
         }
         private void MovePiece(Piece piece, System.Drawing.Point point)
         {
@@ -219,9 +223,11 @@ namespace Chess_Paper_Scissors
             var key = KeyboardState;
             if (key.IsKeyDown(Keys.Escape))
             {
-                Console.WriteLine("Closed (Esc)");
-                Close();
-                _window.Close();
+                MessageBoxResult result = MessageBox.Show("Игра будет завершена ничьей.", "Окончить игру?", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    End("Ничья!");
+                }
             }
         }
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -231,13 +237,13 @@ namespace Chess_Paper_Scissors
             foreach (var prog in shaderProgs)
             {
                 prog.ActivateProgram();
-                prog.Draw(Size.X,Size.Y,mvpMatrix);
+                prog.BoardDraw(Size.X,Size.Y,mvpMatrix);
                 prog.DeactivateProgram();
             }
             pieceProg.ActivateProgram();
             foreach (Piece piece in Board.PieceList)
             {
-                piece.Draw(mvpMatrix, pieceProg);
+                piece.PieceDraw(mvpMatrix, pieceProg);
             }
 
             pieceProg.DeactivateProgram();
@@ -246,13 +252,13 @@ namespace Chess_Paper_Scissors
             {
                 TileDrawer.SetPts(avalPts[i]);
                 tileProg.VAO.Update(TileDrawer.Points);
-                tileProg.Draw(mvpMatrix, TileDrawer.Indexes.Length);
+                tileProg.TileDraw(mvpMatrix, TileDrawer.Indexes.Length);
             }
             tileProg.DeactivateProgram();
             GL.Disable(EnableCap.DepthTest);
             cursorProg.ActivateProgram();
             //cursorProg.VAO.Bind(cursorProg);
-            cursorProg.Draw(Size.X, Size.Y, mvpMatrix);
+            cursorProg.BoardDraw(Size.X, Size.Y, mvpMatrix);
             cursorProg.DeactivateProgram();
             SwapBuffers();
             base.OnRenderFrame(e);

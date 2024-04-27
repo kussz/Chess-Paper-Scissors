@@ -13,8 +13,8 @@ namespace GameObjects
         public Paper(int x, int y, bool color) : base(x, y, color)
         { 
             Type = PieceType.Paper;
-            Points = Model.PaperModel.Points;
-            Indexes = Model.PaperModel.Indexes;
+            Points = Model.Paper.Points;
+            Indexes = Model.Paper.Indexes;
         }
         public Paper(Point point, bool color) : this(point.X, point.Y, color) { }
         public override Point[] GetAvailableMoves()

@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
 namespace GameObjects.Graphics
 {
-    internal static class TBO
+    internal class TBO
     {
+        internal int TextureIndex {  get; set; }
+        internal int CoordsIndex {  get; set; }
+        internal TBO(Vector3[] image, Point size, Vector2[] coords)
+        {
+            TextureIndex = CreateImage(image,size);
+            CoordsIndex = CreateCoords(coords);
+        }
         internal static int CreateImage(Vector3[] data, Point size)
         {
             int vboTex = GL.GenTexture();

@@ -1,14 +1,6 @@
-﻿using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
-using OpenTK.Windowing.GraphicsLibraryFramework;
+﻿using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using System.Drawing;
-using OpenTK.Windowing.Common.Input;
-using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using GameObjects;
 using GameObjects.Graphics;
 
@@ -17,10 +9,10 @@ namespace Graphics
     public class VAO
     {
         public int Index { get; private set; }
-        private int _vboVC;
-        private int _eboVC;
-        public int TextureIndex {  get; private set; }
-        private int _vboTexCoords;
+        public int TextureIndex { get { return _TBO.TextureIndex; } private set { _TBO.TextureIndex = value; } }
+        private VBO _VBO;
+        private EBO _EBO;
+        private TBO _TBO;
         public int VertexLength {  get; private set; }
         public VAO(float[] points, uint[] indexes)
         {
@@ -41,14 +33,14 @@ namespace Graphics
             Index = GL.GenVertexArray();
             VertexLength = points.Length;
             GL.BindVertexArray(Index);
-            _vboVC = VBO.Create(points);
-            _eboVC = EBO.Create(indexes);
+            _VBO = new VBO(points);
+            _EBO =  new EBO(indexes);
             int VertexArray = 10;
             int ColorArray = 11;
             GL.EnableVertexAttribArray(VertexArray);
             GL.EnableVertexAttribArray(ColorArray);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vboVC);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _eboVC);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, _VBO.Index);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _EBO.Index);
             GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
             GL.VertexAttribPointer(ColorArray, 4, VertexAttribPointerType.Float, false, 7 * sizeof(float), 3 * sizeof(float));
             GL.BindVertexArray(0);
@@ -60,26 +52,24 @@ namespace Graphics
         public void Update(float[] points)
         {
             VertexLength = points.Length;
-            VBO.Update(points,_vboVC);
+            _VBO.Update(points);
         }
         public void Create(float[] points, uint[] indexes, Vector3[] textureData, Vector2[] textureCoords, Point size)
         {
             VertexLength = points.Length;
             GL.BindVertexArray(Index);
-            _vboVC = VBO.Create(points);
-            _eboVC = EBO.Create(indexes);
+            _VBO = new VBO(points);
+            _EBO = new EBO(indexes);
             int VertexArray = 10;
             int TextureArray = 11;
-            TextureIndex = TBO.CreateImage(textureData, size);
-            _vboTexCoords = TBO.CreateCoords(textureCoords);
-
+            _TBO = new TBO(textureData, size, textureCoords);
             GL.EnableVertexAttribArray(VertexArray);
             GL.EnableVertexAttribArray(TextureArray);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vboVC);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _eboVC);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, _VBO.Index);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _EBO.Index);
             GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vboTexCoords);
-            GL.BindBuffer(BufferTarget.TextureBuffer, TextureIndex);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, _TBO.CoordsIndex);
+            GL.BindBuffer(BufferTarget.TextureBuffer, _TBO.TextureIndex);
             GL.VertexAttribPointer(TextureArray, 2, VertexAttribPointerType.Float, true, 0, 0);
             //GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
             GL.BindVertexArray(0);
@@ -91,10 +81,10 @@ namespace Graphics
         {
             VertexLength = points.Length;
             GL.BindVertexArray(Index);
-            _vboVC = VBO.Create(points);
+            _VBO = new VBO(points);
             int VertexArray = 10;
             GL.EnableVertexAttribArray(VertexArray);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vboVC);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, _VBO.Index);
             //GL.BindBuffer(BufferTarget.ElementArrayBuffer, _eboVC);
             GL.VertexAttribPointer(VertexArray, 3, VertexAttribPointerType.Float, false, 7 * sizeof(float), 0);
             GL.BindVertexArray(0);
@@ -105,8 +95,8 @@ namespace Graphics
 
         public void DisposeBuffs()
         {
-            GL.DeleteBuffer(_vboVC);
-            GL.DeleteBuffer(_eboVC);
+            GL.DeleteBuffer(_VBO.Index);
+            GL.DeleteBuffer(_EBO.Index);
             GL.DeleteBuffer(Index);
         }
         public static void Delete()
@@ -120,15 +110,15 @@ namespace Graphics
             {
                 case "StrongRock":
                 case "Rock":
-                    return Model.RockModel.VAO;
+                    return Model.Rock.VAO;
                 case "Paper":
-                    return Model.PaperModel.VAO;
+                    return Model.Paper.VAO;
                 case "Scissor":
-                    return Model.ScissorModel.VAO;
+                    return Model.Scissor.VAO;
                 case "King":
-                    return Model.KingModel.VAO;
+                    return Model.King.VAO;
                 case "Crown":
-                    return Model.CrownModel.VAO;
+                    return Model.Crown.VAO;
                 default:
                     return new VAO();
             }

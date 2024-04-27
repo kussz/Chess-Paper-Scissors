@@ -4,6 +4,11 @@ namespace Graphics
 {
     internal class EBO
     {
+        internal int Index {  get; set; }
+        internal EBO(uint[] data)
+        {
+            Index = Create(data);
+        }
         internal static int Create(uint[] data)
         {
             int ebo = GL.GenBuffer();
@@ -12,9 +17,9 @@ namespace Graphics
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
             return ebo;
         }
-        internal static void Update(uint[] data, int ebo)
+        internal void Update(uint[] data)
         {
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, Index);
             GL.BufferData(BufferTarget.ElementArrayBuffer, data.Length * sizeof(uint), data, BufferUsageHint.StaticDraw);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
         }

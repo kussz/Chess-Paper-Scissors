@@ -1,5 +1,4 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using System.Reflection;
 using OpenTK.Mathematics;
 
 namespace Graphics

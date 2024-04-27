@@ -41,12 +41,17 @@
         </Style>
         <Style TargetType="TextBlock" x:Key="Header1">
             <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="FontSize" Value="25"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Black"/>
         </Style>
     </Page.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="47*"/>
+            <RowDefinition Height="103*"/>
+        </Grid.RowDefinitions>
         <Grid.Background>
             <VisualBrush>
                 <VisualBrush.Visual>
@@ -56,39 +61,43 @@
                 </VisualBrush.Visual>
             </VisualBrush>
         </Grid.Background>
-        <TextBlock Foreground="White" HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap" Text="Фигуры" FontSize="40" VerticalAlignment="Top"/>
-        <Grid Margin="20,88,20,83">
+
+        <Grid Margin="20,0,10,53" Grid.RowSpan="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="146*"></RowDefinition>
-                <RowDefinition Height="40*"></RowDefinition>
-                <RowDefinition Height="93*"></RowDefinition>
+                <RowDefinition Height="157*"></RowDefinition>
+                <RowDefinition Height="82*"></RowDefinition>
+                <RowDefinition Height="158*"></RowDefinition>
 
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <GridSplitter Background="White" ResizeDirection="Columns" Grid.Column="1" Grid.Row="2" Height="Auto" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"/>
-            <GridSplitter Background="White" ResizeDirection="Columns" Grid.Column="3" Grid.Row="2" Height="Auto" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"/>
-            <GridSplitter Background="White" ResizeDirection="Columns" Grid.Column="5" Grid.Row="2" Height="Auto" Width="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"/>
+            <Border Grid.Row="2" Grid.Column="0" BorderBrush="White" BorderThickness="2,0,0,0"></Border>
+            <Border Grid.Row="2" Grid.Column="1" BorderBrush="White" BorderThickness="2,0,0,0"></Border>
+            <Border Grid.Row="2" Grid.Column="2" BorderBrush="White" BorderThickness="2,0,0,0"></Border>
+            <Border Grid.Row="2" Grid.Column="3" BorderBrush="White" BorderThickness="2,0,0,0"></Border>
+            <Border Grid.Row="2" Grid.Column="4" BorderBrush="White" BorderThickness="2,0,2,0"></Border>
             <Image Grid.Row="0" Grid.Column="0" Source="/InfoPages/Rock.png"></Image>
-            <Image Grid.Row="0" Grid.Column="2" Source="/InfoPages/Scissors.png"></Image>
-            <Image Grid.Row="0" Grid.Column="4" Source="/InfoPages/Paper.png"></Image>
-            <Image Grid.Row="0" Grid.Column="6" Source="/InfoPages/King.png"></Image>
+            <Image Grid.Row="0" Grid.Column="1" Source="/InfoPages/Scissors.png"></Image>
+            <Image Grid.Row="0" Grid.Column="2" Source="/InfoPages/Paper.png"></Image>
+            <Image Grid.Row="0" Grid.Column="3" Source="/InfoPages/King.png"></Image>
+            <Image Grid.Row="0" Grid.Column="4" Source="/InfoPages/StrongRock.png"></Image>
             <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource Header1}">Камень</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource Header1}">Ножницы</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="4" Style="{StaticResource Header1}">Бумага</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="6" Style="{StaticResource Header1}">Король</TextBlock>
-            <TextBlock Grid.Row="2" Grid.Column="0">Ходит вокруг себя. Бьет ножницы и короля. Не может побить камень противника. Уничтожается при попытке побить бумагу.</TextBlock>
-            <TextBlock Grid.Row="2" Grid.Column="2">Ходит по диагонали. Бьет бумагу и короля. Не может побить ножницы противника. Уничтожается при попытке побить камень.</TextBlock>
-            <TextBlock Grid.Row="2" Grid.Column="4">Ходит по прямой во все 4 стороны. Бьет камень и короля. Не может побить бумагу противника. Уничтожается при попытке побить ножницы.</TextBlock>
-            <TextBlock Grid.Row="2" Grid.Column="6">Ходит вокруг себя. Бьет любую фигуру, кроме короля противника. Если король побит, игра завершается поражением.</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource Header1}" >Ножницы</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource Header1}">Бумага</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="3" Style="{StaticResource Header1}" >Король</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="4" Style="{StaticResource Header1}">Сильный камень</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,0,5,0">Ходит на три клетки перед собой. Бьет ножницы и короля. Не может побить камень противника. Уничтожается при попытке побить бумагу. Улучшается при достижении последнего ряда.</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="1" Margin="5,0,5,0">Ходит по диагонали. Бьет бумагу и короля. Не может побить ножницы противника. Уничтожается при попытке побить камень.</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="2" Margin="5,0,5,0">Ходит по прямой во все 4 стороны. Бьет камень и короля. Не может побить бумагу противника. Уничтожается при попытке побить ножницы.</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="3" Margin="2,0,5,0">Ходит вокруг себя. Бьет любую фигуру, кроме короля противника. Если король побит, игра завершается поражением.</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="4" Margin="5,0,5,0">Является улучшением камня. Ходит на 2 клетки во все стороны, перепрыгивая фигуры, а также на 1 клетку по диагонали. В остальном аналогичен камню.</TextBlock>
         </Grid>
-        <Button Content="Вернуться" Click="Button_Click" Margin="306,351,306,22"/>
+       
+        <Button Content="Вернуться" Margin="306,220,306,22" Click="Button_Click" Grid.Row="1"/>
     </Grid>
 </Page>

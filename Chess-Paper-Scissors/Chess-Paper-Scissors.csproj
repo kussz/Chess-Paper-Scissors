@@ -16,6 +16,7 @@
     <None Remove="InfoPages\Paper.png" />
     <None Remove="InfoPages\Rock.png" />
     <None Remove="InfoPages\Scissors.png" />
+    <None Remove="InfoPages\StrongRock.png" />
     <None Remove="logo.ico" />
   </ItemGroup>
 
@@ -35,6 +36,7 @@
     <Resource Include="InfoPages\Paper.png" />
     <Resource Include="InfoPages\Rock.png" />
     <Resource Include="InfoPages\Scissors.png" />
+    <Resource Include="InfoPages\StrongRock.png" />
     <Resource Include="logo.ico" />
   </ItemGroup>
 

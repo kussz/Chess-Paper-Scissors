@@ -14,8 +14,8 @@ namespace GameObjects
         public VAO VAO { get; set; }
         public Crown(Piece piece) 
         { 
-            VAO = new VAO(Model.CrownModel);
-            Points = piece.GetVertexArray(Model.CrownModel.Points);
+            VAO = new VAO(Model.Crown);
+            Points = piece.GetVertexArray(Model.Crown.Points);
             VAO.Init(Points);
         }
         

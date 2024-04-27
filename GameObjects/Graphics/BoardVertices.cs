@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace GameObjects
 {
-    public class BoardDrawer
+    public class BoardVertices
     {
         private static float[] _points = new float[]
         {

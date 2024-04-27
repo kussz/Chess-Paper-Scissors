@@ -1,11 +1,5 @@
-﻿using GameObjects;
-using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
+﻿using OpenTK.Mathematics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Graphics
 {

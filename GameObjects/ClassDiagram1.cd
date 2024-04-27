@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="GameObjects.Board" Collapsed="true">
+    <Position X="15.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAABAAAAAAAQAACAAAAAAAAAAAAAAAgACBAAAAgA=</HashCode>
+      <FileName>In-game\Board.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Crown" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>In-game\Crown.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GameObjects.King" Collapsed="true">
+    <Position X="3.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAAAA=</HashCode>
+      <FileName>In-game\King.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Paper" Collapsed="true">
+    <Position X="6" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAAAA=</HashCode>
+      <FileName>In-game\Paper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Piece" Collapsed="true">
+    <Position X="7" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAACAgAAAAEAAQAEAEAAACgSAAYAAgAIAAAA=</HashCode>
+      <FileName>In-game\Piece.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GameObjects.Rock" Collapsed="true">
+    <Position X="8.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAAAA=</HashCode>
+      <FileName>In-game\Rock.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Scissor" Collapsed="true">
+    <Position X="10.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAAAA=</HashCode>
+      <FileName>In-game\Scissor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.BoardVertices" Collapsed="true">
+    <Position X="1.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAECAAAAIAACgAAIAgAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Graphics\BoardVertices.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics.Drawer" Collapsed="true">
+    <Position X="3.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAQAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graphics\Drawer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics.EBO" Collapsed="true">
+    <Position X="5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAEAAAAAAAA=</HashCode>
+      <FileName>Graphics\EBO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics.Model" Collapsed="true">
+    <Position X="6.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAGAhAAAgAUAAAAQAAAAAAAAAAAgAAAIIAAA=</HashCode>
+      <FileName>Graphics\Model.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics.PieceModel" Collapsed="true">
+    <Position X="1.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAACAAgAEAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Graphics\PieceModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics.PieceVertices" Collapsed="true">
+    <Position X="3.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Graphics\PieceVertices.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics.ShaderProgram" Collapsed="true">
+    <Position X="5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIABAgAAgAAAAEAAAYBAAAAKAAAEAAAIAAAIAhAQAAA=</HashCode>
+      <FileName>Graphics\ShaderProgram.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics.TileDrawer" Collapsed="true">
+    <Position X="1.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABACgAAAACIgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graphics\TileDrawer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics.VAO" Collapsed="true">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAACADBAAABAAAAAAAEAAEAAAAEiAAAAAAA=</HashCode>
+      <FileName>Graphics\VAO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics.VBO" Collapsed="true">
+    <Position X="5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAEAAAAAAAA=</HashCode>
+      <FileName>Graphics\VBO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics.View" Collapsed="true">
+    <Position X="6.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABBAAAQAAAACAAAIAcAABAAABAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Graphics\View.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Graphics.TBO" Collapsed="true">
+    <Position X="6.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAAAAAAACAAAAAAAAAAAAAAAEAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Graphics\TBO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Factory.KingFactory" Collapsed="true">
+    <Position X="9.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factory\KingFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Factory.PaperFactory" Collapsed="true">
+    <Position X="14.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factory\PaperFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Factory.PieceFactory" Collapsed="true">
+    <Position X="13" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factory\PieceFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Factory.RockFactory" Collapsed="true">
+    <Position X="12" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factory\RockFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Factory.ScissorFactory" Collapsed="true">
+    <Position X="16.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factory\ScissorFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Decorators.StrongPieceDecorator" Collapsed="true">
+    <Position X="2" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAgAAAAAAgAAAAAAAQAAAEAAACAAAAYAAgAAAAAA=</HashCode>
+      <FileName>Decorators\StrongPieceDecorator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_piece" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GameObjects.Decorators.StrongRock" Collapsed="true">
+    <Position X="2" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Decorators\StrongRock.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="GameObjects.IDrawable" Collapsed="true">
+    <Position X="15.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>In-game\IDrawable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="GameObjects.PieceType" Collapsed="true">
+    <Position X="15.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAhAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>In-game\PieceType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

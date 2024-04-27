@@ -48,8 +48,7 @@
         
         <Image HorizontalAlignment="Center" Height="219" Margin="0,10,0,0" VerticalAlignment="Top" Width="380" Source="/cpstransparent.png"/>
         <Button x:Name="startButton" Margin="294,229,294,155" Content="Начать игру" Click="StartButton_Click"/>
-        <Button x:Name="infoButton" Margin="294,299,294,85" Content="Об игре" Click="InfoButton_Click"/>
-        <Button x:Name="settingsButton" Margin="294,264,294,120" Content="Настройки"/>
+        <Button x:Name="settingsButton" Margin="294,264,294,120" Click="InfoButton_Click" Content="Об игре"/>
         <Button x:Name="exitButton" Margin="294,374,294,10" Content="Выход" Click="ExitButton_Click"/>
         <Frame x:Name="PageFrame" NavigationUIVisibility="Hidden"></Frame>
     </Grid>

@@ -1,18 +1,11 @@
-﻿
-using Graphics;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace GameObjects.Decorators
 {
-    public abstract class StrongPiece : Piece
+    public abstract class StrongPieceDecorator : Piece
     {
         protected Piece _piece;
-        public StrongPiece(Piece piece)
+        public StrongPieceDecorator(Piece piece)
         {
             _piece = piece;
             Crown = new Crown(_piece);
