@@ -6,24 +6,24 @@ namespace Graphics
 {
     public static class PieceVertices
     {
-        public static float[] GetVertexArray(this Piece piece, float[] points)
+        public static float[] GetVertexArray(this Piece piece, Point cellPosition)
         {
-            float[] result = new float[points.Length];
-            Vector2 position = GetPosition(piece.CellPosition);
+            float[] result = new float[piece.InitialPoints.Length];
+            Vector2 position = GetPosition(cellPosition);
             //Vector2 position = new Vector2(0, 0);
-            for (int i = 0; i < points.Length; i += 3)
+            for (int i = 0; i < piece.InitialPoints.Length; i += 3)
             {
-                result[i] = points[i] + position.X;
-                result[i + 1] = points[i + 1] + position.Y;
-                result[i + 2] = points[i + 2];
+                result[i] = piece.InitialPoints[i] + position.X;
+                result[i + 1] = piece.InitialPoints[i + 1] + position.Y;
+                result[i + 2] = piece.InitialPoints[i + 2];
             }
             return result;
         }
-        public static float[] GetCrownArray(this Piece piece)
+        public static float[] GetCrownArray(Point cellPosition)
         {
             float[] points = Model.Crown.Points;
             float[] result = new float[points.Length];
-            Vector2 position = GetPosition(piece.CellPosition);
+            Vector2 position = GetPosition(cellPosition);
             //Vector2 position = new Vector2(0, 0);
             for (int i = 0; i < result.Length; i += 3)
             {

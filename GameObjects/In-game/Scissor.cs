@@ -13,8 +13,8 @@ namespace GameObjects
         public Scissor(int x, int y, bool color) : base(x, y, color) 
         { 
             Type = PieceType.Scissor;
-            Points = Model.Scissor.Points;
-            Indexes = Model.Scissor.Indexes;
+            InitialPoints = Model.Scissor.Points;
+            UpdatePosition(new Point(x, y));
         }
         public Scissor(Point point, bool color) : this(point.X,point.Y, color) { }
         public override Point[] GetAvailableMoves()

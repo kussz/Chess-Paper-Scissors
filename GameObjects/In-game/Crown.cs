@@ -10,13 +10,15 @@ namespace GameObjects
 {
     public class Crown : IDrawable
     {
+        public float[] InitialPoints { get; set; }
         public float[] Points { get; set; }
-        public VAO VAO { get; set; }
-        public Crown(Piece piece) 
+        public Crown(Point cellPosition) 
         { 
-            VAO = new VAO(Model.Crown);
-            Points = piece.GetVertexArray(Model.Crown.Points);
-            VAO.Update(Points);
+            Points = PieceVertices.GetCrownArray(cellPosition);
+        }
+        public void UpdatePosition(Point cellPosition)
+        {
+            Points = PieceVertices.GetCrownArray(cellPosition);
         }
         
 

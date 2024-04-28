@@ -13,8 +13,8 @@ namespace GameObjects
         public King(int x, int y, bool color) : base(x, y, color)
         { 
             Type = PieceType.King;
-            Points = Model.King.Points;
-            Indexes = Model.King.Indexes;
+            InitialPoints = Model.King.Points;
+            UpdatePosition(new Point(x, y));
         }
         public King(Point point, bool color) : this(point.X,point.Y, color)
         { }

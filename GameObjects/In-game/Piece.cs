@@ -10,9 +10,14 @@ namespace GameObjects
         protected float _size = 0.06f;
         protected float _height = 0.09f;
         protected Piece() { }
+        public Crown? Crown { get; set; } = null;
+        public virtual PieceType Type { get; protected set; }
+        public virtual bool Color { get; private set; }
+        public virtual Point CellPosition { get; set; }
+        public virtual float[] InitialPoints { get; set; }
+        public virtual float[] Points { get; set; }
         public Piece(int x, int y, bool color)
         {
-            CellPosition = new Point(x, y);
             Color = color;
         }
         public Vector4 GetColor()
@@ -21,14 +26,6 @@ namespace GameObjects
                 return new Vector4(1, 0.5f, 0.5f, 1);
             return new Vector4(0.5f,0.5f, 1, 1);
         }
-        public Crown? Crown { get; set; } = null;
-        public virtual PieceType Type { get; protected set; }
-        public virtual bool Color { get; private set; }
-        public virtual Point CellPosition { get; set; }
-        public virtual float[] Points { get; set; }
-        public virtual uint[] Indexes { get; set; }
-        public virtual int TextureID {  get; set; }
-        public virtual int TextureCoordsBufferID { get; set; }
         protected bool IsNotAllyAndInside(int i, int j)
         {
             Piece piece = Board.PieceList.Find(match => match.CellPosition.X == CellPosition.X + i && match.CellPosition.Y == CellPosition.Y + j);
@@ -43,9 +40,11 @@ namespace GameObjects
         }
         public abstract Point[] GetAvailableMoves();
         public abstract int IsHigher(Piece piece);
-        public void SetPosition(Point point)
+        public void UpdatePosition(Point cellPosition)
         {
-            CellPosition = point;
+            Points = this.GetVertexArray(cellPosition);
+            CellPosition = cellPosition;
+            Crown?.UpdatePosition(cellPosition);
         }
     }
 }
