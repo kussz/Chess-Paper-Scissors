@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameObjects.Graphics.Drawing;
 
-public interface IDrawableStatic
+public interface IDrawableStatic : IDrawable
 {
-    public VAO VAO { get; set; }
+    
 }

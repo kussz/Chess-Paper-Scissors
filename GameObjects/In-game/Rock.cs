@@ -8,6 +8,7 @@ public class Rock : Piece
     public Rock(int x, int y, bool color) : base(x, y, color)
     {
         InitialPoints = Model.Rock.Points;
+        VAO = Model.Rock.VAO;
         UpdatePosition(new Point(x, y));
     }
     public Rock(Point point, bool color) : this(point.X, point.Y, color)

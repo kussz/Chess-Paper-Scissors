@@ -8,6 +8,7 @@ public class Scissor : Piece
     public Scissor(int x, int y, bool color) : base(x, y, color)
     {
         InitialPoints = Model.Scissor.Points;
+        VAO = Model.Scissor.VAO;
         UpdatePosition(new Point(x, y));
     }
     public Scissor(Point point, bool color) : this(point.X, point.Y, color) { }

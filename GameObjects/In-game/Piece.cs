@@ -1,5 +1,6 @@
 ﻿using GameObjects.Graphics.Builders;
 using GameObjects.Graphics.Drawing;
+using GameObjects.Graphics.GraphicsObjects;
 using OpenTK.Mathematics;
 using System.Drawing;
 
@@ -10,6 +11,7 @@ public abstract class Piece : IDrawableDynamic
     protected float _size = 0.06f;
     protected float _height = 0.09f;
     protected Piece() { }
+    public virtual VAO VAO { get; set; }
     public virtual bool Color { get; private set; }
     public virtual Point CellPosition { get; set; }
     public virtual float[] InitialPoints { get; set; } = [];

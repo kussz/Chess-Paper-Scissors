@@ -1,5 +1,4 @@
-﻿using GameObjects;
-using OpenTK.Mathematics;
+﻿using OpenTK.Mathematics;
 
 namespace GameObjects.Functional;
 

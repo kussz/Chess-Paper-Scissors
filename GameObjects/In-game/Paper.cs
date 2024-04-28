@@ -8,6 +8,7 @@ public class Paper : Piece
     public Paper(int x, int y, bool color) : base(x, y, color)
     {
         InitialPoints = Model.Paper.Points;
+        VAO = Model.Paper.VAO;
         UpdatePosition(new Point(x, y));
     }
     public Paper(Point point, bool color) : this(point.X, point.Y, color) { }

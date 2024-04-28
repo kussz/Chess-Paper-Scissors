@@ -1,4 +1,4 @@
-﻿namespace GameObjects;
+﻿namespace GameObjects.Functional;
 
 public class WS
 {

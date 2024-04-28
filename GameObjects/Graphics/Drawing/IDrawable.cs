@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameObjects.Graphics.GraphicsObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace GameObjects.Graphics.Drawing
 {
     public interface IDrawable
     {
-        public float[] InitialPoints { get; set; }
+        public VAO VAO { get; set; }
     }
 }

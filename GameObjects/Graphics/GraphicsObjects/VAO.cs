@@ -18,10 +18,6 @@ public class VAO
     {
         Index = Create(points, indexes);
     }
-    public VAO()
-    {
-        Index = GL.GenVertexArray();
-    }
     public VAO(PieceModel model) : this(model.Points, model.Indexes, model.Texture, model.TextureCoords, model.TextureResolution) { }
     public VAO(float[] points, uint[] indexes, Vector3[] textureData, Vector2[] textureCoords, Point size)
     {
@@ -82,25 +78,6 @@ public class VAO
     {
 
         GL.BindVertexArray(0);
-    }
-    public static VAO? Get(IDrawableDynamic drawable)
-    {
-        switch (drawable.GetType().Name)
-        {
-            case "StrongRock":
-            case "Rock":
-                return Model.Rock.VAO;
-            case "Paper":
-                return Model.Paper.VAO;
-            case "Scissor":
-                return Model.Scissor.VAO;
-            case "King":
-                return Model.King.VAO;
-            case "Crown":
-                return Model.Crown.VAO;
-            default:
-                return null;
-        }
     }
 
 }

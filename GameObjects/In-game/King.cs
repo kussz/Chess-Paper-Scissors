@@ -8,6 +8,7 @@ public class King : Piece
     public King(int x, int y, bool color) : base(x, y, color)
     {
         InitialPoints = Model.King.Points;
+        VAO = Model.King.VAO;
         UpdatePosition(new Point(x, y));
     }
     public King(Point point, bool color) : this(point.X, point.Y, color)
