@@ -233,16 +233,17 @@ namespace Chess_Paper_Scissors
         {
             GL.Enable(EnableCap.DepthTest);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            Drawer.SetUnifs(Size.X, Size.Y, mvpMatrix);
             foreach (var prog in shaderProgs)
             {
                 prog.ActivateProgram();
-                prog.BoardDraw(Size.X,Size.Y,mvpMatrix);
+                prog.Draw();
                 prog.DeactivateProgram();
             }
             pieceProg.ActivateProgram();
             foreach (Piece piece in Board.PieceList)
             {
-                piece.PieceDraw(mvpMatrix, pieceProg);
+                piece.Draw(pieceProg);
             }
 
             pieceProg.DeactivateProgram();
@@ -251,13 +252,13 @@ namespace Chess_Paper_Scissors
             {
                 TileDrawer.SetPts(avalPts[i]);
                 tileProg.VAO.Update(TileDrawer.Points);
-                tileProg.TileDraw(mvpMatrix, TileDrawer.Indexes.Length);
+                tileProg.Draw();
             }
             tileProg.DeactivateProgram();
             GL.Disable(EnableCap.DepthTest);
             cursorProg.ActivateProgram();
             //cursorProg.VAO.Bind(cursorProg);
-            cursorProg.BoardDraw(Size.X, Size.Y, mvpMatrix);
+            cursorProg.Draw();
             cursorProg.DeactivateProgram();
             SwapBuffers();
             base.OnRenderFrame(e);
