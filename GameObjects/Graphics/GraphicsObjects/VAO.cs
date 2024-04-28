@@ -1,10 +1,10 @@
-﻿using GameObjects;
-using GameObjects.Graphics;
+﻿using GameObjects.Graphics.Drawing;
+using GameObjects.Graphics.Models;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using System.Drawing;
 
-namespace Graphics;
+namespace GameObjects.Graphics.GraphicsObjects;
 
 public class VAO
 {
@@ -83,7 +83,7 @@ public class VAO
 
         GL.BindVertexArray(0);
     }
-    public static VAO? Get(IDrawable drawable)
+    public static VAO? Get(IDrawableDynamic drawable)
     {
         switch (drawable.GetType().Name)
         {

@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 
-namespace Graphics
+namespace GameObjects.Graphics.GraphicsObjects
 {
     internal class EBO
     {
@@ -16,12 +16,6 @@ namespace Graphics
             GL.BufferData(BufferTarget.ElementArrayBuffer, data.Length * sizeof(uint), data, BufferUsageHint.StaticDraw);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
             return ebo;
-        }
-        internal void Update(uint[] data)
-        {
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, Index);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, data.Length * sizeof(uint), data, BufferUsageHint.StaticDraw);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Assimp;
 using System.Drawing;
 
-namespace Graphics;
+namespace GameObjects.Graphics.Models;
 
 public static class Model
 {

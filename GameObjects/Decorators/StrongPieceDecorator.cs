@@ -15,7 +15,6 @@ public abstract class StrongPieceDecorator : Piece
     public override float[] InitialPoints { get { return _piece.InitialPoints; } }
     public override bool Color { get { return _piece.Color; } }
     public override Point CellPosition { get { return _piece.CellPosition; } set { _piece.CellPosition = value; } }
-    public override PieceType Type { get { return _piece.Type; } }
     public override int IsHigher(Piece piece)
     {
         return _piece.IsHigher(piece);

@@ -1,10 +1,11 @@
 ﻿using GameObjects;
 using GameObjects.Decorators;
+using GameObjects.Graphics.GraphicsObjects;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using System.Drawing;
 
-namespace Graphics;
+namespace GameObjects.Graphics.Drawing;
 
 public static class Drawer
 {
@@ -15,16 +16,25 @@ public static class Drawer
         _xSize = size.X;
         _ySize = size.Y;
     }
-    public static void Draw(this ShaderProgram shaderProg, Matrix4 mvpMatrix)
+    public static void Draw(this ShaderProgram drawable, Matrix4 mvpMatrix)
     {
         Point point = Board.GetCellPosition(Mouse.GetNormalized(_xSize, _ySize));
         GL.UniformMatrix4(0, false, ref mvpMatrix);
         GL.Uniform2(2, new Vector2(point.X, point.Y));
         GL.Uniform2(1, Mouse.GetNormalized(_xSize, _ySize));
-        GL.BindVertexArray(shaderProg.VAO.Index);
-        GL.DrawElements(PrimitiveType.Triangles, shaderProg.VAO.VertexLength, DrawElementsType.UnsignedInt, 0);
+        GL.BindVertexArray(drawable.VAO.Index);
+        GL.DrawElements(PrimitiveType.Triangles, drawable.VAO.VertexLength, DrawElementsType.UnsignedInt, 0);
     }
-    public static void Draw(this Piece drawable, Matrix4 mvpMatrix)
+    public static void Draw(this IDrawableStatic drawable, Matrix4 mvpMatrix)
+    {
+        Point point = Board.GetCellPosition(Mouse.GetNormalized(_xSize, _ySize));
+        GL.UniformMatrix4(0, false, ref mvpMatrix);
+        GL.Uniform2(2, new Vector2(point.X, point.Y));
+        GL.Uniform2(1, Mouse.GetNormalized(_xSize, _ySize));
+        GL.BindVertexArray(drawable.VAO.Index);
+        GL.DrawElements(PrimitiveType.Triangles, drawable.VAO.VertexLength, DrawElementsType.UnsignedInt, 0);
+    }
+    public static void Draw(this IDrawableDynamic drawable, Matrix4 mvpMatrix)
     {
         Point point = Board.GetCellPosition(Mouse.GetNormalized(_xSize, _ySize));
         GL.UniformMatrix4(0, false, ref mvpMatrix);
@@ -48,13 +58,6 @@ public static class Drawer
         GL.BindTexture(TextureTarget.Texture2D, VAO.TextureIndex);
         GL.BindVertexArray(VAO.Index);
         GL.DrawElements(PrimitiveType.Triangles, VAO.VertexLength, DrawElementsType.UnsignedInt, 0);
-    }
-    public static void SetUnifs(Matrix4 mvpMatrix)
-    {
-        Point point = Board.GetCellPosition(Mouse.GetNormalized(_xSize, _ySize));
-        GL.UniformMatrix4(0, false, ref mvpMatrix);
-        GL.Uniform2(2, new Vector2(point.X, point.Y));
-        GL.Uniform2(1, Mouse.GetNormalized(_xSize, _ySize));
     }
 
 

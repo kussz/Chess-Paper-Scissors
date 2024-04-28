@@ -1,9 +1,10 @@
-﻿using Graphics;
+﻿using GameObjects.Graphics.Builders;
+using GameObjects.Graphics.Drawing;
 using System.Drawing;
 
 namespace GameObjects;
 
-public class Crown : IDrawable
+public class Crown : IDrawableDynamic
 {
     public float[] InitialPoints { get; set; } = [];
     public float[] Points { get; set; }

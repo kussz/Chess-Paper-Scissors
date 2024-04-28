@@ -1,8 +1,9 @@
 ﻿using GameObjects;
+using GameObjects.Graphics.Models;
 using OpenTK.Mathematics;
 using System.Drawing;
 
-namespace Graphics;
+namespace GameObjects.Graphics.Builders;
 
 public static class PieceBuilder
 {

@@ -1,12 +1,15 @@
 ﻿using GameObjects;
 using GameObjects.Decorators;
-using Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System.Windows;
+using GameObjects.Graphics.Builders;
+using GameObjects.Graphics.GraphicsObjects;
+using GameObjects.Graphics.Drawing;
+using GameObjects.Functional;
 
 namespace Chess_Paper_Scissors;
 
@@ -17,13 +20,16 @@ class Game : GameWindow
     float delayTime = 0;
     private Matrix4 mvpMatrix;
     private System.Drawing.Point[] avalPts;
-    private List<ShaderProgram> shaderProgs;
+    private ShaderProgram borderProg;
+    private ShaderProgram boardProg;
     private ShaderProgram tileProg;
     private ShaderProgram pieceProg;
     private ShaderProgram cursorProg;
     private Piece? selectedPiece;
     private MainWindow _window;
     private bool turn = true;
+    private TileBuilder tileBuilder;
+    private BoardBuilder boardBuilder;
     #endregion
     public Game(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, MainWindow window) : base(gameWindowSettings, nativeWindowSettings)
     {
@@ -58,6 +64,8 @@ class Game : GameWindow
     protected override void OnLoad()
     {
         base.OnLoad();
+        boardBuilder = new BoardBuilder();
+        tileBuilder = new TileBuilder(0.18f);
         GL.ClearColor(0.15f, 0.05f, 0.05f, 1);
         GL.LineWidth(1);
         GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
@@ -67,18 +75,11 @@ class Game : GameWindow
         GL.CullFace(CullFaceMode.Back);
         GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         avalPts = [];
-        shaderProgs =
-        [
-            new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_base1.frag"),
-            new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_board.frag")
-        ];
+        borderProg = new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_base1.frag");
+        boardProg = new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_board.frag");
         tileProg = new ShaderProgram(@"data\Shader\Objects.vert", @"data\Shader\Objects.frag");
-        tileProg.VAO = new VAO(TileDrawer.Points, TileDrawer.Indexes);
-        shaderProgs[0].VAO = new VAO(BoardVertices.GetVertices(), BoardVertices.GetBorderIndexes());
-        shaderProgs[1].VAO = new VAO(BoardVertices.GetVertices(), BoardVertices.GetIndexes());
         pieceProg = new ShaderProgram("data\\Shader\\piece.vert", "data\\Shader\\piece.frag");
         cursorProg = new ShaderProgram("data\\Shader\\Cursor.vert", "data\\Shader\\Cursor.frag");
-        cursorProg.VAO = new VAO(BoardVertices.GetVertices(), BoardVertices.GetCursorIndexes());
         Drawer.SetResolution(Size);
         Console.WriteLine("Loaded");
     }
@@ -220,13 +221,10 @@ class Game : GameWindow
     {
         GL.Enable(EnableCap.DepthTest);
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-        Drawer.SetUnifs(mvpMatrix);
-        foreach (var prog in shaderProgs)
-        {
-            prog.ActivateProgram();
-            prog.Draw(mvpMatrix);
-            prog.DeactivateProgram();
-        }
+        borderProg.ActivateProgram();
+        boardBuilder.Border.Draw(mvpMatrix);
+        boardProg.ActivateProgram();
+        boardBuilder.Board.Draw(mvpMatrix);
         pieceProg.ActivateProgram();
         foreach (Piece piece in Board.PieceList)
         {
@@ -236,15 +234,13 @@ class Game : GameWindow
         tileProg.ActivateProgram();
         for (int i = 0; i < avalPts.Length; i++)
         {
-            TileDrawer.SetPts(avalPts[i]);
-            tileProg.VAO.Update(TileDrawer.Points);
-            tileProg.Draw(mvpMatrix);
+            tileBuilder.SetPts(avalPts[i], avalPts[i] == Board.GetCellPosition(Mouse.GetNormalized(Size.X, Size.Y)));
+            tileBuilder.Tile.Draw(mvpMatrix);
         }
         tileProg.DeactivateProgram();
         GL.Disable(EnableCap.DepthTest);
         cursorProg.ActivateProgram();
-        //cursorProg.VAO.Bind(cursorProg);
-        cursorProg.Draw(mvpMatrix);
+        boardBuilder.Cursor.Draw(mvpMatrix);
         cursorProg.DeactivateProgram();
         SwapBuffers();
         base.OnRenderFrame(e);
@@ -253,10 +249,7 @@ class Game : GameWindow
     {
         //DeleteDisplayList(0);
         VAO.Delete();
-        foreach (var prog in shaderProgs)
-        {
-            prog.DeleteProgram();
-        }
+        
         base.OnUnload();
         Dispose();
     }

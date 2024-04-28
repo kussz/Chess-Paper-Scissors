@@ -1,7 +1,8 @@
-﻿using OpenTK.Mathematics;
+﻿using GameObjects.Graphics.GraphicsObjects;
+using OpenTK.Mathematics;
 using System.Drawing;
 
-namespace Graphics;
+namespace GameObjects.Graphics.Models;
 
 public class PieceModel
 {

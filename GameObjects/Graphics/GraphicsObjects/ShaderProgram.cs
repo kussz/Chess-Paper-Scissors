@@ -1,14 +1,13 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
-namespace Graphics;
+namespace GameObjects.Graphics.GraphicsObjects;
 
 public class ShaderProgram
 {
     private readonly int _vertexShader = 0;
     private readonly int _fragmentShader = 0;
     private readonly int _program = 0;
-    public VAO VAO { get; set; }
     public ShaderProgram(string vertexfile, string fragmentfile)
     {
         _vertexShader = CreateShader(ShaderType.VertexShader, vertexfile);

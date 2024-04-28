@@ -1,4 +1,4 @@
-﻿using Graphics;
+﻿using GameObjects.Graphics.Models;
 using System.Drawing;
 
 namespace GameObjects;
@@ -7,7 +7,6 @@ public class Scissor : Piece
 {
     public Scissor(int x, int y, bool color) : base(x, y, color)
     {
-        Type = PieceType.Scissor;
         InitialPoints = Model.Scissor.Points;
         UpdatePosition(new Point(x, y));
     }
@@ -40,9 +39,9 @@ public class Scissor : Piece
     }
     public override int IsHigher(Piece piece)
     {
-        if (piece.Type == PieceType.Rock)
+        if (piece is Rock)
             return -1;
-        if (piece.Type == PieceType.Scissor)
+        if (piece is Scissor)
             return 0;
         return 1;
     }

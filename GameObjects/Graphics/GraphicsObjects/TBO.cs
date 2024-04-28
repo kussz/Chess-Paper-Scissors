@@ -2,7 +2,7 @@
 using OpenTK.Mathematics;
 using System.Drawing;
 
-namespace GameObjects.Graphics;
+namespace GameObjects.Graphics.GraphicsObjects;
 
 internal class TBO
 {

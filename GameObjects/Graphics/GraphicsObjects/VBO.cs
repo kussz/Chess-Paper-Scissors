@@ -1,7 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 
 
-namespace Graphics;
+namespace GameObjects.Graphics.GraphicsObjects;
 
 internal class VBO
 {

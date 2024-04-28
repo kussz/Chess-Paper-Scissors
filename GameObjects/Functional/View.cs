@@ -1,7 +1,7 @@
 ﻿using GameObjects;
 using OpenTK.Mathematics;
 
-namespace Graphics;
+namespace GameObjects.Functional;
 
 public class View
 {
@@ -28,14 +28,14 @@ public class View
         _farDistance = 10f;
         _projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(_fovY, _aspectRatio, _nearDistance, _farDistance);
     }
-    public static Matrix4 CountMVPMatrix(int xSize,int ySize)
+    public static Matrix4 CountMVPMatrix(int xSize, int ySize)
     {
         Vector4 eye = _startEye;
         eye.Z = _cameraPositionDistanceFromOrigin;
         Matrix4 viewMatrix =
-            Matrix4.CreateRotationX((float)((Mouse.GetPosition().Y - ySize / 2) / ySize /2 - 0.1f)) *
-            Matrix4.CreateRotationY((float)((Mouse.GetPosition().X - xSize / 2) / xSize /2)) *
+            Matrix4.CreateRotationX((float)((Mouse.GetPosition().Y - ySize / 2) / ySize / 2 - 0.1f)) *
+            Matrix4.CreateRotationY((float)((Mouse.GetPosition().X - xSize / 2) / xSize / 2)) *
             Matrix4.LookAt(eye.Xyz, _viewTarget.Xyz, _viewYUp.Xyz);
-        return (_modelMatrix*viewMatrix *_projectionMatrix );
+        return _modelMatrix * viewMatrix * _projectionMatrix;
     }
 }

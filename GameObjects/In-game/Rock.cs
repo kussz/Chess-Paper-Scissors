@@ -1,4 +1,4 @@
-﻿using Graphics;
+﻿using GameObjects.Graphics.Models;
 using System.Drawing;
 
 namespace GameObjects;
@@ -7,7 +7,6 @@ public class Rock : Piece
 {
     public Rock(int x, int y, bool color) : base(x, y, color)
     {
-        Type = PieceType.Rock;
         InitialPoints = Model.Rock.Points;
         UpdatePosition(new Point(x, y));
     }
@@ -15,9 +14,9 @@ public class Rock : Piece
     { }
     public override int IsHigher(Piece piece)
     {
-        if (piece.Type == PieceType.Paper)
+        if (piece is Paper)
             return -1;
-        if (piece.Type == PieceType.Rock)
+        if (piece is Rock)
             return 0;
         return 1;
     }

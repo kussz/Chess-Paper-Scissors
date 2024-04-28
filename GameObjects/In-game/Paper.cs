@@ -1,4 +1,4 @@
-﻿using Graphics;
+﻿using GameObjects.Graphics.Models;
 using System.Drawing;
 
 namespace GameObjects;
@@ -7,7 +7,6 @@ public class Paper : Piece
 {
     public Paper(int x, int y, bool color) : base(x, y, color)
     {
-        Type = PieceType.Paper;
         InitialPoints = Model.Paper.Points;
         UpdatePosition(new Point(x, y));
     }
@@ -47,9 +46,9 @@ public class Paper : Piece
     }
     public override int IsHigher(Piece piece)
     {
-        if (piece.Type == PieceType.Scissor)
+        if (piece is Scissor)
             return -1;
-        if (piece.Type == PieceType.Paper)
+        if (piece is Paper)
             return 0;
         return 1;
     }

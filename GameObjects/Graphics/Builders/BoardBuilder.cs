@@ -1,7 +1,11 @@
-﻿namespace GameObjects;
+﻿
+namespace GameObjects.Graphics.Builders;
 
-public static class BoardVertices
+public class BoardBuilder
 {
+    public StaticDrawableDataContainer Board { get; set; } = new(_points, _boardIndexes);
+    public StaticDrawableDataContainer Border { get; set; } = new(_points, _borderIndexes);
+    public StaticDrawableDataContainer Cursor { get; set; } = new(_points, _cursorIndexes);
 
     private static float[] _points = new float[]
     {
