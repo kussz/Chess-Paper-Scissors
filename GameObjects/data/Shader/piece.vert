@@ -6,7 +6,7 @@ precision mediump float;
 #endif
 
 layout (location = 0) uniform mat4 mvpMatrix;
-uniform float pcColor;
+layout (location = 3) uniform float pcColor;
 layout (location = 10) in vec4 aPosition;
 layout (location = 11) in vec2 aTexture;
 out float r;

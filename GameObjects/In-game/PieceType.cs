@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace GameObjects;
 
-namespace GameObjects
+public enum PieceType
 {
-    public enum PieceType
-    {
-        King,
-        Paper,
-        Rock,
-        Scissor
-    }
+    King,
+    Paper,
+    Rock,
+    Scissor
 }

@@ -4,7 +4,7 @@ namespace Graphics
 {
     internal class EBO
     {
-        internal int Index {  get; set; }
+        internal int Index { get; set; }
         internal EBO(uint[] data)
         {
             Index = Create(data);
