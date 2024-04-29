@@ -5,13 +5,18 @@ namespace GameObjects;
 
 public class King : Piece
 {
-    public King(int x, int y, bool color) : base(color)
+    public King(int x, int y, bool color, bool generateGraphics) : base(color)
     {
-        InitialPoints = Model.King.Points;
-        VAO = Model.King.VAO;
-        UpdatePosition(new Point(x, y));
+        if(generateGraphics)
+        {
+            InitialPoints = Model.King.Points;
+            VAO = Model.King.VAO;
+            UpdatePosition(new Point(x, y));
+        }
+        else
+            CellPosition = new Point(x, y);
     }
-    public King(Point point, bool color) : this(point.X, point.Y, color)
+    public King(Point point, bool color, bool generateGraphics) : this(point.X, point.Y, color, generateGraphics)
     { }
     public override Point[] GetAvailableMoves()
     {

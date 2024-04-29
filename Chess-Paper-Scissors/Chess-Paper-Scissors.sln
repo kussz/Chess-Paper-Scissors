@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess-Paper-Scissors", "Che
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameObjects", "..\GameObjects\GameObjects.csproj", "{98DE8559-EC58-469C-8DDC-FD7C90641080}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess-Paper-Scissors.Tests", "..\Chess-Paper-ScissorsTests\Chess-Paper-Scissors.Tests.csproj", "{175FF8B5-5B79-4477-A3FE-BE79918EF292}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{98DE8559-EC58-469C-8DDC-FD7C90641080}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98DE8559-EC58-469C-8DDC-FD7C90641080}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98DE8559-EC58-469C-8DDC-FD7C90641080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{175FF8B5-5B79-4477-A3FE-BE79918EF292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{175FF8B5-5B79-4477-A3FE-BE79918EF292}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{175FF8B5-5B79-4477-A3FE-BE79918EF292}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{175FF8B5-5B79-4477-A3FE-BE79918EF292}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,7 +14,7 @@ using GameObjects.Graphics.Models;
 
 namespace Chess_Paper_Scissors;
 
-class Game : GameWindow
+public class Game : GameWindow
 {
     #region variables
     int fps = 0;
@@ -26,15 +26,13 @@ class Game : GameWindow
     private ShaderProgram tileProg;
     private ShaderProgram pieceProg;
     private ShaderProgram cursorProg;
-    private Piece? selectedPiece;
     private MainWindow _window;
-    private bool turn = true;
     private TileBuilder tileBuilder;
     private BoardBuilder boardBuilder;
     #endregion
     public Game(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, MainWindow window) : base(gameWindowSettings, nativeWindowSettings)
     {
-        VSync = VSyncMode.Off;
+        VSync = VSyncMode.On;
         CursorState = CursorState.Grabbed;
         _window = window;
     }
@@ -53,7 +51,7 @@ class Game : GameWindow
 
     public static NativeWindowSettings NWSettings()
     { return nativeWindowSettings; }
-
+    
     protected override void OnLoad()
     {
         base.OnLoad();
@@ -82,75 +80,41 @@ class Game : GameWindow
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
         base.OnMouseDown(e);
-        System.Drawing.Point point = Board.GetCellPosition(Mouse.GetNormalized(Size.X, Size.Y));
-        Piece? foundPiece = FindPiece(point);
-        if (foundPiece != null && foundPiece.Color == turn)
+
+        System.Drawing.Point point = GameLogic.GetSelectedCell(Size.X,Size.Y);
+        Piece? foundPiece = GameLogic.FindPiece(point);
+        if (foundPiece != null && foundPiece.Color == GameLogic.Turn)
         {
-            selectedPiece = foundPiece;
-            avalPts = GetAvailablePoints(selectedPiece);
+            GameLogic.SelectedPiece = foundPiece;
+            avalPts = GameLogic.GetAvailablePoints(GameLogic.SelectedPiece);
         }
-        else if (selectedPiece != null)
+        else if (GameLogic.SelectedPiece != null)
         {
-            if (Array.Exists(avalPts, element => element.X == point.X && element.Y == point.Y))
+            if (Array.Exists(avalPts, element => element == point))
             {
-                turn = !turn;
+                GameLogic.SwitchTurn();
                 if (foundPiece == null)
                 {
-                    MovePiece(selectedPiece, point);
+                    GameLogic.MoveSelectedPieceTo(point);
                 }
                 else
                 {
-                    Impact(selectedPiece, foundPiece);
+                    if (GameLogic.ImpactSelectedPieceWith(foundPiece))
+                        End($"Победил {(foundPiece.Color ? "синий" : "красный")} игрок!");
                 }
-                if (selectedPiece is Rock rock && rock.CheckAscension())
+                if (GameLogic.SelectedPiece is Rock rock && rock.CheckAscension())
                 {
-                    Board.PieceList[Board.PieceList.FindIndex(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y)] = new StrongRock(rock);
+                    GameLogic.AscendRock(rock);
+                    
                 }
                 avalPts = [];
-                SetBackgroundColor(turn);
             }
         }
-
-
     }
-    private System.Drawing.Point[] GetAvailablePoints(Piece? piece)
-    {
-        System.Drawing.Point[] points;
-        if (piece != null && piece.Color == turn)
-        {
-            points = piece.GetAvailableMoves();
-        }
-        else
-            points = [];
-        return points;
-    }
-    private Piece? FindPiece(System.Drawing.Point point)
-    {
-        return Board.PieceList.Find(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y);
-    }
-    private void Impact(Piece firstPiece, Piece secondPiece)
-    {
-        if (firstPiece.IsHigher(secondPiece) == 1)
-        {
-            if (secondPiece is King)
-            {
-                End($"Победил {(secondPiece.Color ? "синий" : "красный")} игрок!");
-            }
-            char pieceO = Board.State[firstPiece.CellPosition.X, firstPiece.CellPosition.Y];
-            Board.State[firstPiece.CellPosition.X, firstPiece.CellPosition.Y] = ' ';
-            firstPiece.UpdatePosition(secondPiece.CellPosition);
-            Board.State[secondPiece.CellPosition.X, secondPiece.CellPosition.Y] = pieceO;
-            Board.PieceList.Remove(secondPiece);
-        }
-        else if (firstPiece.IsHigher(secondPiece) == -1)
-        {
-            Board.State[firstPiece.CellPosition.X, firstPiece.CellPosition.Y] = ' ';
-            Board.PieceList.Remove(firstPiece);
-        }
-    }
+    
     private void Restart()
     {
-        turn = true;
+        GameLogic.Restart();
         Mouse.Init(Size);
         Board.Init();
     }
@@ -167,20 +131,7 @@ class Game : GameWindow
             _window.Close();
         }
     }
-    private void MovePiece(Piece piece, System.Drawing.Point point)
-    {
-        char pieceO = Board.State[piece.CellPosition.X, piece.CellPosition.Y];
-        Board.State[piece.CellPosition.X, piece.CellPosition.Y] = ' ';
-        piece.UpdatePosition(point);
-        Board.State[piece.CellPosition.X, piece.CellPosition.Y] = pieceO;
-    }
-    private void SetBackgroundColor(bool turn)
-    {
-        if (turn)
-            GL.ClearColor(0.15f, 0.05f, 0.05f, 1);
-        else
-            GL.ClearColor(0.05f, 0.05f, 0.15f, 1);
-    }
+    
     protected override void OnResize(ResizeEventArgs e)
     {
         base.OnResize(e);

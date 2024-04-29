@@ -5,13 +5,18 @@ namespace GameObjects;
 
 public class Paper : Piece
 {
-    public Paper(int x, int y, bool color) : base(color)
+    public Paper(int x, int y, bool color, bool generateGraphics) : base(color)
     {
-        InitialPoints = Model.Paper.Points;
-        VAO = Model.Paper.VAO;
-        UpdatePosition(new Point(x, y));
+        if(generateGraphics)
+        {
+            InitialPoints = Model.Paper.Points;
+            VAO = Model.Paper.VAO;
+            UpdatePosition(new Point(x, y));
+        }
+        else
+            CellPosition = new Point(x, y);
     }
-    public Paper(Point point, bool color) : this(point.X, point.Y, color) { }
+    public Paper(Point point, bool color, bool generateGraphics) : this(point.X, point.Y, color, generateGraphics) { }
     public override Point[] GetAvailableMoves()
     {
         List<Point> resultList = new List<Point>();

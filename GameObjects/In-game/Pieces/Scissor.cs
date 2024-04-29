@@ -5,13 +5,18 @@ namespace GameObjects;
 
 public class Scissor : Piece
 {
-    public Scissor(int x, int y, bool color) : base(color)
+    public Scissor(int x, int y, bool color, bool generateGraphics) : base(color)
     {
-        InitialPoints = Model.Scissor.Points;
-        VAO = Model.Scissor.VAO;
-        UpdatePosition(new Point(x, y));
+        if(generateGraphics)
+        {
+            InitialPoints = Model.Scissor.Points;
+            VAO = Model.Scissor.VAO;
+            UpdatePosition(new Point(x, y));
+        }
+        else
+            CellPosition = new Point(x, y);
     }
-    public Scissor(Point point, bool color) : this(point.X, point.Y, color) { }
+    public Scissor(Point point, bool color, bool generateGraphics) : this(point.X, point.Y, color, generateGraphics) { }
     public override Point[] GetAvailableMoves()
     {
         List<Point> resultList = new List<Point>();

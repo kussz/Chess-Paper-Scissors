@@ -5,13 +5,18 @@ namespace GameObjects;
 
 public class Rock : Piece
 {
-    public Rock(int x, int y, bool color) : base(color)
+    public Rock(int x, int y, bool color, bool generateGraphics) : base(color)
     {
-        InitialPoints = Model.Rock.Points;
-        VAO = Model.Rock.VAO;
-        UpdatePosition(new Point(x, y));
+        if(generateGraphics)
+        {
+            InitialPoints = Model.Rock.Points;
+            VAO = Model.Rock.VAO;
+            UpdatePosition(new Point(x, y));
+        }
+        else
+            CellPosition = new Point(x, y);
     }
-    public Rock(Point point, bool color) : this(point.X, point.Y, color)
+    public Rock(Point point, bool color, bool generateGraphics) : this(point.X, point.Y, color, generateGraphics)
     { }
     public override int IsHigher(Piece piece)
     {

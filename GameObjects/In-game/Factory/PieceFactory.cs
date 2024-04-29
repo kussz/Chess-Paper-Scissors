@@ -1,6 +1,6 @@
 ﻿namespace GameObjects.Factory;
 
-abstract class PieceFactory
+internal abstract class PieceFactory
 {
-    public abstract Piece Create(int x, int y, bool color);
+    public abstract Piece Create(int x, int y, bool color, bool generateGraphics);
 }

@@ -35,7 +35,7 @@ public static class Board
             for (int i = 0; i < 8; i++)
             {
                 if (pieceMap[i, j] != -1)
-                    PieceList.Add(_factories[pieceMap[i, j] % _factories.Count].Create(i, j, Convert.ToBoolean(pieceMap[i, j] / _factories.Count)));
+                    PieceList.Add(_factories[pieceMap[i, j] % _factories.Count].Create(i, j, Convert.ToBoolean(pieceMap[i, j] / _factories.Count),true));
             }
     }
     private static int[,] GetArrangementMap()
