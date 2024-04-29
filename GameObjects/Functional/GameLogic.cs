@@ -13,6 +13,7 @@ public static class GameLogic
 {
     public static bool Turn { get; set; } = true;
     public static Piece? SelectedPiece { get; set; } = null;
+    public static Point[] AvalPts { get; set; } = [];
     public static void Restart()
     {
         Turn = true;
@@ -27,16 +28,16 @@ public static class GameLogic
             GL.ClearColor(0.05f, 0.05f, 0.15f, 1);
 
     }
-    public static Point[] GetAvailablePoints(Piece? piece)
+    public static void SetAvalPtsForSelectedPiece()
     {
         System.Drawing.Point[] points;
-        if (piece != null && piece.Color == Turn)
+        if (SelectedPiece != null && SelectedPiece.Color == Turn)
         {
-            points = piece.GetAvailableMoves();
+            points = SelectedPiece.GetAvailableMoves();
         }
         else
             points = [];
-        return points;
+        AvalPts = points;
     }
     public static bool ImpactSelectedPieceWith(Piece secondPiece)
     {
@@ -62,11 +63,11 @@ public static class GameLogic
         }
         return false;
     }
-    public static Piece? FindPiece(System.Drawing.Point point)
+    public static Piece? FindPiece(Point point)
     {
         return Board.PieceList.Find(match => match.CellPosition.X == point.X && match.CellPosition.Y == point.Y);
     }
-    public static void MoveSelectedPieceTo(System.Drawing.Point point)
+    public static void MoveSelectedPieceTo(Point point)
     {
         if(SelectedPiece!=null)
         {

@@ -22,6 +22,7 @@ public static class Board
     public static List<Piece> PieceList;
     static Board()
     {
+        State = new char[8, 8];
         PieceList = new List<Piece>();
         _factories = new List<PieceFactory>() { new KingFactory(), new RockFactory(), new PaperFactory(), new ScissorFactory() };
     }

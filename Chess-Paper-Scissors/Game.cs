@@ -20,7 +20,6 @@ public class Game : GameWindow
     int fps = 0;
     float delayTime = 0;
     private Matrix4 mvpMatrix;
-    private System.Drawing.Point[] avalPts;
     private ShaderProgram borderProg;
     private ShaderProgram boardProg;
     private ShaderProgram tileProg;
@@ -56,11 +55,9 @@ public class Game : GameWindow
     {
         base.OnLoad();
         //Model.LoadModels();
-        Mouse.Init(Size);
-        Board.Init();
+        Restart();
         boardBuilder = new BoardBuilder();
         tileBuilder = new TileBuilder(0.18f);
-        GL.ClearColor(0.15f, 0.05f, 0.05f, 1);
         GL.LineWidth(1);
         GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
         GL.Enable(EnableCap.CullFace);
@@ -68,7 +65,6 @@ public class Game : GameWindow
         GL.Enable(EnableCap.Texture2D);
         GL.CullFace(CullFaceMode.Back);
         GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-        avalPts = [];
         borderProg = new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_base1.frag");
         boardProg = new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_board.frag");
         tileProg = new ShaderProgram(@"data\Shader\Objects.vert", @"data\Shader\Objects.frag");
@@ -86,11 +82,10 @@ public class Game : GameWindow
         if (foundPiece != null && foundPiece.Color == GameLogic.Turn)
         {
             GameLogic.SelectedPiece = foundPiece;
-            avalPts = GameLogic.GetAvailablePoints(GameLogic.SelectedPiece);
         }
         else if (GameLogic.SelectedPiece != null)
         {
-            if (Array.Exists(avalPts, element => element == point))
+            if (Array.Exists(GameLogic.AvalPts, element => element == point))
             {
                 GameLogic.SwitchTurn();
                 if (foundPiece == null)
@@ -107,9 +102,10 @@ public class Game : GameWindow
                     GameLogic.AscendRock(rock);
                     
                 }
-                avalPts = [];
+                GameLogic.SelectedPiece = null;
             }
         }
+        GameLogic.SetAvalPtsForSelectedPiece();
     }
     
     private void Restart()
@@ -180,9 +176,9 @@ public class Game : GameWindow
         }
         pieceProg.DeactivateProgram();
         tileProg.ActivateProgram();
-        for (int i = 0; i < avalPts.Length; i++)
+        for (int i = 0; i < GameLogic.AvalPts.Length; i++)
         {
-            tileBuilder.SetPts(avalPts[i], avalPts[i] == Board.GetCellPosition(Mouse.GetNormalized(Size.X, Size.Y)));
+            tileBuilder.SetPts(GameLogic.AvalPts[i], GameLogic.AvalPts[i] == Board.GetCellPosition(Mouse.GetNormalized(Size.X, Size.Y)));
             tileBuilder.Tile.Draw(mvpMatrix);
         }
         tileProg.DeactivateProgram();
