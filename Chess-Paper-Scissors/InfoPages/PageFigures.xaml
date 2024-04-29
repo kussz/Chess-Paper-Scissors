@@ -82,7 +82,7 @@
             <Border Grid.Row="2" Grid.Column="3" BorderBrush="White" BorderThickness="2,0,0,0"></Border>
             <Border Grid.Row="2" Grid.Column="4" BorderBrush="White" BorderThickness="2,0,2,0"></Border>
             <Image Grid.Row="0" Grid.Column="0" Source="/InfoPages/Rock.png"></Image>
-            <Image Grid.Row="0" Grid.Column="1" Source="/InfoPages/Scissors.png"></Image>
+            <Image Grid.Row="0" Grid.Column="1" Source="/InfoPages/scissor.png"></Image>
             <Image Grid.Row="0" Grid.Column="2" Source="/InfoPages/Paper.png"></Image>
             <Image Grid.Row="0" Grid.Column="3" Source="/InfoPages/King.png"></Image>
             <Image Grid.Row="0" Grid.Column="4" Source="/InfoPages/StrongRock.png"></Image>

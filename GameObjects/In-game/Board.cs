@@ -24,7 +24,6 @@ public static class Board
     {
         PieceList = new List<Piece>();
         _factories = new List<PieceFactory>() { new KingFactory(), new RockFactory(), new PaperFactory(), new ScissorFactory() };
-        Init();
     }
     public static void Init()
     {

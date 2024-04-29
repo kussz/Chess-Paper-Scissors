@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GameObjects.King" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>In-game\King.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Paper" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>In-game\Paper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Piece" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAACAgCAAAAAAQAEAAAAAAASAQIAAgAIAAAA=</HashCode>
+      <FileName>In-game\Piece.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GameObjects.Rock" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>In-game\Rock.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Scissor" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>In-game\Scissor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Decorators.StrongPieceDecorator" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAgAAAAAAgCAAAEAAQAAAAAAAAAAAQIAAgAAAAAA=</HashCode>
+      <FileName>In-game\Decorators\StrongPieceDecorator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_piece" />
+      <Property Name="Crown" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GameObjects.Decorators.StrongRock" Collapsed="true">
+    <Position X="2.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>In-game\Decorators\StrongRock.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObjects.Crown" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>In-game\Crown.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

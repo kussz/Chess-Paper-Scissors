@@ -14,7 +14,7 @@
   <Class Name="GameObjects.Crown" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="0.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAgCAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>In-game\Crown.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -22,14 +22,14 @@
   <Class Name="GameObjects.King" Collapsed="true">
     <Position X="4.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>In-game\King.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameObjects.Paper" Collapsed="true">
     <Position X="6.75" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>In-game\Paper.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -39,19 +39,22 @@
       <HashCode>AAAAAgAAAACAgCAAAAAAQAEAAAAAAASAQIAAgAIAAAA=</HashCode>
       <FileName>In-game\Piece.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="VAO" />
+    </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="GameObjects.Rock" Collapsed="true">
     <Position X="9" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>In-game\Rock.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameObjects.Scissor" Collapsed="true">
     <Position X="11.25" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>In-game\Scissor.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -93,8 +96,8 @@
   <Class Name="GameObjects.Decorators.StrongPieceDecorator" Collapsed="true">
     <Position X="2.75" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ACAAAAAAAAAAgCAAAEAAQAAAAAAAAAAAQIAAgAAAAAA=</HashCode>
-      <FileName>Decorators\StrongPieceDecorator.cs</FileName>
+      <HashCode>ACAAAgAAAAAAgCAAAEAAQAAAAAAAAAAAQIAAgAAAAAA=</HashCode>
+      <FileName>In-game\Decorators\StrongPieceDecorator.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="_piece" />
@@ -105,7 +108,7 @@
     <Position X="2.75" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
-      <FileName>Decorators\StrongRock.cs</FileName>
+      <FileName>In-game\Decorators\StrongRock.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameObjects.Graphics.GraphicsObjects.ShaderProgram" Collapsed="true">
@@ -118,13 +121,13 @@
   <Class Name="GameObjects.Graphics.GraphicsObjects.VAO" Collapsed="true">
     <Position X="18.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQBAAAAAAACABBAAABAAAAAAAEAAEAAAAEgAAAAAAA=</HashCode>
+      <HashCode>AAQBAAAAAAACABAAAABAAAAAAAEAAEAAAAEgAAAAAAA=</HashCode>
       <FileName>Graphics\GraphicsObjects\VAO.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
+      <Field Name="_VBO" />
       <Field Name="_EBO" />
       <Field Name="_TBO" />
-      <Field Name="_VBO" />
     </ShowAsAssociation>
   </Class>
   <Class Name="GameObjects.Graphics.GraphicsObjects.EBO" Collapsed="true">
@@ -155,11 +158,11 @@
       <FileName>Graphics\Models\Model.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Crown" />
       <Property Name="King" />
-      <Property Name="Paper" />
       <Property Name="Rock" />
+      <Property Name="Paper" />
       <Property Name="Scissor" />
+      <Property Name="Crown" />
     </ShowAsAssociation>
   </Class>
   <Class Name="GameObjects.Graphics.Models.PieceModel" Collapsed="true">
@@ -173,7 +176,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="GameObjects.Graphics.Builders.BoardBuilder" Collapsed="true">
-    <Position X="23.5" Y="8.25" Width="1.5" />
+    <Position X="14.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAECAQAAIAACgEAIAgAAAAAAAAAAAAgAACAAAAA=</HashCode>
       <FileName>Graphics\Builders\BoardBuilder.cs</FileName>
@@ -185,22 +188,22 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="GameObjects.Graphics.Builders.PieceBuilder" Collapsed="true">
-    <Position X="20.5" Y="8.25" Width="1.5" />
+    <Position X="11.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
       <FileName>Graphics\Builders\PieceBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameObjects.Graphics.Builders.StaticDrawableDataContainer" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="20.5" Y="10" Width="1.5" />
+    <Position X="11.25" Y="9.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
       <FileName>Graphics\Builders\StaticDrawableDataContainer.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.266" Collapsed="true" />
+    <Lollipop Position="0.266" />
   </Class>
   <Class Name="GameObjects.Graphics.Builders.TileBuilder" Collapsed="true">
-    <Position X="17.75" Y="8.25" Width="1.5" />
+    <Position X="9" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIBACgAAAAAIAAAAAAAAAAAAAAAAAAAAQAAAAAAAAQA=</HashCode>
       <FileName>Graphics\Builders\TileBuilder.cs</FileName>
@@ -217,21 +220,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="GameObjects.Functional.View" Collapsed="true">
-    <Position X="10.25" Y="9.5" Width="1.5" />
+    <Position X="6.75" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABBAAAQAAAACAAAIAcAABAAABAAAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>Functional\View.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameObjects.Functional.Mouse" Collapsed="true">
-    <Position X="8.5" Y="9.5" Width="1.5" />
+    <Position X="5" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAEAAAAAAEAAAAIAAgAAAAACAAAAAAA=</HashCode>
       <FileName>Functional\Mouse.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameObjects.Functional.WS" Collapsed="true">
-    <Position X="8.5" Y="10.5" Width="1.5" />
+    <Position X="5" Y="9.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAQACAACAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Functional\WindowSettings.cs</FileName>

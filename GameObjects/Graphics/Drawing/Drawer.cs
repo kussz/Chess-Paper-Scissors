@@ -23,7 +23,7 @@ public static class Drawer
         GL.UniformMatrix4(0, false, ref mvpMatrix);
         GL.Uniform2(2, new Vector2(point.X, point.Y));
         GL.Uniform2(1, Mouse.GetNormalized(_xSize, _ySize));
-        GL.BindVertexArray(drawable.VAO.Index);
+        drawable.VAO.Bind();
         GL.DrawElements(PrimitiveType.Triangles, drawable.VAO.VertexLength, DrawElementsType.UnsignedInt, 0);
     }
     public static void Draw(this IDrawableDynamic drawable, Matrix4 mvpMatrix)
@@ -40,15 +40,14 @@ public static class Drawer
             {
                 VAO = stPiece.Crown.VAO;
                 VAO.Update(stPiece.Crown.Points);
-                GL.BindTexture(TextureTarget.Texture2D, VAO.TextureIndex);
-                GL.BindVertexArray(VAO.Index);
+                VAO.Bind();
                 GL.DrawElements(PrimitiveType.Triangles, VAO.VertexLength, DrawElementsType.UnsignedInt, 0);
             }
         }
         VAO = drawable.VAO;
         VAO.Update(drawable.Points);
-        GL.BindTexture(TextureTarget.Texture2D, VAO.TextureIndex);
-        GL.BindVertexArray(VAO.Index);
+        VAO.Bind();
+        
         GL.DrawElements(PrimitiveType.Triangles, VAO.VertexLength, DrawElementsType.UnsignedInt, 0);
     }
 }

@@ -1,26 +1,23 @@
 ﻿using Assimp;
+using OpenTK.Graphics.OpenGL;
 using System.Drawing;
 
 namespace GameObjects.Graphics.Models;
 
 public static class Model
 {
-    private static uint[] _indexes;
-    public static PieceModel King { get; private set; }
-    public static PieceModel Rock { get; private set; }
-    public static PieceModel Paper { get; private set; }
-    public static PieceModel Scissor { get; private set; }
-    public static PieceModel Crown { get; private set; }
-    private static OpenTK.Mathematics.Vector2[] _texCoords;
-    private static OpenTK.Mathematics.Vector3[] _textureData;
-    public static Point TextureResolution { get; private set; }
+    public static ConcreteModel King { get; private set; }
+    public static ConcreteModel Rock { get; private set; }
+    public static ConcreteModel Paper { get; private set; }
+    public static ConcreteModel Scissor { get; private set; }
+    public static ConcreteModel Crown { get; private set; }
 
-    public static float[] Make(string modelPath)
+    public static ConcreteModel Make(string modelPath)
     {
-        AssimpContext importer = new AssimpContext();
-        Scene scene = importer.ImportFile(modelPath, PostProcessSteps.Triangulate | PostProcessSteps.FlipUVs | PostProcessSteps.MakeLeftHanded);
-        if (scene != null && scene.HasMeshes)
+        try
         {
+            AssimpContext importer = new AssimpContext();
+            Scene scene = importer.ImportFile(modelPath, PostProcessSteps.Triangulate | PostProcessSteps.FlipUVs | PostProcessSteps.MakeLeftHanded);
 
             Mesh mesh = scene.Meshes[0];
             float[] points = new float[mesh.Vertices.Count * 3];
@@ -33,48 +30,45 @@ public static class Model
                 j++;
             }
             scene.Materials[mesh.MaterialIndex].GetMaterialTexture(TextureType.Diffuse, 0, out TextureSlot textureSlot);
-            Bitmap bitmap = (Bitmap)Image.FromFile(textureSlot.FilePath);
-            _textureData = new OpenTK.Mathematics.Vector3[bitmap.Width * bitmap.Height];
-            for (int y = 0, i = 0; y < bitmap.Height; y++)
-                for (int x = 0; x < bitmap.Width; x++, i++)
-                {
-                    Color p = bitmap.GetPixel(x, y);
-                    _textureData[i] = new OpenTK.Mathematics.Vector3(p.R / 255f, p.G / 255f, p.B / 255f);
-                }
-            TextureResolution = new(bitmap.Width, bitmap.Height);
-            _texCoords = mesh.TextureCoordinateChannels[0].ConvertAll(vector => new OpenTK.Mathematics.Vector2(vector.X, vector.Y)).ToArray();
-            _indexes = scene.Meshes[0].GetUnsignedIndices();
-            return points;
-        }
-        else
-        {
-            _indexes = [];
-            return [];
-        }
-    }
+            OpenTK.Mathematics.Vector3[] textureData;
+            Point textureResolution;
+            OpenTK.Mathematics.Vector2[] texCoords;
+            try
+            {
 
-    public static uint[] GetIndexes()
-    {
-        return _indexes;
-    }
-    public static OpenTK.Mathematics.Vector3[] GetTexture()
-    {
-        return _textureData;
-    }
-    public static OpenTK.Mathematics.Vector2[] GetTextureCoords()
-    {
-        return _texCoords;
+                Bitmap bitmap = (Bitmap)Image.FromFile(textureSlot.FilePath);
+                textureData = new OpenTK.Mathematics.Vector3[bitmap.Width * bitmap.Height];
+                for (int y = 0, i = 0; y < bitmap.Height; y++)
+                    for (int x = 0; x < bitmap.Width; x++, i++)
+                    {
+                        Color p = bitmap.GetPixel(x, y);
+                        textureData[i] = new OpenTK.Mathematics.Vector3(p.R / 255f, p.G / 255f, p.B / 255f);
+                    }
+                textureResolution = new(bitmap.Width, bitmap.Height);
+                texCoords = mesh.TextureCoordinateChannels[0].ConvertAll(vector => new OpenTK.Mathematics.Vector2(vector.X, vector.Y)).ToArray();
+            }
+            catch
+            {
+                textureData = [];
+                texCoords = [];
+                textureResolution = new(0, 0);
+            }
+
+            uint[] indexes = scene.Meshes[0].GetUnsignedIndices();
+            return new ConcreteModel(points,indexes,textureData,texCoords,textureResolution);
+        }
+        catch
+        {
+            return new ConcreteModel([-0.05f,-0.05f,0.05f, 0.05f, -0.05f, 0.05f, -0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f],[2,0,1,1,3,2],[],[],new Point(0,0));
+        }
     }
     static Model()
     {
-        _indexes = [];
-        _texCoords = [];
-        _textureData = [];
-        Scissor = new PieceModel("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\Graphics\\data\\Model\\Scissor.obj");
-        Crown = new PieceModel("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\Graphics\\data\\Model\\Crown.obj");
-        King = new PieceModel("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\Graphics\\data\\Model\\King.obj");
-        Rock = new PieceModel("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\Graphics\\data\\Model\\Rock.obj");
-        Paper = new PieceModel("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\Graphics\\data\\Model\\Paper.obj");
+        Scissor = Make("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\Graphics\\data\\Model\\Scissor.obj");
+        Crown = Make("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\Graphics\\data\\Model\\Crown.obj");
+        King = Make("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\Graphics\\data\\Model\\King.obj");
+        Rock = Make("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\Graphics\\data\\Model\\Rock.obj");
+        Paper = Make("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\Graphics\\data\\Model\\Paper.obj");
     }
 
 

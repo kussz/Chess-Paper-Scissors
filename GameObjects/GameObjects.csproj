@@ -13,40 +13,76 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="data\Model\King.obj">
+    <None Update="Graphics\data\Model\Crown.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\Model\Rock.obj">
+    <None Update="Graphics\data\Model\Crown.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\Model\Scissor.obj">
+    <None Update="Graphics\data\Model\King.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\Shader\Cursor.frag">
+    <None Update="Graphics\data\Model\King.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\Shader\Cursor.vert">
+    <None Update="Graphics\data\Model\Paper.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\Shader\Objects.frag">
+    <None Update="Graphics\data\Model\Paper.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\Shader\Objects.vert">
+    <None Update="Graphics\data\Model\Rock.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\Shader\piece.frag">
+    <None Update="Graphics\data\Model\Rock.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\Shader\piece.vert">
+    <None Update="Graphics\data\Model\Scissor.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\Shader\Shader_base.vert">
+    <None Update="Graphics\data\Model\Scissor.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\Shader\Shader_base1.frag">
+    <None Update="Graphics\data\Shader\Cursor.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data\Shader\Shader_board.frag">
+    <None Update="Graphics\data\Shader\Cursor.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Graphics\data\Shader\Objects.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Graphics\data\Shader\Objects.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Graphics\data\Shader\piece.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Graphics\data\Shader\piece.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Graphics\data\Shader\Shader_base.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Graphics\data\Shader\Shader_base1.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Graphics\data\Shader\Shader_board.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Graphics\data\Texture\Crown.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Graphics\data\Texture\King.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Graphics\data\Texture\Paper.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Graphics\data\Texture\Rock.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Graphics\data\Texture\Scissor.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

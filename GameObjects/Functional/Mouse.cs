@@ -6,6 +6,12 @@ namespace GameObjects.Functional;
 
 public class Mouse
 {
+    private static float Sensivity = 1.5f;
+
+    private static float _xmin = 0.051f;
+    private static float _ymin = 0.151f;
+    private static float _xmax = 0.85f;
+    private static float _ymax = 0.95f;
     private static bool _locked=true;
     static Point mouse;
     public static void Init(Vector2i resolustion)
@@ -14,17 +20,17 @@ public class Mouse
     }
     public static void SetPosition(MouseState o,int xSize, int ySize)
     {
-        int x = (int)((o.X - o.PreviousX) * WS.Sensivity);
-        int y = (int)((o.Y - o.PreviousY) * WS.Sensivity);
+        int x = (int)((o.X - o.PreviousX) * Sensivity);
+        int y = (int)((o.Y - o.PreviousY) * Sensivity);
         mouse.X += x;
         mouse.Y += y;
         if(_locked)
         {
-        mouse.X = Math.Max(Math.Min((int)(xSize * WS.Xmax), mouse.X), (int)(xSize * WS.Xmin));
-        mouse.Y = Math.Max(Math.Min((int)(ySize * WS.Ymax), mouse.Y), (int)(ySize * WS.Ymin));
+        mouse.X = Math.Max(Math.Min((int)(xSize * _xmax), mouse.X), (int)(xSize * _xmin));
+        mouse.Y = Math.Max(Math.Min((int)(ySize * _ymax), mouse.Y), (int)(ySize * _ymin));
         }
     }
-    public static Vector2 GetPosition()
+    private static Vector2 GetPosition()
     {
         return new Vector2(mouse.X, mouse.Y);
     }

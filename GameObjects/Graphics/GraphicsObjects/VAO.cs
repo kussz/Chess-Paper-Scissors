@@ -1,5 +1,4 @@
-﻿using GameObjects.Graphics.Drawing;
-using GameObjects.Graphics.Models;
+﻿using GameObjects.Graphics.Models;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using System.Drawing;
@@ -9,7 +8,6 @@ namespace GameObjects.Graphics.GraphicsObjects;
 public class VAO
 {
     public int Index { get; private set; }
-    public int TextureIndex { get { return _TBO!.TextureIndex; } private set { _TBO!.TextureIndex = value; } }
     private VBO? _VBO = null;
     private EBO? _EBO = null;
     private TBO? _TBO = null;
@@ -18,7 +16,7 @@ public class VAO
     {
         Index = Create(points, indexes);
     }
-    public VAO(PieceModel model) : this(model.Points, model.Indexes, model.Texture, model.TextureCoords, model.TextureResolution) { }
+    public VAO(ConcreteModel model) : this(model.Points, model.Indexes, model.Texture, model.TextureCoords, model.TextureResolution) { }
     public VAO(float[] points, uint[] indexes, Vector3[] textureData, Vector2[] textureCoords, Point size)
     {
         Index = GL.GenVertexArray();
@@ -67,17 +65,16 @@ public class VAO
         GL.BindBuffer(BufferTarget.ArrayBuffer, _TBO.CoordsIndex);
         GL.BindBuffer(BufferTarget.TextureBuffer, _TBO.TextureIndex);
         GL.VertexAttribPointer(TextureArray, 2, VertexAttribPointerType.Float, true, 0, 0);
-        //GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
         GL.BindVertexArray(0);
         GL.DisableVertexAttribArray(VertexArray);
         GL.DisableVertexAttribArray(TextureArray);
         GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
     }
-
-    public static void Delete()
+    public void Bind()
     {
-
-        GL.BindVertexArray(0);
+        GL.BindVertexArray(Index);
+        if (_TBO != null)
+            GL.BindTexture(TextureTarget.Texture2D, _TBO.TextureIndex);
     }
 
 }

@@ -31,9 +31,10 @@ public class View
     {
         Vector4 eye = _startEye;
         eye.Z = _cameraPositionDistanceFromOrigin;
+        Vector2 normed = Mouse.GetNormalized(xSize,ySize);
         Matrix4 viewMatrix =
-            Matrix4.CreateRotationX((float)((Mouse.GetPosition().Y - ySize / 2) / ySize / 2 - 0.1f)) *
-            Matrix4.CreateRotationY((float)((Mouse.GetPosition().X - xSize / 2) / xSize / 2)) *
+            Matrix4.CreateRotationX((float)(normed.Y / 2 - 0.1f)) *
+            Matrix4.CreateRotationY((float)(normed.X / 2)) *
             Matrix4.LookAt(eye.Xyz, _viewTarget.Xyz, _viewYUp.Xyz);
         return _modelMatrix * viewMatrix * _projectionMatrix;
     }

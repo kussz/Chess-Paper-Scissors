@@ -10,6 +10,7 @@ using GameObjects.Graphics.Builders;
 using GameObjects.Graphics.GraphicsObjects;
 using GameObjects.Graphics.Drawing;
 using GameObjects.Functional;
+using GameObjects.Graphics.Models;
 
 namespace Chess_Paper_Scissors;
 
@@ -33,17 +34,9 @@ class Game : GameWindow
     #endregion
     public Game(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, MainWindow window) : base(gameWindowSettings, nativeWindowSettings)
     {
-        Console.WriteLine("Start");
-        Console.WriteLine(GL.GetString(StringName.Version));
-        Console.WriteLine(GL.GetString(StringName.Vendor));
-        Console.WriteLine(GL.GetString(StringName.Extensions));
-        Console.WriteLine(GL.GetString(StringName.Renderer));
-        Console.WriteLine(GL.GetString(StringName.ShadingLanguageVersion));
         VSync = VSyncMode.Off;
         CursorState = CursorState.Grabbed;
         _window = window;
-        Mouse.Init(Size);
-        Board.Init();
     }
     private static NativeWindowSettings nativeWindowSettings = new NativeWindowSettings()
     {
@@ -64,6 +57,9 @@ class Game : GameWindow
     protected override void OnLoad()
     {
         base.OnLoad();
+        //Model.LoadModels();
+        Mouse.Init(Size);
+        Board.Init();
         boardBuilder = new BoardBuilder();
         tileBuilder = new TileBuilder(0.18f);
         GL.ClearColor(0.15f, 0.05f, 0.05f, 1);
@@ -78,8 +74,8 @@ class Game : GameWindow
         borderProg = new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_base1.frag");
         boardProg = new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_board.frag");
         tileProg = new ShaderProgram(@"data\Shader\Objects.vert", @"data\Shader\Objects.frag");
-        pieceProg = new ShaderProgram("data\\Shader\\piece.vert", "data\\Shader\\piece.frag");
-        cursorProg = new ShaderProgram("data\\Shader\\Cursor.vert", "data\\Shader\\Cursor.frag");
+        pieceProg = new ShaderProgram(@"data\Shader\piece.vert", @"data\Shader\piece.frag");
+        cursorProg = new ShaderProgram(@"data\Shader\Cursor.vert", @"data\Shader\Cursor.frag");
         Drawer.SetResolution(Size);
         Console.WriteLine("Loaded");
     }
@@ -168,7 +164,7 @@ class Game : GameWindow
         else
         {
             Close();
-            _window.Show();
+            _window.Close();
         }
     }
     private void MovePiece(Piece piece, System.Drawing.Point point)
@@ -187,10 +183,11 @@ class Game : GameWindow
     }
     protected override void OnResize(ResizeEventArgs e)
     {
+        base.OnResize(e);
         int aspect = Math.Min(this.Size.X, this.Size.Y);
         GL.Viewport(0, 0, aspect, aspect);
         OnRenderFrame(new FrameEventArgs());
-        base.OnResize(e);
+        Drawer.SetResolution(Size);
     }
 
     protected override void OnUpdateFrame(FrameEventArgs e)
@@ -247,10 +244,22 @@ class Game : GameWindow
     }
     protected override void OnUnload()
     {
-        //DeleteDisplayList(0);
-        VAO.Delete();
-        
         base.OnUnload();
+        cursorProg.DeleteProgram();
+        tileProg.DeleteProgram();
+        boardProg.DeleteProgram();
+        borderProg.DeleteProgram();
+        pieceProg.DeleteProgram();
+        GL.DeleteVertexArrays(9, [Model.Crown.VAO.Index,
+                                Model.King.VAO.Index,
+                                Model.Rock.VAO.Index,
+                                Model.Paper.VAO.Index,
+                                Model.Scissor.VAO.Index,
+                                tileBuilder.Tile.VAO.Index,
+                                boardBuilder.Board.VAO.Index,
+                                boardBuilder.Border.VAO.Index,
+                                boardBuilder.Cursor.VAO.Index]);
+
         Dispose();
     }
 }

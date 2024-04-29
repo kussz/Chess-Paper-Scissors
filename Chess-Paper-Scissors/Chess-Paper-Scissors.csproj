@@ -12,11 +12,11 @@
   <ItemGroup>
     <None Remove="cps.png" />
     <None Remove="cpstransparent.png" />
-    <None Remove="InfoPages\King.png" />
-    <None Remove="InfoPages\Paper.png" />
-    <None Remove="InfoPages\Rock.png" />
-    <None Remove="InfoPages\Scissors.png" />
-    <None Remove="InfoPages\StrongRock.png" />
+    <None Remove="InfoPages\king.png" />
+    <None Remove="InfoPages\paper.png" />
+    <None Remove="InfoPages\rock.png" />
+    <None Remove="InfoPages\scissor.png" />
+    <None Remove="InfoPages\strongrock.png" />
     <None Remove="logo.ico" />
   </ItemGroup>
 
@@ -32,11 +32,11 @@
   <ItemGroup>
     <Resource Include="cps.png" />
     <Resource Include="cpstransparent.png" />
-    <Resource Include="InfoPages\King.png" />
-    <Resource Include="InfoPages\Paper.png" />
-    <Resource Include="InfoPages\Rock.png" />
-    <Resource Include="InfoPages\Scissors.png" />
-    <Resource Include="InfoPages\StrongRock.png" />
+    <Resource Include="InfoPages\king.png" />
+    <Resource Include="InfoPages\paper.png" />
+    <Resource Include="InfoPages\rock.png" />
+    <Resource Include="InfoPages\scissor.png" />
+    <Resource Include="InfoPages\strongrock.png" />
     <Resource Include="logo.ico" />
   </ItemGroup>
 
@@ -54,6 +54,33 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="assets\logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Cursor.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Cursor.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Objects.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Objects.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\piece.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\piece.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Shader_base.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Shader_base1.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\Shader\Shader_board.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
