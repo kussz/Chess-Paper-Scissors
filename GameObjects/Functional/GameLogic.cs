@@ -45,10 +45,7 @@ public static class GameLogic
         {
             if (SelectedPiece.IsHigher(secondPiece) == 1)
             {
-                char pieceO = Board.State[SelectedPiece.CellPosition.X, SelectedPiece.CellPosition.Y];
-                Board.State[SelectedPiece.CellPosition.X, SelectedPiece.CellPosition.Y] = ' ';
                 SelectedPiece.UpdatePosition(secondPiece.CellPosition);
-                Board.State[secondPiece.CellPosition.X, secondPiece.CellPosition.Y] = pieceO;
                 Board.PieceList.Remove(secondPiece);
                 if (secondPiece is King)
                 {
@@ -57,7 +54,6 @@ public static class GameLogic
             }
             else if (SelectedPiece.IsHigher(secondPiece) == -1)
             {
-                Board.State[SelectedPiece.CellPosition.X, SelectedPiece.CellPosition.Y] = ' ';
                 Board.PieceList.Remove(SelectedPiece);
             }
         }
@@ -71,18 +67,15 @@ public static class GameLogic
     {
         if(SelectedPiece!=null)
         {
-            char pieceO = Board.State[SelectedPiece.CellPosition.X, SelectedPiece.CellPosition.Y];
-            Board.State[SelectedPiece.CellPosition.X, SelectedPiece.CellPosition.Y] = ' ';
             SelectedPiece.UpdatePosition(point);
-            Board.State[SelectedPiece.CellPosition.X, SelectedPiece.CellPosition.Y] = pieceO;
         }
     }
     public static Point GetSelectedCell(int xSize, int ySize)
     {
         return Board.GetCellPosition(Mouse.GetNormalized(xSize, ySize));
     }
-    public static void AscendRock(Rock rock)
+    public static void AscendRock(Rock rock, bool generateGraphics)
     {
-        Board.PieceList[Board.PieceList.FindIndex(match => match.CellPosition == rock.CellPosition)] = new StrongRock(rock);
+        Board.PieceList[Board.PieceList.FindIndex(match => match.CellPosition == rock.CellPosition)] = new StrongRock(rock,generateGraphics);
     }
 }

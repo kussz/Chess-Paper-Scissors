@@ -4,7 +4,7 @@ using OpenTK.Mathematics;
 
 namespace GameObjects.Functional;
 
-public class Mouse
+public static class Mouse
 {
     private static float Sensivity = 1.5f;
 

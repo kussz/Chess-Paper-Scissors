@@ -2,7 +2,7 @@
 
 namespace GameObjects.Decorators;
 
-public class StrongRock(Rock piece) : StrongPieceDecorator(piece)
+public class StrongRock(Rock piece, bool generateGraphics) : StrongPieceDecorator(piece,generateGraphics)
 {
 
     public override Point[] GetAvailableMoves()

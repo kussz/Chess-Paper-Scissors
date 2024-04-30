@@ -1,4 +1,5 @@
-﻿using GameObjects.Graphics.Models;
+﻿using GameObjects.Functional;
+using GameObjects.Graphics.Models;
 using System.Drawing;
 
 namespace GameObjects;
@@ -28,7 +29,7 @@ public class Scissor : Piece
                 i += j;
                 if (IsNotAllyAndInside(i, i))
                     resultList.Add(new Point(CellPosition.X + i, CellPosition.Y + i));
-            } while (IsNotAllyAndInside(i, i) && Board.State[CellPosition.X + i, CellPosition.Y + i] == ' ');
+            } while (IsNotAllyAndInside(i, i) && GameLogic.FindPiece(new Point(CellPosition.X + i, CellPosition.Y + i)) == null);
         }
         for (int j = -1; j <= 1; j += 2)
         {
@@ -38,7 +39,7 @@ public class Scissor : Piece
                 i += j;
                 if (IsNotAllyAndInside(i, -i))
                     resultList.Add(new Point(CellPosition.X + i, CellPosition.Y - i));
-            } while (IsNotAllyAndInside(i, -i) && Board.State[CellPosition.X + i, CellPosition.Y - i] == ' ');
+            } while (IsNotAllyAndInside(i, -i) && GameLogic.FindPiece(new Point(CellPosition.X + i, CellPosition.Y - i)) == null);
         }
 
         return resultList.ToArray();

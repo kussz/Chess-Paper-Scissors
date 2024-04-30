@@ -2,7 +2,7 @@
 
 namespace GameObjects.Functional;
 
-public class View
+public static class View
 {
     private static Matrix4 _modelMatrix;
     private static Vector4 _startEye;

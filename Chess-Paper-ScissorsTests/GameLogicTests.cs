@@ -13,10 +13,11 @@ using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
+using GameObjects.Decorators;
 namespace Chess_Paper_Scissors.Tests
 {
     [TestClass()]
-    public class Game_Tests
+    public class GameLogicTests
     {
 
         [TestMethod()]
@@ -25,7 +26,7 @@ namespace Chess_Paper_Scissors.Tests
         [DataRow(2,0,true)]
         [DataRow(1,3,false)]
         [DataRow(0,2,false)]
-        public void ImpactTest(int piece1Index,int piece2Index, bool expected)
+        public void KingImpactTest(int piece1Index,int piece2Index, bool expected)
         {
             List<PieceFactory> pieceFactories = [new KingFactory(), new RockFactory(), new PaperFactory(), new ScissorFactory()];
             Piece piece1 = pieceFactories[piece1Index].Create(0,0,false,false);
@@ -49,6 +50,25 @@ namespace Chess_Paper_Scissors.Tests
             GameLogic.SelectedPiece = piece1;
             GameLogic.MoveSelectedPieceTo(new Point(x, y));
             Assert.AreEqual(piece1.CellPosition, new Point(x, y));
+        }
+        [TestMethod()]
+        [DataRow(1, 0,true,true)]
+        [DataRow(1, 0,false,false)]
+        [DataRow(1, 1,false, false)]
+        [DataRow(2, 2,true, false)]
+        [DataRow(3, 7,false, true)]
+        [DataRow(4, 2,true, false)]
+        [DataRow(5, 7,true, false)]
+        public void AscendRockTest(int x, int y, bool color,bool expected)
+        {
+            Board.PieceList.Clear();
+            Rock piece = new Rock(x, y, color, false);
+            Board.PieceList.Add(piece);
+            if (piece.CheckAscension())
+            {
+                GameLogic.AscendRock(piece, false);
+            }
+            Assert.AreEqual(expected, Board.PieceList[0] is StrongRock);
         }
     }
 }

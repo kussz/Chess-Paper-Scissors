@@ -9,7 +9,6 @@ namespace GameObjects;
 public static class Board
 {
     private static List<PieceFactory> _factories;
-    public static char[,] State;
     private static string arrangement =
         "psrskrsp" +
         "rpsprspr" +
@@ -22,14 +21,12 @@ public static class Board
     public static List<Piece> PieceList;
     static Board()
     {
-        State = new char[8, 8];
         PieceList = new List<Piece>();
         _factories = new List<PieceFactory>() { new KingFactory(), new RockFactory(), new PaperFactory(), new ScissorFactory() };
     }
     public static void Init()
     {
         PieceList.Clear();
-        State = new char[8, 8];
         int[,] pieceMap = GetArrangementMap();
 
         for (int j = 0; j < 8; j++)
@@ -73,14 +70,9 @@ public static class Board
                         break;
                     default:
                         mapped[i, j] = -1;
-                        State[i, j] = ' ';
                         break;
 
                 }
-                if (mapped[i, j] >= 4)
-                    State[i, j] = 'O';
-                else if (mapped[i, j] != -1)
-                    State[i, j] = 'o';
             }
         return mapped;
     }

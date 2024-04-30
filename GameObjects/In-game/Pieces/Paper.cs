@@ -1,4 +1,5 @@
-﻿using GameObjects.Graphics.Models;
+﻿using GameObjects.Functional;
+using GameObjects.Graphics.Models;
 using System.Drawing;
 
 namespace GameObjects;
@@ -26,28 +27,28 @@ public class Paper : Piece
             i++;
             if (IsNotAllyAndInside(i, 0))
                 resultList.Add(new Point(CellPosition.X + i, CellPosition.Y));
-        } while (IsNotAllyAndInside(i, 0) && Board.State[CellPosition.X + i, CellPosition.Y] == ' ');
+        } while (IsNotAllyAndInside(i, 0) && GameLogic.FindPiece(new Point(CellPosition.X + i, CellPosition.Y)) == null);
         i = 0;
         do
         {
             i--;
             if (IsNotAllyAndInside(i, 0))
                 resultList.Add(new Point(CellPosition.X + i, CellPosition.Y));
-        } while (IsNotAllyAndInside(i, 0) && Board.State[CellPosition.X + i, CellPosition.Y] == ' ');
+        } while (IsNotAllyAndInside(i, 0) && GameLogic.FindPiece(new Point(CellPosition.X + i, CellPosition.Y)) == null);
         i = 0;
         do
         {
             i++;
             if (IsNotAllyAndInside(0, i))
                 resultList.Add(new Point(CellPosition.X, CellPosition.Y + i));
-        } while (IsNotAllyAndInside(0, i) && Board.State[CellPosition.X, CellPosition.Y + i] == ' ');
+        } while (IsNotAllyAndInside(0, i) && GameLogic.FindPiece(new Point(CellPosition.X, CellPosition.Y + i)) == null);
         i = 0;
         do
         {
             i--;
             if (IsNotAllyAndInside(0, i))
                 resultList.Add(new Point(CellPosition.X, CellPosition.Y + i));
-        } while (IsNotAllyAndInside(0, i) && Board.State[CellPosition.X, CellPosition.Y + i] == ' ');
+        } while (IsNotAllyAndInside(0, i) && GameLogic.FindPiece(new Point(CellPosition.X, CellPosition.Y + i)) == null);
         return resultList.ToArray();
     }
     public override int IsHigher(Piece piece)

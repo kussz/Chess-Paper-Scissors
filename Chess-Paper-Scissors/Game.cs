@@ -91,6 +91,7 @@ public class Game : GameWindow
                 if (foundPiece == null)
                 {
                     GameLogic.MoveSelectedPieceTo(point);
+
                 }
                 else
                 {
@@ -99,7 +100,7 @@ public class Game : GameWindow
                 }
                 if (GameLogic.SelectedPiece is Rock rock && rock.CheckAscension())
                 {
-                    GameLogic.AscendRock(rock);
+                    GameLogic.AscendRock(rock, true);
                     
                 }
                 GameLogic.SelectedPiece = null;
@@ -139,20 +140,19 @@ public class Game : GameWindow
 
     protected override void OnUpdateFrame(FrameEventArgs e)
     {
-        mvpMatrix = View.CountMVPMatrix(this.Size.X, this.Size.Y);
+        mvpMatrix = View.CountMVPMatrix(Size.X, Size.Y);
         fps += 1;
         delayTime += (float)e.Time;
         if (delayTime >= 1)
         {
-            Title = $"Chess-Paper-Scissors - {(int)(fps)}";
+            Title = $"Chess-Paper-Scissors - {(fps)}";
             fps = 0;
             delayTime = 0;
 
         }
-        Mouse.SetPosition(MouseState, this.Size.X, this.Size.Y);
+        Mouse.SetPosition(MouseState, Size.X, Size.Y);
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-        var key = KeyboardState;
-        if (key.IsKeyDown(Keys.Escape))
+        if (KeyboardState.IsKeyDown(Keys.Escape))
         {
             MessageBoxResult result = MessageBox.Show("Игра будет завершена ничьей.", "Окончить игру?", MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
@@ -174,14 +174,12 @@ public class Game : GameWindow
         {
             piece.Draw(mvpMatrix);
         }
-        pieceProg.DeactivateProgram();
         tileProg.ActivateProgram();
         for (int i = 0; i < GameLogic.AvalPts.Length; i++)
         {
             tileBuilder.SetPts(GameLogic.AvalPts[i], GameLogic.AvalPts[i] == Board.GetCellPosition(Mouse.GetNormalized(Size.X, Size.Y)));
             tileBuilder.Tile.Draw(mvpMatrix);
         }
-        tileProg.DeactivateProgram();
         GL.Disable(EnableCap.DepthTest);
         cursorProg.ActivateProgram();
         boardBuilder.Cursor.Draw(mvpMatrix);

@@ -6,12 +6,13 @@ namespace GameObjects.Decorators;
 public abstract class StrongPieceDecorator : Piece
 {
     protected Piece _piece;
-    public StrongPieceDecorator(Piece piece)
+    public StrongPieceDecorator(Piece piece, bool generateGraphics)
     {
         _piece = piece;
-        Crown = new Crown(_piece.CellPosition);
+        if (generateGraphics)
+            Crown = new Crown(_piece.CellPosition);
     }
-    public Crown Crown { get; set; }
+    public Crown? Crown { get; set; }
     public override VAO VAO { get { return _piece.VAO; } set { _piece.VAO = value; } }
     public override float[] Points { get { return _piece.Points; } set { _piece.Points = value; } }
     public override float[] InitialPoints { get { return _piece.InitialPoints; } }
@@ -24,6 +25,6 @@ public abstract class StrongPieceDecorator : Piece
     public override void UpdatePosition(Point cellPosition)
     {
         base.UpdatePosition(cellPosition);
-        Crown.UpdatePosition(cellPosition);
+        Crown?.UpdatePosition(cellPosition);
     }
 }

@@ -23,7 +23,7 @@ public class TileBuilder
     public void SetPts(Point point, bool selected)
     {
         float height;
-        if (Board.State[point.X, point.Y] == ' ')
+        if (Board.PieceList.Find(x => x.CellPosition == point) == null)
         {
             _color.X = 0;
             _color.Y = 1;
@@ -53,28 +53,28 @@ public class TileBuilder
         InitialPoints[3] = _color.X;
         InitialPoints[4] = _color.Y;
         InitialPoints[5] = _color.Z;
-        InitialPoints[6] = 0.3f;
+        InitialPoints[6] = 0.5f;
         InitialPoints[7] = unnormed.X + _cellSize - _tileSize;
         InitialPoints[8] = unnormed.Y + _tileSize;
         InitialPoints[9] = height;
         InitialPoints[10] = _color.X;
         InitialPoints[11] = _color.Y;
         InitialPoints[12] = _color.Z;
-        InitialPoints[13] = 0.3f;
+        InitialPoints[13] = 0.5f;
         InitialPoints[14] = unnormed.X + _cellSize - _tileSize;
         InitialPoints[15] = unnormed.Y + _cellSize - _tileSize;
         InitialPoints[16] = height;
         InitialPoints[17] = _color.X;
         InitialPoints[18] = _color.Y;
         InitialPoints[19] = _color.Z;
-        InitialPoints[20] = 0.3f;
+        InitialPoints[20] = 0.5f;
         InitialPoints[21] = unnormed.X + _tileSize;
         InitialPoints[22] = unnormed.Y + _cellSize - _tileSize;
         InitialPoints[23] = height;
         InitialPoints[24] = _color.X;
         InitialPoints[25] = _color.Y;
         InitialPoints[26] = _color.Z;
-        InitialPoints[27] = 0.3f;
+        InitialPoints[27] = 0.5f;
         Tile.VAO.Update(InitialPoints);
     }
 }
