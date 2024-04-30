@@ -64,11 +64,11 @@ public static class Model
     }
     static Model()
     {
-        Scissor = Make("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\Graphics\\data\\Model\\Scissor.obj");
-        Crown = Make("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\Graphics\\data\\Model\\Crown.obj");
-        King = Make("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\Graphics\\data\\Model\\King.obj");
-        Rock = Make("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\Graphics\\data\\Model\\Rock.obj");
-        Paper = Make("D:\\work\\Course 2\\Term 2\\Курсовая\\Программа\\GameObjects\\Graphics\\data\\Model\\Paper.obj");
+        Scissor = Make("data\\Model\\Scissor.obj");
+        Crown = Make("data\\Model\\Crown.obj");
+        King = Make("data\\Model\\King.obj");
+        Rock = Make("data\\Model\\Rock.obj");
+        Paper = Make("data\\Model\\Paper.obj");
     }
 
 
