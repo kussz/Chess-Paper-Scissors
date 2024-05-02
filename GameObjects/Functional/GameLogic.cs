@@ -52,7 +52,7 @@ public static class GameLogic
                     return true;
                 }
             }
-            else if (SelectedPiece.IsHigher(secondPiece) == -1)
+            else
             {
                 Board.PieceList.Remove(SelectedPiece);
             }

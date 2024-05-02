@@ -65,6 +65,7 @@ public class Game : GameWindow
         GL.Enable(EnableCap.Texture2D);
         GL.CullFace(CullFaceMode.Back);
         GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         borderProg = new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_base1.frag");
         boardProg = new ShaderProgram(@"data\Shader\Shader_base.vert", @"data\Shader\Shader_board.frag");
         tileProg = new ShaderProgram(@"data\Shader\Objects.vert", @"data\Shader\Objects.frag");
@@ -164,7 +165,7 @@ public class Game : GameWindow
     protected override void OnRenderFrame(FrameEventArgs e)
     {
         GL.Enable(EnableCap.DepthTest);
-        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+        
         borderProg.ActivateProgram();
         boardBuilder.Border.Draw(mvpMatrix);
         boardProg.ActivateProgram();
